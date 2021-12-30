@@ -769,14 +769,15 @@ textblock=[character(len=256) :: &
 '', &
 '        result = adjustr(string)', &
 '', &
-'         character(len=(len(string)) elemental function adjustr(a)', &
-'', &
+'         elemental function adjustr(a)', &
+'         character(len=(len(string)) :: adjustr', &
 '         character(len=*),intent(in) :: string', &
 '', &
 'DESCRIPTION', &
 '', &
-'ADJUSTR(STRING) will right-adjust a string by removing trailing spaces.', &
-'Spaces are inserted at the start of the string as needed.', &
+'ADJUSTR(STRING) right-adjusts a string by removing trailing spaces.', &
+'Spaces are inserted at the start of the string as needed to retain the', &
+'original length.', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -796,39 +797,36 @@ textblock=[character(len=256) :: &
 '    program demo_adjustr', &
 '    implicit none', &
 '    integer :: right', &
-'    character(len=*),parameter :: bracket=''("[",a,"]")''', &
 '    character(len=20) :: str = '' sample string ''', &
-'    character(len=:),allocatable :: astr', &
-'       call number_line()', &
+'    character(len=:),allocatable :: str2', &
+'       ! print a short number line', &
+'       write(*,''(a)'')repeat(''1234567890'',5)', &
+'', &
 '       !', &
 '       ! basic usage', &
+'       !', &
 '       str = adjustr(str)', &
-'       write(*,bracket) str', &
+'       write(*,''(a)'') str', &
 '', &
-'       ! exploring usage:', &
-'       ! An allocatable string and arbitrary margin.', &
-'       ! Set a right margin and adjust to it. Note', &
-'       ! this would truncate if the margin is less', &
-'       ! than the length of STR', &
-'       right=50', &
-'       astr=adjustr(str//repeat('' '',max(0,right-len(str))))', &
-'       write(*,bracket) astr', &
 '       !', &
-'       call number_line()', &
+'       ! elemental', &
 '       !', &
-'    contains', &
-'       subroutine number_line()', &
-'       ! print a short number line', &
-'          write(*,bracket)repeat(''1234567890'',5)', &
-'       end subroutine number_line', &
+'       write(*,''(a)'')adjustr([character(len=50) :: &', &
+'       ''  first           '', &', &
+'       ''     second       '', &', &
+'       ''         third    '' ])', &
+'', &
+'       write(*,''(a)'')repeat(''1234567890'',5)', &
 '    end program demo_adjustr', &
 '', &
 'Results:', &
 '', &
-'       [12345678901234567890123456789012345678901234567890]', &
-'       [       sample string]', &
-'       [                                     sample string]', &
-'       [12345678901234567890123456789012345678901234567890]', &
+'       12345678901234567890123456789012345678901234567890', &
+'              sample string', &
+'                                                    first', &
+'                                                   second', &
+'                                                    third', &
+'       12345678901234567890123456789012345678901234567890', &
 '', &
 'STANDARD', &
 '', &
@@ -872,7 +870,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'AIMAG(3) - [TYPE:NUMERIC] Imaginary part of complex number (GFDL)', &
+'AIMAG(3) - [TYPE:NUMERIC] Imaginary part of complex number', &
 '', &
 'SYNTAX', &
 '', &
@@ -963,7 +961,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'AINT(3) - [NUMERIC] Truncate to a whole number (GFDL)', &
+'AINT(3) - [NUMERIC] Truncate to a whole number', &
 '', &
 'SYNTAX', &
 '', &
@@ -1077,7 +1075,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ALL(3) - [ARRAY REDUCTION] determines if all the values are true (GFDL)', &
+'ALL(3) - [ARRAY REDUCTION] determines if all the values are true', &
 '', &
 'SYNTAX', &
 '', &
@@ -1222,7 +1220,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ALLOCATED(3) - [ARRAY INQUIRY] Status of an allocatable entity (GFDL)', &
+'ALLOCATED(3) - [ARRAY INQUIRY] Status of an allocatable entity', &
 '', &
 'SYNTAX', &
 '', &
@@ -1308,7 +1306,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ANINT(3) - [NUMERIC] Nearest whole number (GFDL)', &
+'ANINT(3) - [NUMERIC] Nearest whole number', &
 '', &
 'SYNTAX', &
 '', &
@@ -1413,7 +1411,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ANY(3) - [ARRAY REDUCTION] determines if any of the values in the', &
-'logical array are true. (GFDL)', &
+'logical array are true.', &
 '', &
 'SYNTAX', &
 '', &
@@ -1640,7 +1638,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ASINH(3) - [MATHEMATICS:TRIGONOMETRIC] Inverse hyperbolic sine function', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -1729,7 +1726,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ASSOCIATED(3) - [STATE] Status of a pointer or pointer/target pair', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -2046,7 +2042,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATANH(3) - [MATHEMATICS:TRIGONOMETRIC] Inverse hyperbolic tangent', &
-'function (GFDL)', &
+'function', &
 '', &
 'SYNTAX', &
 '', &
@@ -2128,7 +2124,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ATOMIC_ADD(3) - [ATOMIC] Atomic ADD operation (GFDL)', &
+'ATOMIC_ADD(3) - [ATOMIC] Atomic ADD operation', &
 '', &
 'SYNTAX', &
 '', &
@@ -2212,7 +2208,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_AND(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise AND operation', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -2295,7 +2290,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ATOMIC_CAS(3) - [ATOMIC] Atomic compare and swap (GFDL)', &
+'ATOMIC_CAS(3) - [ATOMIC] Atomic compare and swap', &
 '', &
 'SYNTAX', &
 '', &
@@ -2386,7 +2381,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ATOMIC_DEFINE(3) - [ATOMIC] Setting a variable atomically (GFDL)', &
+'ATOMIC_DEFINE(3) - [ATOMIC] Setting a variable atomically', &
 '', &
 'SYNTAX', &
 '', &
@@ -2476,7 +2471,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_FETCH_ADD(3) - [ATOMIC] Atomic ADD operation with prior fetch', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -2567,7 +2561,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_FETCH_AND(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise AND', &
-'operation with prior fetch (GFDL)', &
+'operation with prior fetch', &
 '', &
 'SYNTAX', &
 '', &
@@ -2658,7 +2652,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_FETCH_OR(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR', &
-'operation with prior fetch (GFDL)', &
+'operation with prior fetch', &
 '', &
 'SYNTAX', &
 '', &
@@ -2749,7 +2743,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_FETCH_XOR(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise XOR', &
-'operation with prior fetch (GFDL)', &
+'operation with prior fetch', &
 '', &
 'SYNTAX', &
 '', &
@@ -2840,7 +2834,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_OR(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -2927,7 +2920,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_REF(3) - [ATOMIC] Obtaining the value of a variable atomically', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -3021,7 +3013,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ATOMIC_XOR(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -3105,7 +3096,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'BESSEL_J0(3) - [MATHEMATICS] Bessel function of the first kind of order', &
-'0 (GFDL)', &
+'0', &
 '', &
 'SYNTAX', &
 '', &
@@ -3186,7 +3177,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'BESSEL_J1(3) - [MATHEMATICS] Bessel function of the first kind of order', &
-'1 (GFDL)', &
+'1', &
 '', &
 'SYNTAX', &
 '', &
@@ -3266,7 +3257,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BESSEL_JN(3) - [MATHEMATICS] Bessel function of the first kind (GFDL)', &
+'BESSEL_JN(3) - [MATHEMATICS] Bessel function of the first kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -3361,7 +3352,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'BESSEL_Y0(3) - [MATHEMATICS] Bessel function of the second kind of order', &
-'0 (GFDL)', &
+'0', &
 '', &
 'SYNTAX', &
 '', &
@@ -3441,7 +3432,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'BESSEL_Y1(3) - [MATHEMATICS] Bessel function of the second kind of order', &
-'1 (GFDL)', &
+'1', &
 '', &
 'SYNTAX', &
 '', &
@@ -3515,7 +3506,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BESSEL_YN(3) - [MATHEMATICS] Bessel function of the second kind (GFDL)', &
+'BESSEL_YN(3) - [MATHEMATICS] Bessel function of the second kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -3608,7 +3599,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BGE(3) - [BIT:COMPARE] Bitwise greater than or equal to (GFDL)', &
+'BGE(3) - [BIT:COMPARE] Bitwise greater than or equal to', &
 '', &
 'SYNTAX', &
 '', &
@@ -3673,7 +3664,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BGT(3) - [BIT:COMPARE] Bitwise greater than (GFDL)', &
+'BGT(3) - [BIT:COMPARE] Bitwise greater than', &
 '', &
 'SYNTAX', &
 '', &
@@ -3741,7 +3732,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BIT_SIZE(3) - [BIT:INQUIRY] Bit size inquiry function (GFDL)', &
+'BIT_SIZE(3) - [BIT:INQUIRY] Bit size inquiry function', &
 '', &
 'SYNTAX', &
 '', &
@@ -3829,7 +3820,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BLE(3) - [BIT:COMPARE] Bitwise less than or equal to (GFDL)', &
+'BLE(3) - [BIT:COMPARE] Bitwise less than or equal to', &
 '', &
 'SYNTAX', &
 '', &
@@ -3893,7 +3884,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'BLT(3) - [BIT:COMPARE] Bitwise less than (GFDL)', &
+'BLT(3) - [BIT:COMPARE] Bitwise less than', &
 '', &
 'SYNTAX', &
 '', &
@@ -4109,7 +4100,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'C_ASSOCIATED(3) - [ISO_C_BINDING] Status of a C pointer (GFDL)', &
+'C_ASSOCIATED(3) - [ISO_C_BINDING] Status of a C pointer', &
 '', &
 'SYNTAX', &
 '', &
@@ -4195,7 +4186,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'CEILING(3) - [NUMERIC] Integer ceiling function (GFDL)', &
+'CEILING(3) - [NUMERIC] Integer ceiling function', &
 '', &
 'SYNTAX', &
 '', &
@@ -4295,7 +4286,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'C_F_POINTER(3) - [ISO_C_BINDING] Convert C into Fortran pointer (GFDL)', &
+'C_F_POINTER(3) - [ISO_C_BINDING] Convert C into Fortran pointer', &
 '', &
 'SYNTAX', &
 '', &
@@ -4381,7 +4372,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'C_F_PROCPOINTER(3) - [ISO_C_BINDING] Convert C into Fortran procedure', &
-'pointer (GFDL)', &
+'pointer', &
 '', &
 'SYNTAX', &
 '', &
@@ -4468,7 +4459,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'C_FUNLOC(3) - [ISO_C_BINDING] Obtain the C address of a procedure (GFDL)', &
+'C_FUNLOC(3) - [ISO_C_BINDING] Obtain the C address of a procedure', &
 '', &
 'SYNTAX', &
 '', &
@@ -4561,7 +4552,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'CHAR(3) - [CHARACTER] Character conversion function (GFDL)', &
+'CHAR(3) - [CHARACTER] Character conversion function', &
 '', &
 'SYNTAX', &
 '', &
@@ -4658,7 +4649,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'C_LOC(3) - [ISO_C_BINDING] Obtain the C address of an object (GFDL)', &
+'C_LOC(3) - [ISO_C_BINDING] Obtain the C address of an object', &
 '', &
 'SYNTAX', &
 '', &
@@ -4738,7 +4729,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'CMPLX(3) - [TYPE:NUMERIC] Complex conversion function (GFDL)', &
+'CMPLX(3) - [TYPE:NUMERIC] Complex conversion function', &
 '', &
 'SYNTAX', &
 '', &
@@ -4914,7 +4905,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'CO_BROADCAST(3) - [COLLECTIVE] Copy a value to all images the current', &
-'set of images (GFDL)', &
+'set of images', &
 '', &
 'SYNTAX', &
 '', &
@@ -4998,7 +4989,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'CO_LBOUND(3) - [COLLECTIVE] Lower codimension bounds of an array (GFDL)', &
+'CO_LBOUND(3) - [COLLECTIVE] Lower codimension bounds of an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -5072,7 +5063,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'CO_MAX(3) - [COLLECTIVE] Maximal value on the current set of images', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -5167,7 +5157,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'CO_MIN(3) - [COLLECTIVE] Minimal value on the current set of images', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -5348,7 +5337,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'COMPILER_OPTIONS(3) - [COMPILER INQUIRY] Options passed to the compiler', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -5433,7 +5421,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'COMPILER_VERSION(3) - [COMPILER INQUIRY] Compiler version string (GFDL)', &
+'COMPILER_VERSION(3) - [COMPILER INQUIRY] Compiler version string', &
 '', &
 'SYNTAX', &
 '', &
@@ -5647,7 +5635,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'CO_REDUCE(3) - [COLLECTIVE] Reduction of values on the current set of', &
-'images (GFDL)', &
+'images', &
 '', &
 'SYNTAX', &
 '', &
@@ -5874,7 +5862,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'COSH(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic cosine function (GFDL)', &
+'COSH(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic cosine function', &
 '', &
 'SYNTAX', &
 '', &
@@ -5960,7 +5948,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'CO_SUM(3) - [COLLECTIVE] Sum of values on the current set of images', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -6055,7 +6042,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'CO_UBOUND(3) - [COLLECTIVE] Upper codimension bounds of an array (GFDL)', &
+'CO_UBOUND(3) - [COLLECTIVE] Upper codimension bounds of an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -6128,7 +6115,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'COUNT(3) - [ARRAY REDUCTION] Count function (GFDL)', &
+'COUNT(3) - [ARRAY REDUCTION] Count function', &
 '', &
 'SYNTAX', &
 '', &
@@ -6344,7 +6331,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'CSHIFT(3) - [TRANSFORMATIONAL] Circular shift elements of an array', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -6442,7 +6428,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'C_SIZEOF(3) - [ISO_C_BINDING] Size in bytes of an expression (GFDL)', &
+'C_SIZEOF(3) - [ISO_C_BINDING] Size in bytes of an expression', &
 '', &
 'SYNTAX', &
 '', &
@@ -6679,7 +6665,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DBLE(3) - [TYPE:NUMERIC] Double conversion function (GFDL)', &
+'DBLE(3) - [TYPE:NUMERIC] Double conversion function', &
 '', &
 'SYNTAX', &
 '', &
@@ -6756,7 +6742,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DIGITS(3) - [NUMERIC MODEL] Significant digits function (GFDL)', &
+'DIGITS(3) - [NUMERIC MODEL] Significant digits function', &
 '', &
 'SYNTAX', &
 '', &
@@ -6841,7 +6827,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DIM(3) - [NUMERIC] Positive difference (GFDL)', &
+'DIM(3) - [NUMERIC] Positive difference', &
 '', &
 'SYNTAX', &
 '', &
@@ -6923,7 +6909,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DOT_PRODUCT(3) - [TRANSFORMATIONAL] Dot product function (GFDL)', &
+'DOT_PRODUCT(3) - [TRANSFORMATIONAL] Dot product function', &
 '', &
 'SYNTAX', &
 '', &
@@ -7017,7 +7003,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DPROD(3) - [NUMERIC] Double product function (GFDL)', &
+'DPROD(3) - [NUMERIC] Double product function', &
 '', &
 'SYNTAX', &
 '', &
@@ -7130,7 +7116,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DSHIFTL(3) - [BIT:COPY] combines bits of arguments I and J (GFDL)', &
+'DSHIFTL(3) - [BIT:COPY] combines bits of arguments I and J', &
 '', &
 'SYNTAX', &
 '', &
@@ -7199,7 +7185,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'DSHIFTR(3) - [BIT:COPY] combines bits of arguments I and J (GFDL)', &
+'DSHIFTR(3) - [BIT:COPY] combines bits of arguments I and J', &
 '', &
 'SYNTAX', &
 '', &
@@ -7269,7 +7255,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'EOSHIFT(3) - [TRANSFORMATIONAL] End-off shift elements of an array', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -7524,7 +7509,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ERF(3) - [MATHEMATICS] Error function (GFDL)', &
+'ERF(3) - [MATHEMATICS] Error function', &
 '', &
 'SYNTAX', &
 '', &
@@ -7605,7 +7590,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ERFC(3) - [MATHEMATICS] Complementary error function (GFDL)', &
+'ERFC(3) - [MATHEMATICS] Complementary error function', &
 '', &
 'SYNTAX', &
 '', &
@@ -7699,7 +7684,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ERFC_SCALED(3) - [MATHEMATICS] Error function (GFDL)', &
+'ERFC_SCALED(3) - [MATHEMATICS] Error function', &
 '', &
 'SYNTAX', &
 '', &
@@ -7710,7 +7695,7 @@ textblock=[character(len=256) :: &
 'ERFC_SCALED(x) computes the exponentially-scaled complementary error', &
 'function of X:', &
 '', &
-'$$ e**{x**2} \frac{2}{\sqrt{\pi}} \int_{x}**{\infty} e**{-T**2} dt. $$', &
+'$$ e^({x)2} \frac{2}{\sqrt{\pi}} \int_{x}^({\infty}\ e){-t^2} dt. $$', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -7775,7 +7760,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'EVENT_QUERY(3) - [COLLECTIVE] Query whether a coarray event has occurred', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -7858,7 +7842,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'EXECUTE_COMMAND_LINE(3) - [SYSTEM:PROCESSES] Execute a shell command', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -8110,7 +8093,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'EXPONENT(3) - [MODEL_COMPONENTS] Exponent function (GFDL)', &
+'EXPONENT(3) - [MODEL_COMPONENTS] Exponent function', &
 '', &
 'SYNTAX', &
 '', &
@@ -8193,7 +8176,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'EXTENDS_TYPE_OF(3) - [STATE] determine if the dynamic type of A is an', &
-'extension of the dynamic type of MOLD. (GFDL)', &
+'extension of the dynamic type of MOLD.', &
 '', &
 'SYNTAX', &
 '', &
@@ -8268,7 +8251,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'FINDLOC(3) - [ARRAY:LOCATION] Location of first element of ARRAY', &
-'identified by MASK along dimension DIM having a value (GFDL)', &
+'identified by MASK along dimension DIM having a value', &
 '', &
 'SYNTAX', &
 '', &
@@ -8456,7 +8439,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'FLOOR(3) - [NUMERIC] Integer floor function (GFDL)', &
+'FLOOR(3) - [NUMERIC] Integer floor function', &
 '', &
 'SYNTAX', &
 '', &
@@ -8555,7 +8538,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'FRACTION(3) - [MODEL_COMPONENTS] Fractional part of the model', &
-'representation (GFDL)', &
+'representation', &
 '', &
 'SYNTAX', &
 '', &
@@ -9880,7 +9863,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'IACHAR(3) - [CHARACTER:CONVERSION] Code in ASCII collating sequence', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -9991,7 +9973,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IALL(3) - [BIT:LOGICAL] Bitwise and of array elements (GFDL)', &
+'IALL(3) - [BIT:LOGICAL] Bitwise and of array elements', &
 '', &
 'SYNTAX', &
 '', &
@@ -10091,7 +10073,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IAND(3) - [BIT:LOGICAL] Bitwise logical and (GFDL)', &
+'IAND(3) - [BIT:LOGICAL] Bitwise logical and', &
 '', &
 'SYNTAX', &
 '', &
@@ -10172,7 +10154,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IANY(3) - [BIT:LOGICAL] Bitwise or of array elements (GFDL)', &
+'IANY(3) - [BIT:LOGICAL] Bitwise or of array elements', &
 '', &
 'SYNTAX', &
 '', &
@@ -10269,7 +10251,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IBCLR(3) - [BIT:SET] Clear bit (GFDL)', &
+'IBCLR(3) - [BIT:SET] Clear bit', &
 '', &
 'SYNTAX', &
 '', &
@@ -10337,7 +10319,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IBITS(3) - [BIT:COPY] Bit extraction (GFDL)', &
+'IBITS(3) - [BIT:COPY] Bit extraction', &
 '', &
 'SYNTAX', &
 '', &
@@ -10409,7 +10391,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IBSET(3) - [BIT:SET] Set bit (GFDL)', &
+'IBSET(3) - [BIT:SET] Set bit', &
 '', &
 'SYNTAX', &
 '', &
@@ -10478,7 +10460,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'ICHAR(3) - [CHARACTER:CONVERSION] Character-to-integer conversion', &
-'function (GFDL)', &
+'function', &
 '', &
 'SYNTAX', &
 '', &
@@ -10619,7 +10601,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IEOR(3) - [BIT:LOGICAL] Bitwise logical exclusive or (GFDL)', &
+'IEOR(3) - [BIT:LOGICAL] Bitwise logical exclusive or', &
 '', &
 'SYNTAX', &
 '', &
@@ -10686,7 +10668,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'IMAGE_INDEX(3) - [COLLECTIVE] Cosubscript to image index conversion', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -10765,7 +10746,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'INDEX(3) - [CHARACTER:SEARCH] Position of a substring within a string', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -11026,7 +11006,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IOR(3) - [BIT:LOGICAL] Bitwise logical inclusive or (GFDL)', &
+'IOR(3) - [BIT:LOGICAL] Bitwise logical inclusive or', &
 '', &
 'SYNTAX', &
 '', &
@@ -11113,7 +11093,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IPARITY(3) - [BIT:LOGICAL] Bitwise exclusive or of array elements (GFDL)', &
+'IPARITY(3) - [BIT:LOGICAL] Bitwise exclusive or of array elements', &
 '', &
 'SYNTAX', &
 '', &
@@ -11208,7 +11188,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IS_CONTIGUOUS(3) - [ARRAY INQUIRY] test if object is contiguous (GFDL)', &
+'IS_CONTIGUOUS(3) - [ARRAY INQUIRY] test if object is contiguous', &
 '', &
 'SYNTAX', &
 '', &
@@ -11338,7 +11318,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ISHFT(3) - [BIT:SHIFT] Shift bits (GFDL)', &
+'ISHFT(3) - [BIT:SHIFT] Shift bits', &
 '', &
 'SYNTAX', &
 '', &
@@ -11408,7 +11388,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'ISHFTC(3) - [BIT:SHIFT] Shift bits circularly (GFDL)', &
+'ISHFTC(3) - [BIT:SHIFT] Shift bits circularly', &
 '', &
 'SYNTAX', &
 '', &
@@ -11482,7 +11462,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IS_IOSTAT_END(3) - [STATE] Test for end-of-file value (GFDL)', &
+'IS_IOSTAT_END(3) - [STATE] Test for end-of-file value', &
 '', &
 'SYNTAX', &
 '', &
@@ -11571,7 +11551,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'IS_IOSTAT_EOR(3) - [STATE] Test for end-of-record value (GFDL)', &
+'IS_IOSTAT_EOR(3) - [STATE] Test for end-of-record value', &
 '', &
 'SYNTAX', &
 '', &
@@ -11647,7 +11627,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'KIND(3) - [KIND INQUIRY] Kind of an entity (GFDL)', &
+'KIND(3) - [KIND INQUIRY] Kind of an entity', &
 '', &
 'SYNTAX', &
 '', &
@@ -11867,7 +11847,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LEADZ(3) - [BIT:COUNT] Number of leading zero bits of an integer (GFDL)', &
+'LEADZ(3) - [BIT:COUNT] Number of leading zero bits of an integer', &
 '', &
 'SYNTAX', &
 '', &
@@ -12274,7 +12254,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LGE(3) - [CHARACTER:COMPARE] Lexical greater than or equal (GFDL)', &
+'LGE(3) - [CHARACTER:COMPARE] Lexical greater than or equal', &
 '', &
 'SYNTAX', &
 '', &
@@ -12358,7 +12338,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LGT(3) - [CHARACTER:COMPARE] Lexical greater than (GFDL)', &
+'LGT(3) - [CHARACTER:COMPARE] Lexical greater than', &
 '', &
 'SYNTAX', &
 '', &
@@ -12442,7 +12422,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LLE(3) - [CHARACTER:COMPARE] Lexical less than or equal (GFDL)', &
+'LLE(3) - [CHARACTER:COMPARE] Lexical less than or equal', &
 '', &
 'SYNTAX', &
 '', &
@@ -12566,7 +12546,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LLT(3) - [CHARACTER:COMPARE] Lexical less than (GFDL)', &
+'LLT(3) - [CHARACTER:COMPARE] Lexical less than', &
 '', &
 'SYNTAX', &
 '', &
@@ -12735,7 +12715,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LOG(3) - [MATHEMATICS] Logarithm function (GFDL)', &
+'LOG(3) - [MATHEMATICS] Logarithm function', &
 '', &
 'SYNTAX', &
 '', &
@@ -12814,7 +12794,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'LOG_GAMMA(3) - [MATHEMATICS] Logarithm of the Gamma function (GFDL)', &
+'LOG_GAMMA(3) - [MATHEMATICS] Logarithm of the Gamma function', &
 '', &
 'SYNTAX', &
 '', &
@@ -12891,7 +12871,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'LOGICAL(3) - [TYPE:LOGICAL] Converts one kind of _logical_ variable to', &
-'another (GFDL)', &
+'another', &
 '', &
 'SYNTAX', &
 '', &
@@ -13243,7 +13223,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MATMUL(3) - [TRANSFORMATIONAL] matrix multiplication (GFDL)', &
+'MATMUL(3) - [TRANSFORMATIONAL] matrix multiplication', &
 '', &
 'SYNTAX', &
 '', &
@@ -13310,7 +13290,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MAX(3) - [NUMERIC] Maximum value of an argument list (GFDL)', &
+'MAX(3) - [NUMERIC] Maximum value of an argument list', &
 '', &
 'SYNTAX', &
 '', &
@@ -13452,7 +13432,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MAXEXPONENT(3) - [NUMERIC MODEL] Maximum exponent of a real kind (GFDL)', &
+'MAXEXPONENT(3) - [NUMERIC MODEL] Maximum exponent of a real kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -13536,7 +13516,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'MAXLOC(3) - [ARRAY:LOCATION] Location of the maximum value within an', &
-'array (GFDL)', &
+'array', &
 '', &
 'SYNTAX', &
 '', &
@@ -13666,7 +13646,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'MAXVAL(3) - [ARRAY REDUCTION] determines the maximum value in an array', &
-'or row (GFDL)', &
+'or row', &
 '', &
 'SYNTAX', &
 '', &
@@ -13948,7 +13928,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MERGE_BITS(3) - [BIT:COPY] Merge of bits under mask (GFDL)', &
+'MERGE_BITS(3) - [BIT:COPY] Merge of bits under mask', &
 '', &
 'SYNTAX', &
 '', &
@@ -14013,7 +13993,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MIN(3) - [NUMERIC] Minimum value of an argument list (GFDL)', &
+'MIN(3) - [NUMERIC] Minimum value of an argument list', &
 '', &
 'SYNTAX', &
 '', &
@@ -14091,7 +14071,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MINEXPONENT(3) - [NUMERIC MODEL] Minimum exponent of a real kind (GFDL)', &
+'MINEXPONENT(3) - [NUMERIC MODEL] Minimum exponent of a real kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -14175,7 +14155,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'MINLOC(3) - [ARRAY:LOCATION] Location of the minimum value within an', &
-'array (GFDL)', &
+'array', &
 '', &
 'SYNTAX', &
 '', &
@@ -14463,7 +14443,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MOD(3) - [NUMERIC] Remainder function (GFDL)', &
+'MOD(3) - [NUMERIC] Remainder function', &
 '', &
 'SYNTAX', &
 '', &
@@ -14568,7 +14548,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MODULO(3) - [NUMERIC] Modulo function (GFDL)', &
+'MODULO(3) - [NUMERIC] Modulo function', &
 '', &
 'SYNTAX', &
 '', &
@@ -14667,7 +14647,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MOVE_ALLOC(3) - [] Move allocation from one object to another (GFDL)', &
+'MOVE_ALLOC(3) - [] Move allocation from one object to another', &
 '', &
 'SYNTAX', &
 '', &
@@ -14766,7 +14746,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'MVBITS(3) - [BIT:COPY] Move bits from one integer to another (GFDL)', &
+'MVBITS(3) - [BIT:COPY] Move bits from one integer to another', &
 '', &
 'SYNTAX', &
 '', &
@@ -14839,7 +14819,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'NEAREST(3) - [MODEL_COMPONENTS] Nearest representable number (GFDL)', &
+'NEAREST(3) - [MODEL_COMPONENTS] Nearest representable number', &
 '', &
 'SYNTAX', &
 '', &
@@ -15180,7 +15160,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'NORM2(3) - [MATHEMATICS] Euclidean vector norm (GFDL)', &
+'NORM2(3) - [MATHEMATICS] Euclidean vector norm', &
 '', &
 'SYNTAX', &
 '', &
@@ -15378,7 +15358,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'NULL(3) - [TRANSFORMATIONAL] Function that returns a disassociated', &
-'pointer (GFDL)', &
+'pointer', &
 '', &
 'SYNTAX', &
 '', &
@@ -15523,7 +15503,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'NUM_IMAGES(3) - [COLLECTIVE] Number of images (GFDL)', &
+'NUM_IMAGES(3) - [COLLECTIVE] Number of images', &
 '', &
 'SYNTAX', &
 '', &
@@ -15750,7 +15730,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'PARITY(3) - [TRANSFORMATIONAL] Reduction with exclusive OR() (GFDL)', &
+'PARITY(3) - [TRANSFORMATIONAL] Reduction with exclusive OR()', &
 '', &
 'SYNTAX', &
 '', &
@@ -15832,7 +15812,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'POPCNT(3) - [BIT:COUNT] Number of bits set (GFDL)', &
+'POPCNT(3) - [BIT:COUNT] Number of bits set', &
 '', &
 'SYNTAX', &
 '', &
@@ -15919,7 +15899,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'POPPAR(3) - [BIT:COUNT] Parity of the number of bits set (GFDL)', &
+'POPPAR(3) - [BIT:COUNT] Parity of the number of bits set', &
 '', &
 'SYNTAX', &
 '', &
@@ -16007,7 +15987,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'PRECISION(3) - [NUMERIC MODEL] Decimal precision of a real kind (GFDL)', &
+'PRECISION(3) - [NUMERIC MODEL] Decimal precision of a real kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -16091,7 +16071,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'PRESENT(3) - [STATE] Determine whether an optional dummy argument is', &
-'specified (GFDL)', &
+'specified', &
 '', &
 'SYNTAX', &
 '', &
@@ -16432,7 +16412,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'RADIX(3) - [NUMERIC MODEL] Base of a model number (GFDL)', &
+'RADIX(3) - [NUMERIC MODEL] Base of a model number', &
 '', &
 'SYNTAX', &
 '', &
@@ -16513,7 +16493,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'RANDOM_NUMBER(3) - [MATHEMATICS:RANDOM] Pseudo-random number (GFDL)', &
+'RANDOM_NUMBER(3) - [MATHEMATICS:RANDOM] Pseudo-random number', &
 '', &
 'SYNTAX', &
 '', &
@@ -16630,7 +16610,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'RANDOM_SEED(3) - [MATHEMATICS:RANDOM] Initialize a pseudo-random number', &
-'sequence (GFDL)', &
+'sequence', &
 '', &
 'SYNTAX', &
 '', &
@@ -16724,7 +16704,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'RANGE(3) - [NUMERIC MODEL] Decimal exponent range of a real kind (GFDL)', &
+'RANGE(3) - [NUMERIC MODEL] Decimal exponent range of a real kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -16806,7 +16786,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'RANK(3) - [ARRAY INQUIRY] Rank of a data object (GFDL)', &
+'RANK(3) - [ARRAY INQUIRY] Rank of a data object', &
 '', &
 'SYNTAX', &
 '', &
@@ -16880,7 +16860,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'REAL(3) - [TYPE:NUMERIC] Convert to real type (GFDL)', &
+'REAL(3) - [TYPE:NUMERIC] Convert to real type', &
 '', &
 'SYNTAX', &
 '', &
@@ -16978,7 +16958,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'REPEAT(3) - [CHARACTER] Repeated string concatenation (GFDL)', &
+'REPEAT(3) - [CHARACTER] Repeated string concatenation', &
 '', &
 'SYNTAX', &
 '', &
@@ -17075,7 +17055,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'RESHAPE(3) - [ARRAY RESHAPE] Function to reshape an array (GFDL)', &
+'RESHAPE(3) - [ARRAY RESHAPE] Function to reshape an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -17178,7 +17158,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'RRSPACING(3) - [MODEL_COMPONENTS] Reciprocal of the relative spacing', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -17243,7 +17222,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SAME_TYPE_AS(3) - [STATE] Query dynamic types for equality (GFDL)', &
+'SAME_TYPE_AS(3) - [STATE] Query dynamic types for equality', &
 '', &
 'SYNTAX', &
 '', &
@@ -17311,7 +17290,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'SCALE(3) - [MODEL_COMPONENTS] Scale a real value by a whole power of the', &
-'radix (GFDL)', &
+'radix', &
 '', &
 'SYNTAX', &
 '', &
@@ -17397,7 +17376,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'SCAN(3) - [CHARACTER:SEARCH] Scan a string for the presence of a set of', &
-'characters (GFDL)', &
+'characters', &
 '', &
 'SYNTAX', &
 '', &
@@ -17497,7 +17476,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'SELECTED_CHAR_KIND(3) - [KIND] Choose character kind such as "Unicode"', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -17583,7 +17561,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SELECTED_INT_KIND(3) - [KIND] Choose integer kind (GFDL)', &
+'SELECTED_INT_KIND(3) - [KIND] Choose integer kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -17667,7 +17645,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SELECTED_REAL_KIND(3) - [KIND] Choose real kind (GFDL)', &
+'SELECTED_REAL_KIND(3) - [KIND] Choose real kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -17784,7 +17762,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'SET_EXPONENT(3) - [MODEL_COMPONENTS] Set the exponent of the model', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -17868,7 +17845,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SHAPE(3) - [ARRAY INQUIRY] Determine the shape of an array (GFDL)', &
+'SHAPE(3) - [ARRAY INQUIRY] Determine the shape of an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -17961,7 +17938,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SHIFTA(3) - [BIT:SHIFT] shift bits right with fill (GFDL)', &
+'SHIFTA(3) - [BIT:SHIFT] shift bits right with fill', &
 '', &
 'SYNTAX', &
 '', &
@@ -18030,7 +18007,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SHIFTL(3) - [BIT:SHIFT] shift bits left (GFDL)', &
+'SHIFTL(3) - [BIT:SHIFT] shift bits left', &
 '', &
 'SYNTAX', &
 '', &
@@ -18097,7 +18074,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SHIFTR(3) - [BIT:SHIFT] shift bits right (GFDL)', &
+'SHIFTR(3) - [BIT:SHIFT] shift bits right', &
 '', &
 'SYNTAX', &
 '', &
@@ -18164,7 +18141,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SIGN(3) - [NUMERIC] Sign copying function (GFDL)', &
+'SIGN(3) - [NUMERIC] Sign copying function', &
 '', &
 'SYNTAX', &
 '', &
@@ -18517,7 +18494,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SIZE(3) - [ARRAY INQUIRY] Determine the size of an array (GFDL)', &
+'SIZE(3) - [ARRAY INQUIRY] Determine the size of an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -18732,7 +18709,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'SPACING(3) - [MODEL_COMPONENTS] Smallest distance between two numbers of', &
-'a given type (GFDL)', &
+'a given type', &
 '', &
 'SYNTAX', &
 '', &
@@ -18814,7 +18791,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SPREAD(3) - [ARRAY CONSTRUCTION] Add a dimension to an array (GFDL)', &
+'SPREAD(3) - [ARRAY CONSTRUCTION] Add a dimension to an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -19078,7 +19055,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'STORAGE_SIZE(3) - [BIT:INQUIRY] Storage size in bits (GFDL)', &
+'STORAGE_SIZE(3) - [BIT:INQUIRY] Storage size in bits', &
 '', &
 'SYNTAX', &
 '', &
@@ -19166,7 +19143,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'SUM(3) - [ARRAY REDUCTION] sum the elements of an array (GFDL)', &
+'SUM(3) - [ARRAY REDUCTION] sum the elements of an array', &
 '', &
 'SYNTAX', &
 '', &
@@ -19279,7 +19256,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'SYSTEM_CLOCK(3) - [SYSTEM:TIME] Return numeric data from a real-time', &
-'clock. (GFDL)', &
+'clock.', &
 '', &
 'SYNTAX', &
 '', &
@@ -19408,7 +19385,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'TAN(3) - [MATHEMATICS:TRIGONOMETRIC] Tangent function (GFDL)', &
+'TAN(3) - [MATHEMATICS:TRIGONOMETRIC] Tangent function', &
 '', &
 'SYNTAX', &
 '', &
@@ -19485,7 +19462,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'TANH(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic tangent function (GFDL)', &
+'TANH(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic tangent function', &
 '', &
 'SYNTAX', &
 '', &
@@ -19568,7 +19545,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'THIS_IMAGE(3) - [COLLECTIVE] Cosubscript index of this image (GFDL)', &
+'THIS_IMAGE(3) - [COLLECTIVE] Cosubscript index of this image', &
 '', &
 'SYNTAX', &
 '', &
@@ -19673,7 +19650,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'TINY(3) - [NUMERIC MODEL] Smallest positive number of a real kind (GFDL)', &
+'TINY(3) - [NUMERIC MODEL] Smallest positive number of a real kind', &
 '', &
 'SYNTAX', &
 '', &
@@ -19895,7 +19872,7 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'TRANSFER(3) - [TYPE:MOLD] Transfer bit patterns (GFDL)', &
+'TRANSFER(3) - [TYPE:MOLD] Transfer bit patterns', &
 '', &
 'SYNTAX', &
 '', &
@@ -20029,7 +20006,6 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'TRANSPOSE(3) - [ARRAY MANIPULATION] Transpose an array of rank two', &
-'(GFDL)', &
 '', &
 'SYNTAX', &
 '', &
@@ -20141,7 +20117,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'TRIM(3) - [CHARACTER:WHITESPACE] Remove trailing blank characters of a', &
-'string (GFDL)', &
+'string', &
 '', &
 'SYNTAX', &
 '', &
@@ -20375,7 +20351,7 @@ textblock=[character(len=256) :: &
 'NAME', &
 '', &
 'UNPACK(3) - [ARRAY CONSTRUCTION] Store the elements of a vector in an', &
-'array of higher rank (GFDL)', &
+'array of higher rank', &
 '', &
 'SYNTAX', &
 '', &

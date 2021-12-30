@@ -493,14 +493,15 @@ __adjustr__(3) - \[CHARACTER:WHITESPACE\] Right-adjust a string
 ```fortran
     result = adjustr(string)
 
-     character(len=(len(string)) elemental function adjustr(a)
-
+     elemental function adjustr(a)
+     character(len=(len(string)) :: adjustr
      character(len=*),intent(in) :: string
 ```
 ## __Description__
 
-__adjustr(string)__ will right-adjust a string by removing trailing
-spaces. Spaces are inserted at the start of the string as needed.
+__adjustr(string)__ right-adjusts a string by removing trailing
+spaces. Spaces are inserted at the start of the string as needed to
+retain the original length.
 
 ## __Arguments__
 
@@ -521,39 +522,36 @@ Sample program:
 program demo_adjustr
 implicit none
 integer :: right
-character(len=*),parameter :: bracket='("[",a,"]")'
 character(len=20) :: str = ' sample string '
-character(len=:),allocatable :: astr
-   call number_line()
+character(len=:),allocatable :: str2
+   ! print a short number line
+   write(*,'(a)')repeat('1234567890',5)
+
    !
    ! basic usage
+   !
    str = adjustr(str)
-   write(*,bracket) str
+   write(*,'(a)') str
 
-   ! exploring usage:
-   ! An allocatable string and arbitrary margin.
-   ! Set a right margin and adjust to it. Note
-   ! this would truncate if the margin is less
-   ! than the length of STR
-   right=50
-   astr=adjustr(str//repeat(' ',max(0,right-len(str))))
-   write(*,bracket) astr
    !
-   call number_line()
+   ! elemental
    !
-contains
-   subroutine number_line()
-   ! print a short number line
-      write(*,bracket)repeat('1234567890',5)
-   end subroutine number_line
+   write(*,'(a)')adjustr([character(len=50) :: &
+   '  first           ', &
+   '     second       ', &
+   '         third    ' ])
+
+   write(*,'(a)')repeat('1234567890',5)
 end program demo_adjustr
 ```
 Results:
 ```text
-   [12345678901234567890123456789012345678901234567890]
-   [       sample string]
-   [                                     sample string]
-   [12345678901234567890123456789012345678901234567890]
+   12345678901234567890123456789012345678901234567890
+          sample string
+                                                first
+                                               second
+                                                third
+   12345678901234567890123456789012345678901234567890
 ```
 ## __Standard__
 
@@ -569,7 +567,6 @@ Fortran 95 and later
 ## __Name__
 
 __aimag__(3) - \[TYPE:NUMERIC\] Imaginary part of complex number
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -633,7 +630,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __aint__(3) - \[NUMERIC\] Truncate to a whole number
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -725,7 +721,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __all__(3) - \[ARRAY REDUCTION\] determines if all the values are true
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -853,7 +848,6 @@ Fortran 95 and later
 ## __Name__
 
 __allocated__(3) - \[ARRAY INQUIRY\] Status of an allocatable entity
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -913,7 +907,6 @@ scalar entities are available in Fortran 2003 and later.
 ## __Name__
 
 __anint__(3) - \[NUMERIC\] Nearest whole number
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -995,7 +988,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __any__(3) - \[ARRAY REDUCTION\] determines if any of the values in the logical array are true.
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1068,7 +1060,6 @@ Fortran 95 and later
 ## __Name__
 
 __asinh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic sine function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1227,7 +1218,6 @@ Inverse function: [__sin__(3)](SIN)
 ## __Name__
 
 __associated__(3) - \[STATE\] Status of a pointer or pointer/target pair
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1380,7 +1370,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __atanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Inverse hyperbolic tangent function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1516,7 +1505,7 @@ arguments Fortran 2008 or later
 
 ## __Name__
 
-__atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation (GFDL)
+__atomic\_add__(3) - \[ATOMIC\] Atomic ADD operation
 
 ## __Syntax__
 ```fortran
@@ -1577,7 +1566,6 @@ __iso\_fortran\_env__(3),
 ## __Name__
 
 __atomic\_and__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1639,7 +1627,6 @@ __iso\_fortran\_env__(3),
 ## __Name__
 
 __atomic\_cas__(3) - \[ATOMIC\] Atomic compare and swap
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1706,7 +1693,6 @@ TS 18508 or later
 ## __Name__
 
 __atomic\_define__(3) - \[ATOMIC\] Setting a variable atomically
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1773,7 +1759,6 @@ __iso\_fortran\_env__(3),
 ## __Name__
 
 __atomic\_fetch\_add__(3) - \[ATOMIC\] Atomic ADD operation with prior fetch
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1840,7 +1825,6 @@ __iso\_fortran\_env__(3),
 ## __Name__
 
 __atomic\_fetch\_and__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise AND operation with prior fetch
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1907,7 +1891,6 @@ TS 18508 or later
 ## __Name__
 
 __atomic\_fetch\_or__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation with prior fetch
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -1974,7 +1957,6 @@ TS 18508 or later
 ## __Name__
 
 __atomic\_fetch\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise XOR operation with prior fetch
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2041,7 +2023,6 @@ TS 18508 or later
 ## __Name__
 
 __atomic\_or__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2104,7 +2085,6 @@ TS 18508 or later
 ## __Name__
 
 __atomic\_ref__(3) - \[ATOMIC\] Obtaining the value of a variable atomically
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2175,7 +2155,6 @@ Fortran 2008 and later; with STAT, TS 18508 or later
 ## __Name__
 
 __atomic\_xor__(3) - \[ATOMIC:BIT MANIPULATION\] Atomic bitwise OR operation
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2236,7 +2215,6 @@ TS 18508 or later
 ## __Name__
 
 __bessel\_j0__(3) - \[MATHEMATICS\] Bessel function of the first kind of order 0
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2294,7 +2272,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bessel\_j1__(3) - \[MATHEMATICS\] Bessel function of the first kind of order 1
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2351,7 +2328,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bessel\_jn__(3) - \[MATHEMATICS\] Bessel function of the first kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2424,7 +2400,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bessel\_y0__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 0
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2481,7 +2456,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bessel\_y1__(3) - \[MATHEMATICS\] Bessel function of the second kind of order 1
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2533,7 +2507,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bessel\_yn__(3) - \[MATHEMATICS\] Bessel function of the second kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2604,7 +2577,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bge__(3) - \[BIT:COMPARE\] Bitwise greater than or equal to
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2643,7 +2615,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bgt__(3) - \[BIT:COMPARE\] Bitwise greater than
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2684,7 +2655,6 @@ Fortran 2008 and later
 ## __Name__
 
 __bit\_size__(3) - \[BIT:INQUIRY\] Bit size inquiry function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2748,7 +2718,6 @@ Fortran 95 and later
 ## __Name__
 
 __ble__(3) - \[BIT:COMPARE\] Bitwise less than or equal to
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2786,7 +2755,6 @@ Fortran 2008 and later
 ## __Name__
 
 __blt__(3) - \[BIT:COMPARE\] Bitwise less than
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -2955,7 +2923,6 @@ Fortran 95 and later
 ## __Name__
 
 __c\_associated__(3) - \[ISO\_C\_BINDING\] Status of a C pointer
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3018,7 +2985,6 @@ __iso\_c\_binding__(3)
 ## __Name__
 
 __ceiling__(3) - \[NUMERIC\] Integer ceiling function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3095,7 +3061,6 @@ Fortran 95 and later
 ## __Name__
 
 __c\_f\_pointer__(3) - \[ISO\_C\_BINDING\] Convert C into Fortran pointer
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3156,7 +3121,6 @@ __iso\_c\_binding__(3)
 ## __Name__
 
 __c\_f\_procpointer__(3) - \[ISO\_C\_BINDING\] Convert C into Fortran procedure pointer
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3219,7 +3183,6 @@ __iso\_c\_binding__(3)
 ## __Name__
 
 __c\_funloc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of a procedure
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3289,7 +3252,6 @@ __iso\_c\_binding__(3)
 ## __Name__
 
 __char__(3) - \[CHARACTER\] Character conversion function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3367,7 +3329,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __c\_loc__(3) - \[ISO\_C\_BINDING\] Obtain the C address of an object
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3424,7 +3385,6 @@ __iso\_c\_binding__(3)
 ## __Name__
 
 __cmplx__(3) - \[TYPE:NUMERIC\] Complex conversion function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3589,7 +3549,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __co\_broadcast__(3) - \[COLLECTIVE\] Copy a value to all images the current set of images
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3650,7 +3609,6 @@ end program demo_co_broadcast
 ## __Name__
 
 __co\_lbound__(3) - \[COLLECTIVE\] Lower codimension bounds of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3696,7 +3654,6 @@ Fortran 2008 and later
 ## __Name__
 
 __co\_max__(3) - \[COLLECTIVE\] Maximal value on the current set of images
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3767,7 +3724,6 @@ TS 18508 or later
 ## __Name__
 
 __co\_min__(3) - \[COLLECTIVE\] Minimal value on the current set of images
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3897,7 +3853,6 @@ Fortran 2003 and later
 ## __Name__
 
 __compiler\_options__(3) - \[COMPILER INQUIRY\] Options passed to the compiler
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -3956,7 +3911,6 @@ __iso\_fortran\_env__(7)
 ## __Name__
 
 __compiler\_version__(3) - \[COMPILER INQUIRY\] Compiler version string
-(GFDL)
 
 ## __Syntax__
 
@@ -4118,7 +4072,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __co\_reduce__(3) - \[COLLECTIVE\] Reduction of values on the current set of images
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4219,7 +4172,6 @@ TS 18508 or later
 ## __Name__
 
 __cosh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic cosine function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4354,7 +4306,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __co\_sum__(3) - \[COLLECTIVE\] Sum of values on the current set of images
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4426,7 +4377,6 @@ TS 18508 or later
 ## __Name__
 
 __co\_ubound__(3) - \[COLLECTIVE\] Upper codimension bounds of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4473,7 +4423,6 @@ Fortran 2008 and later
 ## __Name__
 
 __count__(3) - \[ARRAY REDUCTION\] Count function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4635,7 +4584,6 @@ Fortran 95 and later
 ## __Name__
 
 __cshift__(3) - \[TRANSFORMATIONAL\] Circular shift elements of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4706,7 +4654,6 @@ Fortran 95 and later
 ## __Name__
 
 __c\_sizeof__(3) - \[ISO\_C\_BINDING\] Size in bytes of an expression
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4881,7 +4828,6 @@ Fortran 95 and later
 ## __Name__
 
 __dble__(3) - \[TYPE:NUMERIC\] Double conversion function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -4932,7 +4878,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __digits__(3) - \[NUMERIC MODEL\] Significant digits function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5006,7 +4951,6 @@ Fortran 95 and later
 ## __Name__
 
 __dim__(3) - \[NUMERIC\] Positive difference
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5061,7 +5005,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __dot\_product__(3) - \[TRANSFORMATIONAL\] Dot product function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5128,7 +5071,6 @@ Fortran 95 and later
 ## __Name__
 
 __dprod__(3) - \[NUMERIC\] Double product function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5214,7 +5156,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __dshiftl__(3) - \[BIT:COPY\] combines bits of arguments __i__ and __j__
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5255,7 +5196,6 @@ Fortran 2008 and later
 ## __Name__
 
 __dshiftr__(3) - \[BIT:COPY\] combines bits of arguments __i__ and __j__
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5296,7 +5236,6 @@ Fortran 2008 and later
 ## __Name__
 
 __eoshift__(3) - \[TRANSFORMATIONAL\] End-off shift elements of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5508,7 +5447,6 @@ Fortran 95 and later
 ## __Name__
 
 __erfc__(3) - \[MATHEMATICS\] Complementary error function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5581,7 +5519,6 @@ Fortran 2008 and later
 ## __Name__
 
 __erfc\_scaled__(3) - \[MATHEMATICS\] Error function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5592,8 +5529,10 @@ result = erfc_scaled(x)
 __erfc\_scaled__(x) computes the exponentially-scaled complementary
 error function of __x__:
 
-$$ e\*\*{x\*\*2} \\frac{2}{\\sqrt{\\pi}} \\int\_{x}\*\*{\\infty}
-e\*\*{__-t__\*\*2} dt. $$
+$$
+e^{x^2} \frac{2}{\sqrt{\pi}} \int_{x}^{\infty}
+e^{-t^2} dt.
+$$
 
 ## __Arguments__
 
@@ -5631,7 +5570,6 @@ Fortran 2008 and later
 ## __Name__
 
 __erf__(3) - \[MATHEMATICS\] Error function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5639,8 +5577,10 @@ result = erf(x)
 ```
 ## __Description__
 
-__erf__(x) computes the error function of __x__, defined as $$
-\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt. $$
+__erf__(x) computes the error function of __x__, defined as
+$$
+\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt.
+$$
 
 ## __Arguments__
 
@@ -5685,7 +5625,6 @@ Fortran 2008 and later
 ## __Name__
 
 __event\_query__(3) - \[COLLECTIVE\] Query whether a coarray event has occurred
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5741,7 +5680,6 @@ TS 18508 or later
 ## __Name__
 
 __execute\_command\_line__(3) - \[SYSTEM:PROCESSES\] Execute a shell command
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -5940,7 +5878,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __exponent__(3) - \[MODEL\_COMPONENTS\] Exponent function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -6007,7 +5944,6 @@ Fortran 95 and later
 ## __Name__
 
 __extends\_type\_of__(3) - \[STATE\] determine if the dynamic type of __a__ is an extension of the dynamic type of __mold__.
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -6052,7 +5988,6 @@ is an extension of the dynamic type of __mold__.
 ## __Name__
 
 __findloc__(3) - \[ARRAY:LOCATION\] Location of first element of ARRAY identified by MASK along dimension DIM having a value
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -6246,7 +6181,6 @@ bounds for __b__.
 ## __Name__
 
 __floor__(3) - \[NUMERIC\] Integer floor function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -6322,7 +6256,6 @@ Fortran 95 and later
 ## __Name__
 
 __fraction__(3) - \[MODEL\_COMPONENTS\] Fractional part of the model representation
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7076,7 +7009,6 @@ Fortran 2008 and later
 ## __Name__
 
 __iachar__(3) - \[CHARACTER:CONVERSION\] Code in ASCII collating sequence
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7167,7 +7099,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __iall__(3) - \[BIT:LOGICAL\] Bitwise and of array elements
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7243,7 +7174,6 @@ Fortran 2008 and later
 ## __Name__
 
 __iand__(3) - \[BIT:LOGICAL\] Bitwise logical and
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7305,7 +7235,6 @@ Fortran 95 and later
 ## __Name__
 
 __iany__(3) - \[BIT:LOGICAL\] Bitwise or of array elements
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7379,7 +7308,6 @@ Fortran 2008 and later
 ## __Name__
 
 __ibclr__(3) - \[BIT:SET\] Clear bit
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7427,7 +7355,6 @@ Fortran 95 and later
 ## __Name__
 
 __ibits__(3) - \[BIT:COPY\] Bit extraction
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7479,7 +7406,6 @@ Fortran 95 and later
 ## __Name__
 
 __ibset__(3) - \[BIT:SET\] Set bit
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7527,7 +7453,6 @@ Fortran 95 and later
 ## __Name__
 
 __ichar__(3) - \[CHARACTER:CONVERSION\] Character-to-integer conversion function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7655,7 +7580,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __ieor__(3) - \[BIT:LOGICAL\] Bitwise logical exclusive or
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7701,7 +7625,6 @@ Fortran 95 and later
 ## __Name__
 
 __image\_index__(3) - \[COLLECTIVE\] Cosubscript to image index conversion
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7754,7 +7677,6 @@ Fortran 2008 and later
 ## __Name__
 
 __index__(3) - \[CHARACTER:SEARCH\] Position of a substring within a string
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -7966,7 +7888,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __ior__(3) - \[BIT:LOGICAL\] Bitwise logical inclusive or
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8037,7 +7958,6 @@ Fortran 95 and later
 ## __Name__
 
 __iparity__(3) - \[BIT:LOGICAL\] Bitwise exclusive or of array elements
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8111,7 +8031,6 @@ Fortran 2008 and later
 ## __Name__
 
 __is\_contiguous__(3) - \[ARRAY INQUIRY\] test if object is contiguous
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8226,7 +8145,6 @@ Fortran 2008 and later
 ## __Name__
 
 __ishftc__(3) - \[BIT:SHIFT\] Shift bits circularly
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8272,7 +8190,6 @@ Fortran 95 and later
 ## __Name__
 
 __ishft__(3) - \[BIT:SHIFT\] Shift bits
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8314,7 +8231,6 @@ Fortran 95 and later
 ## __Name__
 
 __is\_iostat\_end__(3) - \[STATE\] Test for end-of-file value
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8377,7 +8293,6 @@ Fortran 2003 and later
 ## __Name__
 
 __is\_iostat\_eor__(3) - \[STATE\] Test for end-of-record value
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8428,7 +8343,6 @@ Fortran 2003 and later
 ## __Name__
 
 __kind__(3) - \[KIND INQUIRY\] Kind of an entity
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8595,7 +8509,6 @@ Fortran 95 and later, with KIND argument - Fortran 2003 and later
 ## __Name__
 
 __leadz__(3) - \[BIT:COUNT\] Number of leading zero bits of an integer
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -8944,7 +8857,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __lge__(3) - \[CHARACTER:COMPARE\] Lexical greater than or equal
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9008,7 +8920,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __lgt__(3) - \[CHARACTER:COMPARE\] Lexical greater than
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9074,7 +8985,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __lle__(3) - \[CHARACTER:COMPARE\] Lexical less than or equal
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9186,7 +9096,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __llt__(3) - \[CHARACTER:COMPARE\] Lexical less than
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9306,7 +9215,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __log\_gamma__(3) - \[MATHEMATICS\] Logarithm of the Gamma function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9354,7 +9262,6 @@ Gamma function: [__gamma__(3)](GAMMA)
 ## __Name__
 
 __logical__(3) - \[TYPE:LOGICAL\] Converts one kind of _logical_ variable to another
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9422,7 +9329,6 @@ Fortran 95 and later, related ISO_FORTRAN_ENV module - fortran 2009
 ## __Name__
 
 __log__(3) - \[MATHEMATICS\] Logarithm function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9672,7 +9578,6 @@ Fortran 2008 and later
 ## __Name__
 
 __matmul__(3) - \[TRANSFORMATIONAL\] matrix multiplication
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9710,7 +9615,6 @@ Fortran 95 and later
 ## __Name__
 
 __maxexponent__(3) - \[NUMERIC MODEL\] Maximum exponent of a real kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9778,7 +9682,6 @@ Fortran 95 and later
 ## __Name__
 
 __maxloc__(3) - \[ARRAY:LOCATION\] Location of the maximum value within an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -9881,7 +9784,6 @@ Fortran 95 and later
 ## __Name__
 
 __max__(3) - \[NUMERIC\] Maximum value of an argument list
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10001,7 +9903,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __maxval__(3) - \[ARRAY REDUCTION\] determines the maximum value in an array or row
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10088,7 +9989,6 @@ Fortran 95 and later
 ## __Name__
 
 __merge\_bits__(3) - \[BIT:COPY\] Merge of bits under mask
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10282,7 +10182,6 @@ Fortran 95 and later
 ## __Name__
 
 __minexponent__(3) - \[NUMERIC MODEL\] Minimum exponent of a real kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10350,7 +10249,6 @@ Fortran 95 and later
 ## __Name__
 
 __minloc__(3) - \[ARRAY:LOCATION\] Location of the minimum value within an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10440,7 +10338,6 @@ Fortran 95 and later
 ## __Name__
 
 __min__(3) - \[NUMERIC\] Minimum value of an argument list
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10643,7 +10540,6 @@ Fortran 95 and later
 ## __Name__
 
 __mod__(3) - \[NUMERIC\] Remainder function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10721,7 +10617,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __modulo__(3) - \[NUMERIC\] Modulo function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10793,7 +10688,6 @@ Fortran 95 and later
 ## __Name__
 
 __move\_alloc__(3) - \[\] Move allocation from one object to another
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10865,7 +10759,6 @@ Fortran 2003 and later
 ## __Name__
 
 __mvbits__(3) - \[BIT:COPY\] Move bits from one integer to another
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -10918,7 +10811,6 @@ Fortran 95 and later
 ## __Name__
 
 __nearest__(3) - \[MODEL\_COMPONENTS\] Nearest representable number
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11199,7 +11091,6 @@ FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 ## __Name__
 
 __norm2__(3) - \[MATHEMATICS\] Euclidean vector norm
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11350,7 +11241,6 @@ Fortran 95 and later
 ## __Name__
 
 __null__(3) - \[TRANSFORMATIONAL\] Function that returns a disassociated pointer
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11468,7 +11358,6 @@ Fortran 95 and later
 ## __Name__
 
 __num\_images__(3) - \[COLLECTIVE\] Number of images
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11646,7 +11535,6 @@ Fortran 95 and later
 ## __Name__
 
 __parity__(3) - \[TRANSFORMATIONAL\] Reduction with exclusive __OR__()
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11701,7 +11589,6 @@ Fortran 2008 and later
 ## __Name__
 
 __popcnt__(3) - \[BIT:COUNT\] Number of bits set
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11763,7 +11650,6 @@ Fortran 2008 and later
 ## __Name__
 
 __poppar__(3) - \[BIT:COUNT\] Parity of the number of bits set
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11826,7 +11712,6 @@ Fortran 2008 and later
 ## __Name__
 
 __precision__(3) - \[NUMERIC MODEL\] Decimal precision of a real kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -11895,7 +11780,6 @@ Fortran 95 and later
 
 __present__(3) - [STATE\] Determine whether an optional dummy argument
                  is specified
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12182,7 +12066,6 @@ directly using the star character.
 ## __Name__
 
 __radix__(3) - \[NUMERIC MODEL\] Base of a model number
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12249,7 +12132,6 @@ Fortran 95 and later
 ## __Name__
 
 __random\_number__(3) - \[MATHEMATICS:RANDOM\] Pseudo-random number
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12338,7 +12220,6 @@ Fortran 95 and later
 ## __Name__
 
 __random\_seed__(3) - \[MATHEMATICS:RANDOM\] Initialize a pseudo-random number sequence
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12406,7 +12287,6 @@ Fortran 95 and later
 ## __Name__
 
 __range__(3) - \[NUMERIC MODEL\] Decimal exponent range of a real kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12474,7 +12354,6 @@ Fortran 95 and later
 ## __Name__
 
 __rank__(3) - \[ARRAY INQUIRY\] Rank of a data object
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12520,7 +12399,6 @@ TS 29113
 
 ## __Name__
 __real__(3) - \[TYPE:NUMERIC\] Convert to real type
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12595,7 +12473,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __repeat__(3) - \[CHARACTER\] Repeated string concatenation
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12674,7 +12551,6 @@ Functions that perform operations on character strings:
 ## __Name__
 
 __reshape__(3) - \[ARRAY RESHAPE\] Function to reshape an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12749,7 +12625,6 @@ Fortran 95 and later
 ## __Name__
 
 __rrspacing__(3) - \[MODEL\_COMPONENTS\] Reciprocal of the relative spacing
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12798,7 +12673,6 @@ Fortran 95 and later
 ## __Name__
 
 __same\_type\_as__(3) - \[STATE\] Query dynamic types for equality
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12837,7 +12711,6 @@ Fortran 2003 and later
 ## __Name__
 
 __scale__(3) - \[MODEL\_COMPONENTS\] Scale a real value by a whole power of the radix
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12910,7 +12783,6 @@ Fortran 95 and later
 ## __Name__
 
 __scan__(3) - \[CHARACTER:SEARCH\] Scan a string for the presence of a set of characters
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -12987,7 +12859,6 @@ of arguments, and search for certain arguments:
 ## __Name__
 
 __selected\_char\_kind__(3) - \[KIND\] Choose character kind such as "Unicode"
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13046,7 +12917,6 @@ Fortran 2003 and later
 ## __Name__
 
 __selected\_int\_kind__(3) - \[KIND\] Choose integer kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13108,7 +12978,6 @@ Fortran 95 and later
 ## __Name__
 
 __selected\_real\_kind__(3) - \[KIND\] Choose real kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13200,7 +13069,6 @@ Fortran 95 and later; with RADIX - Fortran 2008 and later
 ## __Name__
 
 __set\_exponent__(3) - \[MODEL\_COMPONENTS\] Set the exponent of the model
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13269,7 +13137,6 @@ Fortran 95 and later
 ## __Name__
 
 __shape__(3) - \[ARRAY INQUIRY\] Determine the shape of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13336,7 +13203,6 @@ Fortran 95 and later; with KIND argument Fortran 2003 and later
 ## __Name__
 
 __shifta__(3) - \[BIT:SHIFT\] shift bits right with fill
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13378,7 +13244,6 @@ Fortran 2008 and later
 ## __Name__
 
 __shiftl__(3) - \[BIT:SHIFT\] shift bits left
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13418,7 +13283,6 @@ Fortran 2008 and later
 ## __Name__
 
 __shiftr__(3) - \[BIT:SHIFT\] shift bits right
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13458,7 +13322,6 @@ Fortran 2008 and later
 ## __Name__
 
 __sign__(3) - \[NUMERIC\] Sign copying function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13738,7 +13601,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __size__(3) - \[ARRAY INQUIRY\] Determine the size of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13926,7 +13788,6 @@ Fortran 95 and later, with __kind__ argument - Fortran 2003 and later
 ## __Name__
 
 __spacing__(3) - \[MODEL\_COMPONENTS\] Smallest distance between two numbers of a given type
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -13993,7 +13854,6 @@ Fortran 95 and later
 ## __Name__
 
 __spread__(3) - \[ARRAY CONSTRUCTION\] Add a dimension to an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14209,7 +14069,6 @@ FORTRAN 77 and later
 ## __Name__
 
 __storage\_size__(3) - \[BIT:INQUIRY\] Storage size in bits
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14270,7 +14129,6 @@ Fortran 2008 and later
 ## __Name__
 
 __sum__(3) - \[ARRAY REDUCTION\] sum the elements of an array
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14359,7 +14217,6 @@ intrinsics
 ## __Name__
 
 __system\_clock__(3) - \[SYSTEM:TIME\] Return numeric data from a real-time clock.
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14462,7 +14319,6 @@ Fortran 95 and later
 ## __Name__
 
 __tanh__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Hyperbolic tangent function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14518,7 +14374,6 @@ FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 ## __Name__
 
 __tan__(3) - \[MATHEMATICS:TRIGONOMETRIC\] Tangent function
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14570,7 +14425,6 @@ FORTRAN 77 and later. For a complex argument, Fortran 2008 or later.
 ## __Name__
 
 __this\_image__(3) - \[COLLECTIVE\] Cosubscript index of this image
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14652,7 +14506,6 @@ or later
 ## __Name__
 
 __tiny__(3) - \[NUMERIC MODEL\] Smallest positive number of a real kind
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14837,7 +14690,6 @@ Fortran 2008 and later
 ## __Name__
 
 __transfer__(3) - \[TYPE:MOLD\] Transfer bit patterns
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -14942,7 +14794,6 @@ Fortran 90 and later
 ## __Name__
 
 __transpose__(3) - \[ARRAY MANIPULATION\] Transpose an array of rank two
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -15029,7 +14880,6 @@ Fortran 95 and later
 ## __Name__
 
 __trim__(3) - \[CHARACTER:WHITESPACE\] Remove trailing blank characters of a string
-(GFDL)
 
 ## __Syntax__
 ```fortran
@@ -15219,7 +15069,6 @@ and later
 ## __Name__
 
 __unpack__(3) - \[ARRAY CONSTRUCTION\] Store the elements of a vector in an array of higher rank
-(GFDL)
 
 ## __Syntax__
 ```fortran

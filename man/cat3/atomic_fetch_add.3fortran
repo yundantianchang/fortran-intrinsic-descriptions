@@ -1,7 +1,6 @@
 NAME
 
 ATOMIC_FETCH_ADD(3) - [ATOMIC] Atomic ADD operation with prior fetch
-(GFDL)
 
 SYNTAX
 

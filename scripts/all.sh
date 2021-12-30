@@ -3,7 +3,10 @@ git checkout gh-pages
 # update gh-pages with anything from main
 git merge origin/main
 git push origin gh-pages
+<<<<<<< HEAD
 git checkout main
+=======
+>>>>>>> origin/main
 BRANCH=$( git rev-parse --abbrev-ref HEAD )
 [ "$BRANCH" != gh-pages ] && exit
 #################################################

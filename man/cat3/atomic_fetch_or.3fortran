@@ -1,7 +1,7 @@
 NAME
 
 ATOMIC_FETCH_OR(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR
-operation with prior fetch (GFDL)
+operation with prior fetch
 
 SYNTAX
 

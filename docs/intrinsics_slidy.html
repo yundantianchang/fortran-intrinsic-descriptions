@@ -474,11 +474,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h2 id="syntax-5"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb18"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb18-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> <span class="bu">adjustr</span>(string)</a>
 <a class="sourceLine" id="cb18-2" title="2"></a>
-<a class="sourceLine" id="cb18-3" title="3">     <span class="dt">character(len=(len(string)) elemental function adjustr(a)</span></a>
-<a class="sourceLine" id="cb18-4" title="4"></a>
+<a class="sourceLine" id="cb18-3" title="3">     <span class="kw">elemental</span> <span class="kw">function</span> <span class="bu">adjustr</span>(a)</a>
+<a class="sourceLine" id="cb18-4" title="4">     <span class="dt">character(len=(len(string)) :: adjustr</span></a>
 <a class="sourceLine" id="cb18-5" title="5">     <span class="dt">character(len=*)</span>,<span class="dt">intent(in)</span> <span class="dt">::</span> string</a></code></pre></div>
 <h2 id="description-5"><strong>Description</strong></h2>
-<p><strong>adjustr(string)</strong> will right-adjust a string by removing trailing spaces. Spaces are inserted at the start of the string as needed.</p>
+<p><strong>adjustr(string)</strong> right-adjusts a string by removing trailing spaces. Spaces are inserted at the start of the string as needed to retain the original length.</p>
 <h2 id="arguments-5"><strong>Arguments</strong></h2>
 <ul>
 <li><dl>
@@ -494,37 +494,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb19"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">program</span> demo_adjustr</a>
 <a class="sourceLine" id="cb19-2" title="2"><span class="kw">implicit</span> <span class="kw">none</span></a>
 <a class="sourceLine" id="cb19-3" title="3"><span class="dt">integer</span> <span class="dt">::</span> right</a>
-<a class="sourceLine" id="cb19-4" title="4"><span class="dt">character(len=*)</span>,<span class="dt">parameter</span> <span class="dt">::</span> bracket<span class="kw">=</span><span class="st">&#39;(&quot;[&quot;,a,&quot;]&quot;)&#39;</span></a>
-<a class="sourceLine" id="cb19-5" title="5"><span class="dt">character(len=20)</span> <span class="dt">::</span> str <span class="kw">=</span> <span class="st">&#39; sample string &#39;</span></a>
-<a class="sourceLine" id="cb19-6" title="6"><span class="dt">character(len=:)</span>,<span class="dt">allocatable</span> <span class="dt">::</span> astr</a>
-<a class="sourceLine" id="cb19-7" title="7">   <span class="kw">call</span> number_line()</a>
-<a class="sourceLine" id="cb19-8" title="8">   <span class="co">!</span></a>
-<a class="sourceLine" id="cb19-9" title="9">   <span class="co">! basic usage</span></a>
-<a class="sourceLine" id="cb19-10" title="10">   str <span class="kw">=</span> <span class="bu">adjustr</span>(str)</a>
-<a class="sourceLine" id="cb19-11" title="11">   <span class="fu">write(*</span>,bracket<span class="fu">)</span> str</a>
-<a class="sourceLine" id="cb19-12" title="12"></a>
-<a class="sourceLine" id="cb19-13" title="13">   <span class="co">! exploring usage:</span></a>
-<a class="sourceLine" id="cb19-14" title="14">   <span class="co">! An allocatable string and arbitrary margin.</span></a>
-<a class="sourceLine" id="cb19-15" title="15">   <span class="co">! Set a right margin and adjust to it. Note</span></a>
-<a class="sourceLine" id="cb19-16" title="16">   <span class="co">! this would truncate if the margin is less</span></a>
-<a class="sourceLine" id="cb19-17" title="17">   <span class="co">! than the length of STR</span></a>
-<a class="sourceLine" id="cb19-18" title="18">   right<span class="kw">=</span><span class="dv">50</span></a>
-<a class="sourceLine" id="cb19-19" title="19">   astr<span class="kw">=</span><span class="bu">adjustr</span>(str<span class="kw">//</span><span class="fu">repeat</span>(<span class="st">&#39; &#39;</span>,<span class="bu">max</span>(<span class="dv">0</span>,right<span class="kw">-</span><span class="fu">len</span>(str))))</a>
-<a class="sourceLine" id="cb19-20" title="20">   <span class="fu">write(*</span>,bracket<span class="fu">)</span> astr</a>
-<a class="sourceLine" id="cb19-21" title="21">   <span class="co">!</span></a>
-<a class="sourceLine" id="cb19-22" title="22">   <span class="kw">call</span> number_line()</a>
-<a class="sourceLine" id="cb19-23" title="23">   <span class="co">!</span></a>
-<a class="sourceLine" id="cb19-24" title="24"><span class="co">contains</span></a>
-<a class="sourceLine" id="cb19-25" title="25">   <span class="kw">subroutine</span> number_line()</a>
-<a class="sourceLine" id="cb19-26" title="26">   <span class="co">! print a short number line</span></a>
-<a class="sourceLine" id="cb19-27" title="27">      <span class="fu">write(*</span>,bracket<span class="fu">)repeat</span>(<span class="st">&#39;1234567890&#39;</span>,<span class="dv">5</span>)</a>
-<a class="sourceLine" id="cb19-28" title="28">   <span class="kw">end subroutine</span> number_line</a>
-<a class="sourceLine" id="cb19-29" title="29"><span class="kw">end program</span> demo_adjustr</a></code></pre></div>
+<a class="sourceLine" id="cb19-4" title="4"><span class="dt">character(len=20)</span> <span class="dt">::</span> str <span class="kw">=</span> <span class="st">&#39; sample string &#39;</span></a>
+<a class="sourceLine" id="cb19-5" title="5"><span class="dt">character(len=:)</span>,<span class="dt">allocatable</span> <span class="dt">::</span> str2</a>
+<a class="sourceLine" id="cb19-6" title="6">   <span class="co">! print a short number line</span></a>
+<a class="sourceLine" id="cb19-7" title="7">   <span class="fu">write(*</span>,<span class="st">&#39;(a)&#39;</span><span class="fu">)repeat</span>(<span class="st">&#39;1234567890&#39;</span>,<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb19-8" title="8"></a>
+<a class="sourceLine" id="cb19-9" title="9">   <span class="co">!</span></a>
+<a class="sourceLine" id="cb19-10" title="10">   <span class="co">! basic usage</span></a>
+<a class="sourceLine" id="cb19-11" title="11">   <span class="co">!</span></a>
+<a class="sourceLine" id="cb19-12" title="12">   str <span class="kw">=</span> <span class="bu">adjustr</span>(str)</a>
+<a class="sourceLine" id="cb19-13" title="13">   <span class="fu">write(*</span>,<span class="st">&#39;(a)&#39;</span><span class="fu">)</span> str</a>
+<a class="sourceLine" id="cb19-14" title="14"></a>
+<a class="sourceLine" id="cb19-15" title="15">   <span class="co">!</span></a>
+<a class="sourceLine" id="cb19-16" title="16">   <span class="co">! elemental</span></a>
+<a class="sourceLine" id="cb19-17" title="17">   <span class="co">!</span></a>
+<a class="sourceLine" id="cb19-18" title="18">   <span class="fu">write(*</span>,<span class="st">&#39;(a)&#39;</span><span class="fu">)</span><span class="bu">adjustr</span>(<span class="kw">[</span><span class="dt">character(len=50)</span> <span class="dt">::</span> <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb19-19" title="19">   <span class="st">&#39;  first           &#39;</span>, <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb19-20" title="20">   <span class="st">&#39;     second       &#39;</span>, <span class="kw">&amp;</span></a>
+<a class="sourceLine" id="cb19-21" title="21">   <span class="st">&#39;         third    &#39;</span> <span class="kw">]</span>)</a>
+<a class="sourceLine" id="cb19-22" title="22"></a>
+<a class="sourceLine" id="cb19-23" title="23">   <span class="fu">write(*</span>,<span class="st">&#39;(a)&#39;</span><span class="fu">)repeat</span>(<span class="st">&#39;1234567890&#39;</span>,<span class="dv">5</span>)</a>
+<a class="sourceLine" id="cb19-24" title="24"><span class="kw">end program</span> demo_adjustr</a></code></pre></div>
 <p>Results:</p>
-<pre class="text"><code>   [12345678901234567890123456789012345678901234567890]
-   [       sample string]
-   [                                     sample string]
-   [12345678901234567890123456789012345678901234567890]</code></pre>
+<pre class="text"><code>   12345678901234567890123456789012345678901234567890
+          sample string
+                                                first
+                                               second
+                                                third
+   12345678901234567890123456789012345678901234567890</code></pre>
 <h2 id="standard-5"><strong>Standard</strong></h2>
 <p>Fortran 95 and later</p>
 <h2 id="see-also-4"><strong>See Also</strong></h2>
@@ -534,7 +531,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="aimag" class="slide section level1">
 <h1>AIMAG</h1>
 <h2 id="name-6"><strong>Name</strong></h2>
-<p><strong>aimag</strong>(3) - [TYPE:NUMERIC] Imaginary part of complex number (GFDL)</p>
+<p><strong>aimag</strong>(3) - [TYPE:NUMERIC] Imaginary part of complex number</p>
 <h2 id="syntax-6"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb21"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb21-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> <span class="bu">aimag</span>(z)</a>
 <a class="sourceLine" id="cb21-2" title="2"></a>
@@ -584,7 +581,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="aint" class="slide section level1">
 <h1>AINT</h1>
 <h2 id="name-7"><strong>Name</strong></h2>
-<p><strong>aint</strong>(3) - [NUMERIC] Truncate to a whole number (GFDL)</p>
+<p><strong>aint</strong>(3) - [NUMERIC] Truncate to a whole number</p>
 <h2 id="syntax-7"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb24"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb24-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">aint</span>(x)</a>
 <a class="sourceLine" id="cb24-2" title="2"></a>
@@ -650,7 +647,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="all" class="slide section level1">
 <h1>ALL</h1>
 <h2 id="name-8"><strong>Name</strong></h2>
-<p><strong>all</strong>(3) - [ARRAY REDUCTION] determines if all the values are true (GFDL)</p>
+<p><strong>all</strong>(3) - [ARRAY REDUCTION] determines if all the values are true</p>
 <h2 id="syntax-8"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb28"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb28-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">all</span>(mask, <span class="bu">dim</span>)</a></code></pre></div>
 <h2 id="description-8"><strong>Description</strong></h2>
@@ -726,7 +723,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="allocated" class="slide section level1">
 <h1>ALLOCATED</h1>
 <h2 id="name-9"><strong>Name</strong></h2>
-<p><strong>allocated</strong>(3) - [ARRAY INQUIRY] Status of an allocatable entity (GFDL)</p>
+<p><strong>allocated</strong>(3) - [ARRAY INQUIRY] Status of an allocatable entity</p>
 <h2 id="syntax-9"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb34"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb34-1" title="1">  <span class="kw">result</span> <span class="kw">=</span> <span class="fu">allocated</span>(array)</a></code></pre></div>
 <p>or</p>
@@ -768,7 +765,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="anint" class="slide section level1">
 <h1>ANINT</h1>
 <h2 id="name-10"><strong>Name</strong></h2>
-<p><strong>anint</strong>(3) - [NUMERIC] Nearest whole number (GFDL)</p>
+<p><strong>anint</strong>(3) - [NUMERIC] Nearest whole number</p>
 <h2 id="syntax-10"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb37"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb37-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">anint</span>(a, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-10"><strong>Description</strong></h2>
@@ -827,7 +824,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="any" class="slide section level1">
 <h1>ANY</h1>
 <h2 id="name-11"><strong>Name</strong></h2>
-<p><strong>any</strong>(3) - [ARRAY REDUCTION] determines if any of the values in the logical array are true. (GFDL)</p>
+<p><strong>any</strong>(3) - [ARRAY REDUCTION] determines if any of the values in the logical array are true.</p>
 <h2 id="syntax-11"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb40"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb40-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">any</span>(mask, <span class="bu">dim</span>)</a></code></pre></div>
 <h2 id="description-11"><strong>Description</strong></h2>
@@ -880,7 +877,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="asinh" class="slide section level1">
 <h1>ASINH</h1>
 <h2 id="name-12"><strong>Name</strong></h2>
-<p><strong>asinh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Inverse hyperbolic sine function (GFDL)</p>
+<p><strong>asinh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Inverse hyperbolic sine function</p>
 <h2 id="syntax-12"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb43"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb43-1" title="1"><span class="kw">result</span> <span class="kw">=</span> asinh(x)</a>
 <a class="sourceLine" id="cb43-2" title="2"></a>
@@ -990,7 +987,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="associated" class="slide section level1">
 <h1>ASSOCIATED</h1>
 <h2 id="name-14"><strong>Name</strong></h2>
-<p><strong>associated</strong>(3) - [STATE] Status of a pointer or pointer/target pair (GFDL)</p>
+<p><strong>associated</strong>(3) - [STATE] Status of a pointer or pointer/target pair</p>
 <h2 id="syntax-14"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb50"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb50-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">associated</span>(<span class="dt">pointer</span>, <span class="dt">target</span>)</a></code></pre></div>
 <h2 id="description-14"><strong>Description</strong></h2>
@@ -1082,7 +1079,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atanh" class="slide section level1">
 <h1>ATANH</h1>
 <h2 id="name-16"><strong>Name</strong></h2>
-<p><strong>atanh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Inverse hyperbolic tangent function (GFDL)</p>
+<p><strong>atanh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Inverse hyperbolic tangent function</p>
 <h2 id="syntax-16"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb55"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb55-1" title="1"><span class="kw">result</span> <span class="kw">=</span> atanh(x)</a></code></pre></div>
 <h2 id="description-16"><strong>Description</strong></h2>
@@ -1183,7 +1180,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_add" class="slide section level1">
 <h1>ATOMIC_ADD</h1>
 <h2 id="name-18"><strong>Name</strong></h2>
-<p><strong>atomic_add</strong>(3) - [ATOMIC] Atomic ADD operation (GFDL)</p>
+<p><strong>atomic_add</strong>(3) - [ATOMIC] Atomic ADD operation</p>
 <h2 id="syntax-18"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb61"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb61-1" title="1"><span class="kw">call</span> atomic_add (atom, value, stat)</a></code></pre></div>
 <h2 id="description-18"><strong>Description</strong></h2>
@@ -1223,7 +1220,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_and" class="slide section level1">
 <h1>ATOMIC_AND</h1>
 <h2 id="name-19"><strong>Name</strong></h2>
-<p><strong>atomic_and</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise AND operation (GFDL)</p>
+<p><strong>atomic_and</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise AND operation</p>
 <h2 id="syntax-19"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb63"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb63-1" title="1"><span class="kw">call</span> atomic_and(atom, value, stat)</a></code></pre></div>
 <h2 id="description-19"><strong>Description</strong></h2>
@@ -1263,7 +1260,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_cas" class="slide section level1">
 <h1>ATOMIC_CAS</h1>
 <h2 id="name-20"><strong>Name</strong></h2>
-<p><strong>atomic_cas</strong>(3) - [ATOMIC] Atomic compare and swap (GFDL)</p>
+<p><strong>atomic_cas</strong>(3) - [ATOMIC] Atomic compare and swap</p>
 <h2 id="syntax-20"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb65"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb65-1" title="1"><span class="kw">call</span> atomic_cas (atom, old, compare, new, stat)</a></code></pre></div>
 <h2 id="description-20"><strong>Description</strong></h2>
@@ -1313,7 +1310,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_define" class="slide section level1">
 <h1>ATOMIC_DEFINE</h1>
 <h2 id="name-21"><strong>Name</strong></h2>
-<p><strong>atomic_define</strong>(3) - [ATOMIC] Setting a variable atomically (GFDL)</p>
+<p><strong>atomic_define</strong>(3) - [ATOMIC] Setting a variable atomically</p>
 <h2 id="syntax-21"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb67"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb67-1" title="1"><span class="kw">call</span> atomic_define (atom, value, stat)</a>
 <a class="sourceLine" id="cb67-2" title="2"></a>
@@ -1358,7 +1355,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_fetch_add" class="slide section level1">
 <h1>ATOMIC_FETCH_ADD</h1>
 <h2 id="name-22"><strong>Name</strong></h2>
-<p><strong>atomic_fetch_add</strong>(3) - [ATOMIC] Atomic ADD operation with prior fetch (GFDL)</p>
+<p><strong>atomic_fetch_add</strong>(3) - [ATOMIC] Atomic ADD operation with prior fetch</p>
 <h2 id="syntax-22"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb69"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb69-1" title="1"><span class="kw">call</span> atomic_fetch_add(atom, value, old, stat)</a></code></pre></div>
 <h2 id="description-22"><strong>Description</strong></h2>
@@ -1405,7 +1402,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_fetch_and" class="slide section level1">
 <h1>ATOMIC_FETCH_AND</h1>
 <h2 id="name-23"><strong>Name</strong></h2>
-<p><strong>atomic_fetch_and</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise AND operation with prior fetch (GFDL)</p>
+<p><strong>atomic_fetch_and</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise AND operation with prior fetch</p>
 <h2 id="syntax-23"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb71"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb71-1" title="1"><span class="kw">call</span> atomic_fetch_and(atom, value, old, stat)</a></code></pre></div>
 <h2 id="description-23"><strong>Description</strong></h2>
@@ -1452,7 +1449,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_fetch_or" class="slide section level1">
 <h1>ATOMIC_FETCH_OR</h1>
 <h2 id="name-24"><strong>Name</strong></h2>
-<p><strong>atomic_fetch_or</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation with prior fetch (GFDL)</p>
+<p><strong>atomic_fetch_or</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation with prior fetch</p>
 <h2 id="syntax-24"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb73"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb73-1" title="1"><span class="kw">call</span> atomic_fetch_or(atom, value, old, stat)</a></code></pre></div>
 <h2 id="description-24"><strong>Description</strong></h2>
@@ -1499,7 +1496,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_fetch_xor" class="slide section level1">
 <h1>ATOMIC_FETCH_XOR</h1>
 <h2 id="name-25"><strong>Name</strong></h2>
-<p><strong>atomic_fetch_xor</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise XOR operation with prior fetch (GFDL)</p>
+<p><strong>atomic_fetch_xor</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise XOR operation with prior fetch</p>
 <h2 id="syntax-25"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb75"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb75-1" title="1"><span class="kw">call</span> atomic_fetch_xor (atom, value, old, stat)</a></code></pre></div>
 <h2 id="description-25"><strong>Description</strong></h2>
@@ -1546,7 +1543,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_or" class="slide section level1">
 <h1>ATOMIC_OR</h1>
 <h2 id="name-26"><strong>Name</strong></h2>
-<p><strong>atomic_or</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation (GFDL)</p>
+<p><strong>atomic_or</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation</p>
 <h2 id="syntax-26"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb77"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb77-1" title="1"><span class="kw">call</span> atomic_or__(atom, value, stat)</a></code></pre></div>
 <h2 id="description-26"><strong>Description</strong></h2>
@@ -1588,7 +1585,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_ref" class="slide section level1">
 <h1>ATOMIC_REF</h1>
 <h2 id="name-27"><strong>Name</strong></h2>
-<p><strong>atomic_ref</strong>(3) - [ATOMIC] Obtaining the value of a variable atomically (GFDL)</p>
+<p><strong>atomic_ref</strong>(3) - [ATOMIC] Obtaining the value of a variable atomically</p>
 <h2 id="syntax-27"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb79"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb79-1" title="1"><span class="kw">call</span> atomic_ref(value, atom, stat)</a></code></pre></div>
 <h2 id="description-27"><strong>Description</strong></h2>
@@ -1636,7 +1633,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="atomic_xor" class="slide section level1">
 <h1>ATOMIC_XOR</h1>
 <h2 id="name-28"><strong>Name</strong></h2>
-<p><strong>atomic_xor</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation (GFDL)</p>
+<p><strong>atomic_xor</strong>(3) - [ATOMIC:BIT MANIPULATION] Atomic bitwise OR operation</p>
 <h2 id="syntax-28"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb81"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb81-1" title="1"><span class="kw">call</span> atomic_xor(atom, value, stat)</a></code></pre></div>
 <h2 id="description-28"><strong>Description</strong></h2>
@@ -1676,7 +1673,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bessel_j0" class="slide section level1">
 <h1>BESSEL_J0</h1>
 <h2 id="name-29"><strong>Name</strong></h2>
-<p><strong>bessel_j0</strong>(3) - [MATHEMATICS] Bessel function of the first kind of order 0 (GFDL)</p>
+<p><strong>bessel_j0</strong>(3) - [MATHEMATICS] Bessel function of the first kind of order 0</p>
 <h2 id="syntax-29"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb83"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb83-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> bessel_j0(x)</a></code></pre></div>
 <h2 id="description-29"><strong>Description</strong></h2>
@@ -1712,7 +1709,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bessel_j1" class="slide section level1">
 <h1>BESSEL_J1</h1>
 <h2 id="name-30"><strong>Name</strong></h2>
-<p><strong>bessel_j1</strong>(3) - [MATHEMATICS] Bessel function of the first kind of order 1 (GFDL)</p>
+<p><strong>bessel_j1</strong>(3) - [MATHEMATICS] Bessel function of the first kind of order 1</p>
 <h2 id="syntax-30"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb86"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb86-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> bessel_j1(x)</a></code></pre></div>
 <h2 id="description-30"><strong>Description</strong></h2>
@@ -1748,7 +1745,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bessel_jn" class="slide section level1">
 <h1>BESSEL_JN</h1>
 <h2 id="name-31"><strong>Name</strong></h2>
-<p><strong>bessel_jn</strong>(3) - [MATHEMATICS] Bessel function of the first kind (GFDL)</p>
+<p><strong>bessel_jn</strong>(3) - [MATHEMATICS] Bessel function of the first kind</p>
 <h2 id="syntax-31"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb89"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb89-1" title="1">  <span class="kw">result</span> <span class="kw">=</span> bessel_jn(n, x)</a>
 <a class="sourceLine" id="cb89-2" title="2"></a>
@@ -1802,7 +1799,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bessel_y0" class="slide section level1">
 <h1>BESSEL_Y0</h1>
 <h2 id="name-32"><strong>Name</strong></h2>
-<p><strong>bessel_y0</strong>(3) - [MATHEMATICS] Bessel function of the second kind of order 0 (GFDL)</p>
+<p><strong>bessel_y0</strong>(3) - [MATHEMATICS] Bessel function of the second kind of order 0</p>
 <h2 id="syntax-32"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb92"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb92-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> bessel_y0(x)</a></code></pre></div>
 <h2 id="description-32"><strong>Description</strong></h2>
@@ -1838,7 +1835,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bessel_y1" class="slide section level1">
 <h1>BESSEL_Y1</h1>
 <h2 id="name-33"><strong>Name</strong></h2>
-<p><strong>bessel_y1</strong>(3) - [MATHEMATICS] Bessel function of the second kind of order 1 (GFDL)</p>
+<p><strong>bessel_y1</strong>(3) - [MATHEMATICS] Bessel function of the second kind of order 1</p>
 <h2 id="syntax-33"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb95"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb95-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> bessel_y1(x)</a></code></pre></div>
 <h2 id="description-33"><strong>Description</strong></h2>
@@ -1871,7 +1868,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bessel_yn" class="slide section level1">
 <h1>BESSEL_YN</h1>
 <h2 id="name-34"><strong>Name</strong></h2>
-<p><strong>bessel_yn</strong>(3) - [MATHEMATICS] Bessel function of the second kind (GFDL)</p>
+<p><strong>bessel_yn</strong>(3) - [MATHEMATICS] Bessel function of the second kind</p>
 <h2 id="syntax-34"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb97"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb97-1" title="1">  <span class="kw">result</span> <span class="kw">=</span> bessel_yn(n, x)</a>
 <a class="sourceLine" id="cb97-2" title="2"></a>
@@ -1924,7 +1921,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bge" class="slide section level1">
 <h1>BGE</h1>
 <h2 id="name-35"><strong>Name</strong></h2>
-<p><strong>bge</strong>(3) - [BIT:COMPARE] Bitwise greater than or equal to (GFDL)</p>
+<p><strong>bge</strong>(3) - [BIT:COMPARE] Bitwise greater than or equal to</p>
 <h2 id="syntax-35"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb100"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb100-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> bge(i, j)</a></code></pre></div>
 <h2 id="description-35"><strong>Description</strong></h2>
@@ -1953,7 +1950,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bgt" class="slide section level1">
 <h1>BGT</h1>
 <h2 id="name-36"><strong>Name</strong></h2>
-<p><strong>bgt</strong>(3) - [BIT:COMPARE] Bitwise greater than (GFDL)</p>
+<p><strong>bgt</strong>(3) - [BIT:COMPARE] Bitwise greater than</p>
 <h2 id="syntax-36"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb101"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb101-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> bgt(i, j)</a></code></pre></div>
 <h2 id="description-36"><strong>Description</strong></h2>
@@ -1982,7 +1979,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="bit_size" class="slide section level1">
 <h1>BIT_SIZE</h1>
 <h2 id="name-37"><strong>Name</strong></h2>
-<p><strong>bit_size</strong>(3) - [BIT:INQUIRY] Bit size inquiry function (GFDL)</p>
+<p><strong>bit_size</strong>(3) - [BIT:INQUIRY] Bit size inquiry function</p>
 <h2 id="syntax-37"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb102"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb102-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">bit_size</span>(i)</a></code></pre></div>
 <h2 id="description-37"><strong>Description</strong></h2>
@@ -2029,7 +2026,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="ble" class="slide section level1">
 <h1>BLE</h1>
 <h2 id="name-38"><strong>Name</strong></h2>
-<p><strong>ble</strong>(3) - [BIT:COMPARE] Bitwise less than or equal to (GFDL)</p>
+<p><strong>ble</strong>(3) - [BIT:COMPARE] Bitwise less than or equal to</p>
 <h2 id="syntax-38"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb105"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb105-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> ble(i, j)</a></code></pre></div>
 <h2 id="description-38"><strong>Description</strong></h2>
@@ -2058,7 +2055,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="blt" class="slide section level1">
 <h1>BLT</h1>
 <h2 id="name-39"><strong>Name</strong></h2>
-<p><strong>blt</strong>(3) - [BIT:COMPARE] Bitwise less than (GFDL)</p>
+<p><strong>blt</strong>(3) - [BIT:COMPARE] Bitwise less than</p>
 <h2 id="syntax-39"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb106"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb106-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> blt(i, j)</a></code></pre></div>
 <h2 id="description-39"><strong>Description</strong></h2>
@@ -2192,7 +2189,7 @@ the value of btest (2, a)
 <div id="c_associated" class="slide section level1">
 <h1>C_ASSOCIATED</h1>
 <h2 id="name-41"><strong>Name</strong></h2>
-<p><strong>c_associated</strong>(3) - [ISO_C_BINDING] Status of a C pointer (GFDL)</p>
+<p><strong>c_associated</strong>(3) - [ISO_C_BINDING] Status of a C pointer</p>
 <h2 id="syntax-41"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb110"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb110-1" title="1"><span class="kw">result</span> <span class="kw">=</span> c_associated(c_prt_<span class="dv">1</span>, c_ptr_<span class="dv">2</span>)</a></code></pre></div>
 <h2 id="description-41"><strong>Description</strong></h2>
@@ -2237,7 +2234,7 @@ the value of btest (2, a)
 <div id="ceiling" class="slide section level1">
 <h1>CEILING</h1>
 <h2 id="name-42"><strong>Name</strong></h2>
-<p><strong>ceiling</strong>(3) - [NUMERIC] Integer ceiling function (GFDL)</p>
+<p><strong>ceiling</strong>(3) - [NUMERIC] Integer ceiling function</p>
 <h2 id="syntax-42"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb112"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb112-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ceiling</span>(a, <span class="fu">kind</span>)</a>
 <a class="sourceLine" id="cb112-2" title="2"></a>
@@ -2292,7 +2289,7 @@ the value of btest (2, a)
 <div id="c_f_pointer" class="slide section level1">
 <h1>C_F_POINTER</h1>
 <h2 id="name-43"><strong>Name</strong></h2>
-<p><strong>c_f_pointer</strong>(3) - [ISO_C_BINDING] Convert C into Fortran pointer (GFDL)</p>
+<p><strong>c_f_pointer</strong>(3) - [ISO_C_BINDING] Convert C into Fortran pointer</p>
 <h2 id="syntax-43"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb115"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb115-1" title="1"><span class="kw">call</span> c_f_pointer(cptr, fptr, <span class="fu">shape</span>)</a></code></pre></div>
 <h2 id="description-43"><strong>Description</strong></h2>
@@ -2340,7 +2337,7 @@ the value of btest (2, a)
 <div id="c_f_procpointer" class="slide section level1">
 <h1>C_F_PROCPOINTER</h1>
 <h2 id="name-44"><strong>Name</strong></h2>
-<p><strong>c_f_procpointer</strong>(3) - [ISO_C_BINDING] Convert C into Fortran procedure pointer (GFDL)</p>
+<p><strong>c_f_procpointer</strong>(3) - [ISO_C_BINDING] Convert C into Fortran procedure pointer</p>
 <h2 id="syntax-44"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb117"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb117-1" title="1"><span class="kw">call</span> c_f_procpointer(cptr, fptr)</a></code></pre></div>
 <h2 id="description-44"><strong>Description</strong></h2>
@@ -2390,7 +2387,7 @@ the value of btest (2, a)
 <div id="c_funloc" class="slide section level1">
 <h1>C_FUNLOC</h1>
 <h2 id="name-45"><strong>Name</strong></h2>
-<p><strong>c_funloc</strong>(3) - [ISO_C_BINDING] Obtain the C address of a procedure (GFDL)</p>
+<p><strong>c_funloc</strong>(3) - [ISO_C_BINDING] Obtain the C address of a procedure</p>
 <h2 id="syntax-45"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb119"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb119-1" title="1"><span class="kw">result</span> <span class="kw">=</span> c_funloc(x)</a></code></pre></div>
 <h2 id="description-45"><strong>Description</strong></h2>
@@ -2441,7 +2438,7 @@ the value of btest (2, a)
 <div id="char" class="slide section level1">
 <h1>CHAR</h1>
 <h2 id="name-46"><strong>Name</strong></h2>
-<p><strong>char</strong>(3) - [CHARACTER] Character conversion function (GFDL)</p>
+<p><strong>char</strong>(3) - [CHARACTER] Character conversion function</p>
 <h2 id="syntax-46"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb121"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb121-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">char</span>(i, <span class="fu">kind</span>)</a>
 <a class="sourceLine" id="cb121-2" title="2">   <span class="kw">elemental</span> <span class="dt">integer</span> <span class="kw">function</span> <span class="bu">char</span>(i,<span class="fu">kind</span>)</a>
@@ -2492,7 +2489,7 @@ the value of btest (2, a)
 <div id="c_loc" class="slide section level1">
 <h1>C_LOC</h1>
 <h2 id="name-47"><strong>Name</strong></h2>
-<p><strong>c_loc</strong>(3) - [ISO_C_BINDING] Obtain the C address of an object (GFDL)</p>
+<p><strong>c_loc</strong>(3) - [ISO_C_BINDING] Obtain the C address of an object</p>
 <h2 id="syntax-47"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb124"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb124-1" title="1"><span class="kw">result</span> <span class="kw">=</span> c_loc(x)</a></code></pre></div>
 <h2 id="description-47"><strong>Description</strong></h2>
@@ -2527,7 +2524,7 @@ the value of btest (2, a)
 <div id="cmplx" class="slide section level1">
 <h1>CMPLX</h1>
 <h2 id="name-48"><strong>Name</strong></h2>
-<p><strong>cmplx</strong>(3) - [TYPE:NUMERIC] Complex conversion function (GFDL)</p>
+<p><strong>cmplx</strong>(3) - [TYPE:NUMERIC] Complex conversion function</p>
 <h2 id="syntax-48"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb126"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb126-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">cmplx</span>(x, y, <span class="fu">kind</span>)</a>
 <a class="sourceLine" id="cb126-2" title="2"></a>
@@ -2618,7 +2615,7 @@ the value of btest (2, a)
 <div id="co_broadcast" class="slide section level1">
 <h1>CO_BROADCAST</h1>
 <h2 id="name-49"><strong>Name</strong></h2>
-<p><strong>co_broadcast</strong>(3) - [COLLECTIVE] Copy a value to all images the current set of images (GFDL)</p>
+<p><strong>co_broadcast</strong>(3) - [COLLECTIVE] Copy a value to all images the current set of images</p>
 <h2 id="syntax-49"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb133"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb133-1" title="1"><span class="kw">call</span> co_broadcast(a, source_image, stat, errmsg)</a></code></pre></div>
 <h2 id="description-49"><strong>Description</strong></h2>
@@ -2664,7 +2661,7 @@ the value of btest (2, a)
 <div id="co_lbound" class="slide section level1">
 <h1>CO_LBOUND</h1>
 <h2 id="name-50"><strong>Name</strong></h2>
-<p><strong>co_lbound</strong>(3) - [COLLECTIVE] Lower codimension bounds of an array (GFDL)</p>
+<p><strong>co_lbound</strong>(3) - [COLLECTIVE] Lower codimension bounds of an array</p>
 <h2 id="syntax-50"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb135"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb135-1" title="1"><span class="kw">result</span> <span class="kw">=</span> co_lbound(coarray, <span class="bu">dim</span>, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-50"><strong>Description</strong></h2>
@@ -2698,7 +2695,7 @@ the value of btest (2, a)
 <div id="co_max" class="slide section level1">
 <h1>CO_MAX</h1>
 <h2 id="name-51"><strong>Name</strong></h2>
-<p><strong>co_max</strong>(3) - [COLLECTIVE] Maximal value on the current set of images (GFDL)</p>
+<p><strong>co_max</strong>(3) - [COLLECTIVE] Maximal value on the current set of images</p>
 <h2 id="syntax-51"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb136"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb136-1" title="1"><span class="kw">call</span> co_max(a, result_image, stat, errmsg)</a></code></pre></div>
 <h2 id="description-51"><strong>Description</strong></h2>
@@ -2748,7 +2745,7 @@ the value of btest (2, a)
 <div id="co_min" class="slide section level1">
 <h1>CO_MIN</h1>
 <h2 id="name-52"><strong>Name</strong></h2>
-<p><strong>co_min</strong>(3) - [COLLECTIVE] Minimal value on the current set of images (GFDL)</p>
+<p><strong>co_min</strong>(3) - [COLLECTIVE] Minimal value on the current set of images</p>
 <h2 id="syntax-52"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb139"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb139-1" title="1"><span class="kw">call</span> co_min(a, result_image, stat, errmsg)</a></code></pre></div>
 <h2 id="description-52"><strong>Description</strong></h2>
@@ -2840,7 +2837,7 @@ the value of btest (2, a)
 <div id="compiler_options" class="slide section level1">
 <h1>COMPILER_OPTIONS</h1>
 <h2 id="name-54"><strong>Name</strong></h2>
-<p><strong>compiler_options</strong>(3) - [COMPILER INQUIRY] Options passed to the compiler (GFDL)</p>
+<p><strong>compiler_options</strong>(3) - [COMPILER INQUIRY] Options passed to the compiler</p>
 <h2 id="syntax-54"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb144"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb144-1" title="1">str <span class="kw">=</span> compiler_options()</a></code></pre></div>
 <h2 id="description-54"><strong>Description</strong></h2>
@@ -2876,7 +2873,7 @@ the value of btest (2, a)
 <div id="compiler_version" class="slide section level1">
 <h1>COMPILER_VERSION</h1>
 <h2 id="name-55"><strong>Name</strong></h2>
-<p><strong>compiler_version</strong>(3) - [COMPILER INQUIRY] Compiler version string (GFDL)</p>
+<p><strong>compiler_version</strong>(3) - [COMPILER INQUIRY] Compiler version string</p>
 <h2 id="syntax-55"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb147"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb147-1" title="1">str <span class="kw">=</span> compiler_version()</a></code></pre></div>
 <h2 id="description-55"><strong>Description</strong></h2>
@@ -2992,7 +2989,7 @@ the value of btest (2, a)
 <div id="co_reduce" class="slide section level1">
 <h1>CO_REDUCE</h1>
 <h2 id="name-57"><strong>Name</strong></h2>
-<p><strong>co_reduce</strong>(3) - [COLLECTIVE] Reduction of values on the current set of images (GFDL)</p>
+<p><strong>co_reduce</strong>(3) - [COLLECTIVE] Reduction of values on the current set of images</p>
 <h2 id="syntax-57"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb153"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb153-1" title="1"><span class="kw">call</span> co_reduce(a, operation, result_image, stat, errmsg)</a></code></pre></div>
 <h2 id="description-57"><strong>Description</strong></h2>
@@ -3056,7 +3053,7 @@ the value of btest (2, a)
 <div id="cosh" class="slide section level1">
 <h1>COSH</h1>
 <h2 id="name-58"><strong>Name</strong></h2>
-<p><strong>cosh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic cosine function (GFDL)</p>
+<p><strong>cosh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic cosine function</p>
 <h2 id="syntax-58"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb155"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb155-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> <span class="bu">cosh</span>(x)</a>
 <a class="sourceLine" id="cb155-2" title="2"></a>
@@ -3151,7 +3148,7 @@ the value of btest (2, a)
 <div id="co_sum" class="slide section level1">
 <h1>CO_SUM</h1>
 <h2 id="name-60"><strong>Name</strong></h2>
-<p><strong>co_sum</strong>(3) - [COLLECTIVE] Sum of values on the current set of images (GFDL)</p>
+<p><strong>co_sum</strong>(3) - [COLLECTIVE] Sum of values on the current set of images</p>
 <h2 id="syntax-60"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb160"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb160-1" title="1"><span class="kw">call</span> co_sum(a, result_image, stat, errmsg)</a></code></pre></div>
 <h2 id="description-60"><strong>Description</strong></h2>
@@ -3202,7 +3199,7 @@ the value of btest (2, a)
 <div id="co_ubound" class="slide section level1">
 <h1>CO_UBOUND</h1>
 <h2 id="name-61"><strong>Name</strong></h2>
-<p><strong>co_ubound</strong>(3) - [COLLECTIVE] Upper codimension bounds of an array (GFDL)</p>
+<p><strong>co_ubound</strong>(3) - [COLLECTIVE] Upper codimension bounds of an array</p>
 <h2 id="syntax-61"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb163"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb163-1" title="1"><span class="kw">result</span> <span class="kw">=</span> co_ubound(coarray, <span class="bu">dim</span>, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-61"><strong>Description</strong></h2>
@@ -3236,7 +3233,7 @@ the value of btest (2, a)
 <div id="count" class="slide section level1">
 <h1>COUNT</h1>
 <h2 id="name-62"><strong>Name</strong></h2>
-<p><strong>count</strong>(3) - [ARRAY REDUCTION] Count function (GFDL)</p>
+<p><strong>count</strong>(3) - [ARRAY REDUCTION] Count function</p>
 <h2 id="syntax-62"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb164"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb164-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">count</span>(mask, <span class="bu">dim</span>, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-62"><strong>Description</strong></h2>
@@ -3352,7 +3349,7 @@ the value of btest (2, a)
 <div id="cshift" class="slide section level1">
 <h1>CSHIFT</h1>
 <h2 id="name-64"><strong>Name</strong></h2>
-<p><strong>cshift</strong>(3) - [TRANSFORMATIONAL] Circular shift elements of an array (GFDL)</p>
+<p><strong>cshift</strong>(3) - [TRANSFORMATIONAL] Circular shift elements of an array</p>
 <h2 id="syntax-64"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb170"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb170-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">cshift</span>(array, shift, <span class="bu">dim</span>)</a></code></pre></div>
 <h2 id="description-64"><strong>Description</strong></h2>
@@ -3407,7 +3404,7 @@ the value of btest (2, a)
 <div id="c_sizeof" class="slide section level1">
 <h1>C_SIZEOF</h1>
 <h2 id="name-65"><strong>Name</strong></h2>
-<p><strong>c_sizeof</strong>(3) - [ISO_C_BINDING] Size in bytes of an expression (GFDL)</p>
+<p><strong>c_sizeof</strong>(3) - [ISO_C_BINDING] Size in bytes of an expression</p>
 <h2 id="syntax-65"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb173"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb173-1" title="1">n <span class="kw">=</span> c_sizeof(x)</a></code></pre></div>
 <h2 id="description-65"><strong>Description</strong></h2>
@@ -3566,7 +3563,7 @@ the value of btest (2, a)
 <div id="dble" class="slide section level1">
 <h1>DBLE</h1>
 <h2 id="name-67"><strong>Name</strong></h2>
-<p><strong>dble</strong>(3) - [TYPE:NUMERIC] Double conversion function (GFDL)</p>
+<p><strong>dble</strong>(3) - [TYPE:NUMERIC] Double conversion function</p>
 <h2 id="syntax-67"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb179"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb179-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">dble</span>(a)</a></code></pre></div>
 <h2 id="description-67"><strong>Description</strong></h2>
@@ -3601,7 +3598,7 @@ the value of btest (2, a)
 <div id="digits" class="slide section level1">
 <h1>DIGITS</h1>
 <h2 id="name-68"><strong>Name</strong></h2>
-<p><strong>digits</strong>(3) - [NUMERIC MODEL] Significant digits function (GFDL)</p>
+<p><strong>digits</strong>(3) - [NUMERIC MODEL] Significant digits function</p>
 <h2 id="syntax-68"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb182"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb182-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">digits</span>(x)</a></code></pre></div>
 <h2 id="description-68"><strong>Description</strong></h2>
@@ -3640,7 +3637,7 @@ the value of btest (2, a)
 <div id="dim" class="slide section level1">
 <h1>DIM</h1>
 <h2 id="name-69"><strong>Name</strong></h2>
-<p><strong>dim</strong>(3) - [NUMERIC] Positive difference (GFDL)</p>
+<p><strong>dim</strong>(3) - [NUMERIC] Positive difference</p>
 <h2 id="syntax-69"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb185"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb185-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">dim</span>(x, y)</a></code></pre></div>
 <h2 id="description-69"><strong>Description</strong></h2>
@@ -3683,7 +3680,7 @@ the value of btest (2, a)
 <div id="dot_product" class="slide section level1">
 <h1>DOT_PRODUCT</h1>
 <h2 id="name-70"><strong>Name</strong></h2>
-<p><strong>dot_product</strong>(3) - [TRANSFORMATIONAL] Dot product function (GFDL)</p>
+<p><strong>dot_product</strong>(3) - [TRANSFORMATIONAL] Dot product function</p>
 <h2 id="syntax-70"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb188"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb188-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">dot_product</span>(vector_a, vector_b)</a></code></pre></div>
 <h2 id="description-70"><strong>Description</strong></h2>
@@ -3729,7 +3726,7 @@ the value of btest (2, a)
 <div id="dprod" class="slide section level1">
 <h1>DPROD</h1>
 <h2 id="name-71"><strong>Name</strong></h2>
-<p><strong>dprod</strong>(3) - [NUMERIC] Double product function (GFDL)</p>
+<p><strong>dprod</strong>(3) - [NUMERIC] Double product function</p>
 <h2 id="syntax-71"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb191"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb191-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">dprod</span>(x, y)</a></code></pre></div>
 <h2 id="description-71"><strong>Description</strong></h2>
@@ -3803,7 +3800,7 @@ the value of btest (2, a)
 <div id="dshiftl" class="slide section level1">
 <h1>DSHIFTL</h1>
 <h2 id="name-72"><strong>Name</strong></h2>
-<p><strong>dshiftl</strong>(3) - [BIT:COPY] combines bits of arguments <strong>i</strong> and <strong>j</strong> (GFDL)</p>
+<p><strong>dshiftl</strong>(3) - [BIT:COPY] combines bits of arguments <strong>i</strong> and <strong>j</strong></p>
 <h2 id="syntax-72"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb194"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb194-1" title="1"><span class="kw">result</span> <span class="kw">=</span> dshiftl(i, j, shift)</a></code></pre></div>
 <h2 id="description-72"><strong>Description</strong></h2>
@@ -3837,7 +3834,7 @@ the value of btest (2, a)
 <div id="dshiftr" class="slide section level1">
 <h1>DSHIFTR</h1>
 <h2 id="name-73"><strong>Name</strong></h2>
-<p><strong>dshiftr</strong>(3) - [BIT:COPY] combines bits of arguments <strong>i</strong> and <strong>j</strong> (GFDL)</p>
+<p><strong>dshiftr</strong>(3) - [BIT:COPY] combines bits of arguments <strong>i</strong> and <strong>j</strong></p>
 <h2 id="syntax-73"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb195"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb195-1" title="1"><span class="kw">result</span> <span class="kw">=</span> dshiftr(i, j, shift)</a></code></pre></div>
 <h2 id="description-73"><strong>Description</strong></h2>
@@ -3871,7 +3868,7 @@ the value of btest (2, a)
 <div id="eoshift" class="slide section level1">
 <h1>EOSHIFT</h1>
 <h2 id="name-74"><strong>Name</strong></h2>
-<p><strong>eoshift</strong>(3) - [TRANSFORMATIONAL] End-off shift elements of an array (GFDL)</p>
+<p><strong>eoshift</strong>(3) - [TRANSFORMATIONAL] End-off shift elements of an array</p>
 <h2 id="syntax-74"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb196"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb196-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">eoshift</span>(array, shift, boundary, <span class="bu">dim</span>)</a></code></pre></div>
 <h2 id="description-74"><strong>Description</strong></h2>
@@ -4026,7 +4023,7 @@ the value of btest (2, a)
 <div id="erfc" class="slide section level1">
 <h1>ERFC</h1>
 <h2 id="name-76"><strong>Name</strong></h2>
-<p><strong>erfc</strong>(3) - [MATHEMATICS] Complementary error function (GFDL)</p>
+<p><strong>erfc</strong>(3) - [MATHEMATICS] Complementary error function</p>
 <h2 id="syntax-76"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb203"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb203-1" title="1"><span class="kw">result</span> <span class="kw">=</span> erfc(x)</a>
 <a class="sourceLine" id="cb203-2" title="2"></a>
@@ -4080,13 +4077,15 @@ $$</span><br /></p>
 <div id="erfc_scaled" class="slide section level1">
 <h1>ERFC_SCALED</h1>
 <h2 id="name-77"><strong>Name</strong></h2>
-<p><strong>erfc_scaled</strong>(3) - [MATHEMATICS] Error function (GFDL)</p>
+<p><strong>erfc_scaled</strong>(3) - [MATHEMATICS] Error function</p>
 <h2 id="syntax-77"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb206"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb206-1" title="1"><span class="kw">result</span> <span class="kw">=</span> erfc_scaled(x)</a></code></pre></div>
 <h2 id="description-77"><strong>Description</strong></h2>
 <p><strong>erfc_scaled</strong>(x) computes the exponentially-scaled complementary error function of <strong>x</strong>:</p>
-<p><br /><span class="math display">$$ e\*\*{x\*\*2} \\frac{2}{\\sqrt{\\pi}} \\int\_{x}\*\*{\\infty}
-e\*\*{__-t__\*\*2} dt. $$</span><br /></p>
+<p><br /><span class="math display">$$
+e^{x^2} \frac{2}{\sqrt{\pi}} \int_{x}^{\infty}
+e^{-t^2} dt.
+$$</span><br /></p>
 <h2 id="arguments-76"><strong>Arguments</strong></h2>
 <ul>
 <li><dl>
@@ -4114,12 +4113,13 @@ e\*\*{__-t__\*\*2} dt. $$</span><br /></p>
 <div id="erf" class="slide section level1">
 <h1>ERF</h1>
 <h2 id="name-78"><strong>Name</strong></h2>
-<p><strong>erf</strong>(3) - [MATHEMATICS] Error function (GFDL)</p>
+<p><strong>erf</strong>(3) - [MATHEMATICS] Error function</p>
 <h2 id="syntax-78"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb209"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb209-1" title="1"><span class="kw">result</span> <span class="kw">=</span> erf(x)</a></code></pre></div>
 <h2 id="description-78"><strong>Description</strong></h2>
 <p><strong>erf</strong>(x) computes the error function of <strong>x</strong>, defined as <br /><span class="math display">$$
-\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt. $$</span><br /></p>
+\text{erf}(x) = \frac{2}{\sqrt{\pi}} \int_0^x e^{__-t__^2} dt.
+$$</span><br /></p>
 <h2 id="arguments-77"><strong>Arguments</strong></h2>
 <ul>
 <li><dl>
@@ -4153,7 +4153,7 @@ e\*\*{__-t__\*\*2} dt. $$</span><br /></p>
 <div id="event_query" class="slide section level1">
 <h1>EVENT_QUERY</h1>
 <h2 id="name-79"><strong>Name</strong></h2>
-<p><strong>event_query</strong>(3) - [COLLECTIVE] Query whether a coarray event has occurred (GFDL)</p>
+<p><strong>event_query</strong>(3) - [COLLECTIVE] Query whether a coarray event has occurred</p>
 <h2 id="syntax-79"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb212"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb212-1" title="1"><span class="kw">call</span> event_query(event, <span class="fu">count</span>, stat)</a></code></pre></div>
 <h2 id="description-79"><strong>Description</strong></h2>
@@ -4197,7 +4197,7 @@ e\*\*{__-t__\*\*2} dt. $$</span><br /></p>
 <div id="execute_command_line" class="slide section level1">
 <h1>EXECUTE_COMMAND_LINE</h1>
 <h2 id="name-80"><strong>Name</strong></h2>
-<p><strong>execute_command_line</strong>(3) - [SYSTEM:PROCESSES] Execute a shell command (GFDL)</p>
+<p><strong>execute_command_line</strong>(3) - [SYSTEM:PROCESSES] Execute a shell command</p>
 <h2 id="syntax-80"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb214"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb214-1" title="1">   <span class="kw">subroutine</span> execute_command_line(command, wait, exitstat, cmdstat, cmdmsg)</a>
 <a class="sourceLine" id="cb214-2" title="2"></a>
@@ -4331,7 +4331,7 @@ e\*\*{__-t__\*\*2} dt. $$</span><br /></p>
 <div id="exponent" class="slide section level1">
 <h1>EXPONENT</h1>
 <h2 id="name-82"><strong>Name</strong></h2>
-<p><strong>exponent</strong>(3) - [MODEL_COMPONENTS] Exponent function (GFDL)</p>
+<p><strong>exponent</strong>(3) - [MODEL_COMPONENTS] Exponent function</p>
 <h2 id="syntax-82"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb219"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb219-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">exponent</span>(x)</a></code></pre></div>
 <h2 id="description-82"><strong>Description</strong></h2>
@@ -4368,7 +4368,7 @@ e\*\*{__-t__\*\*2} dt. $$</span><br /></p>
 <div id="extends_type_of" class="slide section level1">
 <h1>EXTENDS_TYPE_OF</h1>
 <h2 id="name-83"><strong>Name</strong></h2>
-<p><strong>extends_type_of</strong>(3) - [STATE] determine if the dynamic type of <strong>a</strong> is an extension of the dynamic type of <strong>mold</strong>. (GFDL)</p>
+<p><strong>extends_type_of</strong>(3) - [STATE] determine if the dynamic type of <strong>a</strong> is an extension of the dynamic type of <strong>mold</strong>.</p>
 <h2 id="syntax-83"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb222"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb222-1" title="1"><span class="kw">result=</span>extends_type_of(a, mold)</a></code></pre></div>
 <h2 id="description-83"><strong>Description</strong></h2>
@@ -4406,7 +4406,7 @@ The dynamic type of a disassociated pointer or unallocated allocatable variable 
 <div id="findloc" class="slide section level1">
 <h1>FINDLOC</h1>
 <h2 id="name-84"><strong>Name</strong></h2>
-<p><strong>findloc</strong>(3) - [ARRAY:LOCATION] Location of first element of ARRAY identified by MASK along dimension DIM having a value (GFDL)</p>
+<p><strong>findloc</strong>(3) - [ARRAY:LOCATION] Location of first element of ARRAY identified by MASK along dimension DIM having a value</p>
 <h2 id="syntax-84"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb223"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb223-1" title="1">findloc (array, value, <span class="bu">dim</span>, mask, <span class="fu">kind</span>, back)</a>
 <a class="sourceLine" id="cb223-2" title="2"></a>
@@ -4512,7 +4512,7 @@ The dynamic type of a disassociated pointer or unallocated allocatable variable 
 <div id="floor" class="slide section level1">
 <h1>FLOOR</h1>
 <h2 id="name-85"><strong>Name</strong></h2>
-<p><strong>floor</strong>(3) - [NUMERIC] Integer floor function (GFDL)</p>
+<p><strong>floor</strong>(3) - [NUMERIC] Integer floor function</p>
 <h2 id="syntax-85"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb238"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb238-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">floor</span>(a, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-85"><strong>Description</strong></h2>
@@ -4563,7 +4563,7 @@ The dynamic type of a disassociated pointer or unallocated allocatable variable 
 <div id="fraction" class="slide section level1">
 <h1>FRACTION</h1>
 <h2 id="name-86"><strong>Name</strong></h2>
-<p><strong>fraction</strong>(3) - [MODEL_COMPONENTS] Fractional part of the model representation (GFDL)</p>
+<p><strong>fraction</strong>(3) - [MODEL_COMPONENTS] Fractional part of the model representation</p>
 <h2 id="syntax-86"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb241"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb241-1" title="1">y <span class="kw">=</span> <span class="bu">fraction</span>(x)</a></code></pre></div>
 <h2 id="description-86"><strong>Description</strong></h2>
@@ -5136,7 +5136,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="iachar" class="slide section level1">
 <h1>IACHAR</h1>
 <h2 id="name-93"><strong>Name</strong></h2>
-<p><strong>iachar</strong>(3) - [CHARACTER:CONVERSION] Code in ASCII collating sequence (GFDL)</p>
+<p><strong>iachar</strong>(3) - [CHARACTER:CONVERSION] Code in ASCII collating sequence</p>
 <h2 id="syntax-93"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb263"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb263-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">iachar</span>(c, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-93"><strong>Description</strong></h2>
@@ -5199,7 +5199,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="iall" class="slide section level1">
 <h1>IALL</h1>
 <h2 id="name-94"><strong>Name</strong></h2>
-<p><strong>iall</strong>(3) - [BIT:LOGICAL] Bitwise and of array elements (GFDL)</p>
+<p><strong>iall</strong>(3) - [BIT:LOGICAL] Bitwise and of array elements</p>
 <h2 id="syntax-94"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb266"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb266-1" title="1">  <span class="kw">result</span> <span class="kw">=</span> iall(array, mask)</a>
 <a class="sourceLine" id="cb266-2" title="2"></a>
@@ -5254,7 +5254,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="iand" class="slide section level1">
 <h1>IAND</h1>
 <h2 id="name-95"><strong>Name</strong></h2>
-<p><strong>iand</strong>(3) - [BIT:LOGICAL] Bitwise logical and (GFDL)</p>
+<p><strong>iand</strong>(3) - [BIT:LOGICAL] Bitwise logical and</p>
 <h2 id="syntax-95"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb269"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb269-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">iand</span>(i, j)</a></code></pre></div>
 <h2 id="description-95"><strong>Description</strong></h2>
@@ -5293,7 +5293,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="iany" class="slide section level1">
 <h1>IANY</h1>
 <h2 id="name-96"><strong>Name</strong></h2>
-<p><strong>iany</strong>(3) - [BIT:LOGICAL] Bitwise or of array elements (GFDL)</p>
+<p><strong>iany</strong>(3) - [BIT:LOGICAL] Bitwise or of array elements</p>
 <h2 id="syntax-96"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb272"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb272-1" title="1">  <span class="kw">result</span> <span class="kw">=</span> iany(array, mask)</a>
 <a class="sourceLine" id="cb272-2" title="2"></a>
@@ -5345,7 +5345,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="ibclr" class="slide section level1">
 <h1>IBCLR</h1>
 <h2 id="name-97"><strong>Name</strong></h2>
-<p><strong>ibclr</strong>(3) - [BIT:SET] Clear bit (GFDL)</p>
+<p><strong>ibclr</strong>(3) - [BIT:SET] Clear bit</p>
 <h2 id="syntax-97"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb275"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb275-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ibclr</span>(i, pos)</a></code></pre></div>
 <h2 id="description-97"><strong>Description</strong></h2>
@@ -5374,7 +5374,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="ibits" class="slide section level1">
 <h1>IBITS</h1>
 <h2 id="name-98"><strong>Name</strong></h2>
-<p><strong>ibits</strong>(3) - [BIT:COPY] Bit extraction (GFDL)</p>
+<p><strong>ibits</strong>(3) - [BIT:COPY] Bit extraction</p>
 <h2 id="syntax-98"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb276"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb276-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ibits</span>(i, pos, <span class="fu">len</span>)</a></code></pre></div>
 <h2 id="description-98"><strong>Description</strong></h2>
@@ -5408,7 +5408,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="ibset" class="slide section level1">
 <h1>IBSET</h1>
 <h2 id="name-99"><strong>Name</strong></h2>
-<p><strong>ibset</strong>(3) - [BIT:SET] Set bit (GFDL)</p>
+<p><strong>ibset</strong>(3) - [BIT:SET] Set bit</p>
 <h2 id="syntax-99"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb277"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb277-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ibset</span>(i, pos)</a></code></pre></div>
 <h2 id="description-99"><strong>Description</strong></h2>
@@ -5437,7 +5437,7 @@ Shall be a scalar of type <em>character</em> and of default kind.</li>
 <div id="ichar" class="slide section level1">
 <h1>ICHAR</h1>
 <h2 id="name-100"><strong>Name</strong></h2>
-<p><strong>ichar</strong>(3) - [CHARACTER:CONVERSION] Character-to-integer conversion function (GFDL)</p>
+<p><strong>ichar</strong>(3) - [CHARACTER:CONVERSION] Character-to-integer conversion function</p>
 <h2 id="syntax-100"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb278"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb278-1" title="1">   <span class="kw">elemental</span> <span class="kw">function</span> <span class="bu">ichar</span>(c,<span class="fu">kind</span>)</a>
 <a class="sourceLine" id="cb278-2" title="2"></a>
@@ -5523,7 +5523,7 @@ end program read_val</code></pre>
 <div id="ieor" class="slide section level1">
 <h1>IEOR</h1>
 <h2 id="name-101"><strong>Name</strong></h2>
-<p><strong>ieor</strong>(3) - [BIT:LOGICAL] Bitwise logical exclusive or (GFDL)</p>
+<p><strong>ieor</strong>(3) - [BIT:LOGICAL] Bitwise logical exclusive or</p>
 <h2 id="syntax-101"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb282"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb282-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ieor</span>(i, j)</a></code></pre></div>
 <h2 id="description-101"><strong>Description</strong></h2>
@@ -5552,7 +5552,7 @@ end program read_val</code></pre>
 <div id="image_index" class="slide section level1">
 <h1>IMAGE_INDEX</h1>
 <h2 id="name-102"><strong>Name</strong></h2>
-<p><strong>image_index</strong>(3) - [COLLECTIVE] Cosubscript to image index conversion (GFDL)</p>
+<p><strong>image_index</strong>(3) - [COLLECTIVE] Cosubscript to image index conversion</p>
 <h2 id="syntax-102"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb283"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb283-1" title="1"><span class="kw">result</span> <span class="kw">=</span> image_index(coarray, sub)</a></code></pre></div>
 <h2 id="description-102"><strong>Description</strong></h2>
@@ -5589,7 +5589,7 @@ end program read_val</code></pre>
 <div id="index" class="slide section level1">
 <h1>INDEX</h1>
 <h2 id="name-103"><strong>Name</strong></h2>
-<p><strong>index</strong>(3) - [CHARACTER:SEARCH] Position of a substring within a string (GFDL)</p>
+<p><strong>index</strong>(3) - [CHARACTER:SEARCH] Position of a substring within a string</p>
 <h2 id="syntax-103"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb285"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb285-1" title="1">   <span class="bu">index</span>(string, substring, back, <span class="fu">kind</span>) <span class="kw">result</span>(start)</a>
 <a class="sourceLine" id="cb285-2" title="2"></a>
@@ -5758,7 +5758,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="ior" class="slide section level1">
 <h1>IOR</h1>
 <h2 id="name-105"><strong>Name</strong></h2>
-<p><strong>ior</strong>(3) - [BIT:LOGICAL] Bitwise logical inclusive or (GFDL)</p>
+<p><strong>ior</strong>(3) - [BIT:LOGICAL] Bitwise logical inclusive or</p>
 <h2 id="syntax-105"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb291"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb291-1" title="1">   <span class="kw">result</span> <span class="kw">=</span> <span class="bu">ior</span>(i, j)</a>
 <a class="sourceLine" id="cb291-2" title="2">    <span class="dt">integer</span>,<span class="dt">intent(in)</span> <span class="dt">::</span> i</a>
@@ -5803,7 +5803,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="iparity" class="slide section level1">
 <h1>IPARITY</h1>
 <h2 id="name-106"><strong>Name</strong></h2>
-<p><strong>iparity</strong>(3) - [BIT:LOGICAL] Bitwise exclusive or of array elements (GFDL)</p>
+<p><strong>iparity</strong>(3) - [BIT:LOGICAL] Bitwise exclusive or of array elements</p>
 <h2 id="syntax-106"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb294"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb294-1" title="1">  <span class="kw">result</span> <span class="kw">=</span> iparity(array, mask)</a>
 <a class="sourceLine" id="cb294-2" title="2"></a>
@@ -5853,7 +5853,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="is_contiguous" class="slide section level1">
 <h1>IS_CONTIGUOUS</h1>
 <h2 id="name-107"><strong>Name</strong></h2>
-<p><strong>is_contiguous</strong>(3) - [ARRAY INQUIRY] test if object is contiguous (GFDL)</p>
+<p><strong>is_contiguous</strong>(3) - [ARRAY INQUIRY] test if object is contiguous</p>
 <h2 id="syntax-107"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb297"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb297-1" title="1"><span class="kw">result</span> <span class="kw">=</span> is_contiguous(a)</a></code></pre></div>
 <h2 id="description-107"><strong>Description</strong></h2>
@@ -5924,7 +5924,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="ishftc" class="slide section level1">
 <h1>ISHFTC</h1>
 <h2 id="name-108"><strong>Name</strong></h2>
-<p><strong>ishftc</strong>(3) - [BIT:SHIFT] Shift bits circularly (GFDL)</p>
+<p><strong>ishftc</strong>(3) - [BIT:SHIFT] Shift bits circularly</p>
 <h2 id="syntax-108"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb300"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb300-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ishftc</span>(i, shift, <span class="fu">size</span>)</a></code></pre></div>
 <h2 id="description-108"><strong>Description</strong></h2>
@@ -5958,7 +5958,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="ishft" class="slide section level1">
 <h1>ISHFT</h1>
 <h2 id="name-109"><strong>Name</strong></h2>
-<p><strong>ishft</strong>(3) - [BIT:SHIFT] Shift bits (GFDL)</p>
+<p><strong>ishft</strong>(3) - [BIT:SHIFT] Shift bits</p>
 <h2 id="syntax-109"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb301"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb301-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">ishft</span>(i, shift)</a></code></pre></div>
 <h2 id="description-109"><strong>Description</strong></h2>
@@ -5987,7 +5987,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="is_iostat_end" class="slide section level1">
 <h1>IS_IOSTAT_END</h1>
 <h2 id="name-110"><strong>Name</strong></h2>
-<p><strong>is_iostat_end</strong>(3) - [STATE] Test for end-of-file value (GFDL)</p>
+<p><strong>is_iostat_end</strong>(3) - [STATE] Test for end-of-file value</p>
 <h2 id="syntax-110"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb302"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb302-1" title="1"><span class="kw">function</span> is_iostat_<span class="kw">end</span>(i)</a>
 <a class="sourceLine" id="cb302-2" title="2"></a>
@@ -6033,7 +6033,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="is_iostat_eor" class="slide section level1">
 <h1>IS_IOSTAT_EOR</h1>
 <h2 id="name-111"><strong>Name</strong></h2>
-<p><strong>is_iostat_eor</strong>(3) - [STATE] Test for end-of-record value (GFDL)</p>
+<p><strong>is_iostat_eor</strong>(3) - [STATE] Test for end-of-record value</p>
 <h2 id="syntax-111"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb304"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb304-1" title="1"><span class="kw">result</span> <span class="kw">=</span> is_iostat_eor(i)</a></code></pre></div>
 <h2 id="description-111"><strong>Description</strong></h2>
@@ -6067,7 +6067,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="kind" class="slide section level1">
 <h1>KIND</h1>
 <h2 id="name-112"><strong>Name</strong></h2>
-<p><strong>kind</strong>(3) - [KIND INQUIRY] Kind of an entity (GFDL)</p>
+<p><strong>kind</strong>(3) - [KIND INQUIRY] Kind of an entity</p>
 <h2 id="syntax-112"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb306"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb306-1" title="1">k <span class="kw">=</span> <span class="fu">kind</span>(x)</a></code></pre></div>
 <h2 id="description-112"><strong>Description</strong></h2>
@@ -6196,7 +6196,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="leadz" class="slide section level1">
 <h1>LEADZ</h1>
 <h2 id="name-114"><strong>Name</strong></h2>
-<p><strong>leadz</strong>(3) - [BIT:COUNT] Number of leading zero bits of an integer (GFDL)</p>
+<p><strong>leadz</strong>(3) - [BIT:COUNT] Number of leading zero bits of an integer</p>
 <h2 id="syntax-114"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb312"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb312-1" title="1"><span class="kw">result</span> <span class="kw">=</span> leadz(i)</a></code></pre></div>
 <h2 id="description-114"><strong>Description</strong></h2>
@@ -6467,7 +6467,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="lge" class="slide section level1">
 <h1>LGE</h1>
 <h2 id="name-117"><strong>Name</strong></h2>
-<p><strong>lge</strong>(3) - [CHARACTER:COMPARE] Lexical greater than or equal (GFDL)</p>
+<p><strong>lge</strong>(3) - [CHARACTER:COMPARE] Lexical greater than or equal</p>
 <h2 id="syntax-117"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb321"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb321-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">lge</span>(string_a, string_b)</a></code></pre></div>
 <h2 id="description-117"><strong>Description</strong></h2>
@@ -6505,7 +6505,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="lgt" class="slide section level1">
 <h1>LGT</h1>
 <h2 id="name-118"><strong>Name</strong></h2>
-<p><strong>lgt</strong>(3) - [CHARACTER:COMPARE] Lexical greater than (GFDL)</p>
+<p><strong>lgt</strong>(3) - [CHARACTER:COMPARE] Lexical greater than</p>
 <h2 id="syntax-118"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb322"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb322-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">lgt</span>(string_a, string_b)</a></code></pre></div>
 <h2 id="description-118"><strong>Description</strong></h2>
@@ -6543,7 +6543,7 @@ If not present the returned type is that of default integer type.</li>
 <div id="lle" class="slide section level1">
 <h1>LLE</h1>
 <h2 id="name-119"><strong>Name</strong></h2>
-<p><strong>lle</strong>(3) - [CHARACTER:COMPARE] Lexical less than or equal (GFDL)</p>
+<p><strong>lle</strong>(3) - [CHARACTER:COMPARE] Lexical less than or equal</p>
 <h2 id="syntax-119"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb323"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb323-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">lle</span>(str_a, str_b)</a>
 <a class="sourceLine" id="cb323-2" title="2"></a>
@@ -6617,7 +6617,7 @@ if <strong>str_a</strong> and <strong>str_b</strong> are both arrays they must b
 <div id="llt" class="slide section level1">
 <h1>LLT</h1>
 <h2 id="name-120"><strong>Name</strong></h2>
-<p><strong>llt</strong>(3) - [CHARACTER:COMPARE] Lexical less than (GFDL)</p>
+<p><strong>llt</strong>(3) - [CHARACTER:COMPARE] Lexical less than</p>
 <h2 id="syntax-120"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb326"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb326-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">llt</span>(string_a, string_b)</a></code></pre></div>
 <h2 id="description-120"><strong>Description</strong></h2>
@@ -6697,7 +6697,7 @@ if <strong>str_a</strong> and <strong>str_b</strong> are both arrays they must b
 <div id="log_gamma" class="slide section level1">
 <h1>LOG_GAMMA</h1>
 <h2 id="name-122"><strong>Name</strong></h2>
-<p><strong>log_gamma</strong>(3) - [MATHEMATICS] Logarithm of the Gamma function (GFDL)</p>
+<p><strong>log_gamma</strong>(3) - [MATHEMATICS] Logarithm of the Gamma function</p>
 <h2 id="syntax-122"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb330"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb330-1" title="1">x <span class="kw">=</span> log_gamma(x)</a></code></pre></div>
 <h2 id="description-122"><strong>Description</strong></h2>
@@ -6730,7 +6730,7 @@ if <strong>str_a</strong> and <strong>str_b</strong> are both arrays they must b
 <div id="logical" class="slide section level1">
 <h1>LOGICAL</h1>
 <h2 id="name-123"><strong>Name</strong></h2>
-<p><strong>logical</strong>(3) - [TYPE:LOGICAL] Converts one kind of <em>logical</em> variable to another (GFDL)</p>
+<p><strong>logical</strong>(3) - [TYPE:LOGICAL] Converts one kind of <em>logical</em> variable to another</p>
 <h2 id="syntax-123"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb333"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb333-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="dt">logical(l, kind)</span></a>
 <a class="sourceLine" id="cb333-2" title="2"></a>
@@ -6782,7 +6782,7 @@ if <strong>str_a</strong> and <strong>str_b</strong> are both arrays they must b
 <div id="log" class="slide section level1">
 <h1>LOG</h1>
 <h2 id="name-124"><strong>Name</strong></h2>
-<p><strong>log</strong>(3) - [MATHEMATICS] Logarithm function (GFDL)</p>
+<p><strong>log</strong>(3) - [MATHEMATICS] Logarithm function</p>
 <h2 id="syntax-124"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb336"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb336-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">log</span>(x)</a></code></pre></div>
 <h2 id="description-124"><strong>Description</strong></h2>
@@ -6983,7 +6983,7 @@ end program demo_maskr</code></pre>
 <div id="matmul" class="slide section level1">
 <h1>MATMUL</h1>
 <h2 id="name-127"><strong>Name</strong></h2>
-<p><strong>matmul</strong>(3) - [TRANSFORMATIONAL] matrix multiplication (GFDL)</p>
+<p><strong>matmul</strong>(3) - [TRANSFORMATIONAL] matrix multiplication</p>
 <h2 id="syntax-127"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb345"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb345-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">matmul</span>(matrix_a, matrix_b)</a></code></pre></div>
 <h2 id="description-127"><strong>Description</strong></h2>
@@ -7010,7 +7010,7 @@ end program demo_maskr</code></pre>
 <div id="maxexponent" class="slide section level1">
 <h1>MAXEXPONENT</h1>
 <h2 id="name-128"><strong>Name</strong></h2>
-<p><strong>maxexponent</strong>(3) - [NUMERIC MODEL] Maximum exponent of a real kind (GFDL)</p>
+<p><strong>maxexponent</strong>(3) - [NUMERIC MODEL] Maximum exponent of a real kind</p>
 <h2 id="syntax-128"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb346"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb346-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">maxexponent</span>(x)</a></code></pre></div>
 <h2 id="description-128"><strong>Description</strong></h2>
@@ -7048,7 +7048,7 @@ end program demo_maskr</code></pre>
 <div id="maxloc" class="slide section level1">
 <h1>MAXLOC</h1>
 <h2 id="name-129"><strong>Name</strong></h2>
-<p><strong>maxloc</strong>(3) - [ARRAY:LOCATION] Location of the maximum value within an array (GFDL)</p>
+<p><strong>maxloc</strong>(3) - [ARRAY:LOCATION] Location of the maximum value within an array</p>
 <h2 id="syntax-129"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb349"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb349-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">maxloc</span>(array, <span class="bu">dim</span>, mask) <span class="kw">result</span> <span class="kw">=</span> <span class="fu">maxloc</span>(array, mask)</a></code></pre></div>
 <h2 id="description-129"><strong>Description</strong></h2>
@@ -7120,7 +7120,7 @@ end program demo_maskr</code></pre>
 <div id="max" class="slide section level1">
 <h1>MAX</h1>
 <h2 id="name-130"><strong>Name</strong></h2>
-<p><strong>max</strong>(3) - [NUMERIC] Maximum value of an argument list (GFDL)</p>
+<p><strong>max</strong>(3) - [NUMERIC] Maximum value of an argument list</p>
 <h2 id="syntax-130"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb352"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb352-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">max</span>(a1, a2, a3, ...)</a></code></pre></div>
 <h2 id="description-130"><strong>Description</strong></h2>
@@ -7214,7 +7214,7 @@ end program demo_maskr</code></pre>
 <div id="maxval" class="slide section level1">
 <h1>MAXVAL</h1>
 <h2 id="name-131"><strong>Name</strong></h2>
-<p><strong>maxval</strong>(3) - [ARRAY REDUCTION] determines the maximum value in an array or row (GFDL)</p>
+<p><strong>maxval</strong>(3) - [ARRAY REDUCTION] determines the maximum value in an array or row</p>
 <h2 id="syntax-131"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb355"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb355-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">maxval</span>(array, <span class="bu">dim</span>, mask)</a></code></pre></div>
 <p>or</p>
@@ -7271,7 +7271,7 @@ end program demo_maskr</code></pre>
 <div id="merge_bits" class="slide section level1">
 <h1>MERGE_BITS</h1>
 <h2 id="name-132"><strong>Name</strong></h2>
-<p><strong>merge_bits</strong>(3) - [BIT:COPY] Merge of bits under mask (GFDL)</p>
+<p><strong>merge_bits</strong>(3) - [BIT:COPY] Merge of bits under mask</p>
 <h2 id="syntax-132"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb359"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb359-1" title="1"><span class="kw">result</span> <span class="kw">=</span> mergebits(i, j, mask)</a></code></pre></div>
 <h2 id="description-132"><strong>Description</strong></h2>
@@ -7415,7 +7415,7 @@ end program demo_maskr</code></pre>
 <div id="minexponent" class="slide section level1">
 <h1>MINEXPONENT</h1>
 <h2 id="name-134"><strong>Name</strong></h2>
-<p><strong>minexponent</strong>(3) - [NUMERIC MODEL] Minimum exponent of a real kind (GFDL)</p>
+<p><strong>minexponent</strong>(3) - [NUMERIC MODEL] Minimum exponent of a real kind</p>
 <h2 id="syntax-134"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb367"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb367-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">minexponent</span>(x)</a></code></pre></div>
 <h2 id="description-134"><strong>Description</strong></h2>
@@ -7453,7 +7453,7 @@ end program demo_maskr</code></pre>
 <div id="minloc" class="slide section level1">
 <h1>MINLOC</h1>
 <h2 id="name-135"><strong>Name</strong></h2>
-<p><strong>minloc</strong>(3) - [ARRAY:LOCATION] Location of the minimum value within an array (GFDL)</p>
+<p><strong>minloc</strong>(3) - [ARRAY:LOCATION] Location of the minimum value within an array</p>
 <h2 id="syntax-135"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb370"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb370-1" title="1">    <span class="kw">result</span> <span class="kw">=</span> <span class="fu">minloc</span>(array, <span class="bu">dim</span>, mask)</a></code></pre></div>
 <p>or</p>
@@ -7512,7 +7512,7 @@ end program demo_maskr</code></pre>
 <div id="min" class="slide section level1">
 <h1>MIN</h1>
 <h2 id="name-136"><strong>Name</strong></h2>
-<p><strong>min</strong>(3) - [NUMERIC] Minimum value of an argument list (GFDL)</p>
+<p><strong>min</strong>(3) - [NUMERIC] Minimum value of an argument list</p>
 <h2 id="syntax-136"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb374"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb374-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">min</span>(a1, a2, a3, ... )</a></code></pre></div>
 <h2 id="description-136"><strong>Description</strong></h2>
@@ -7671,7 +7671,7 @@ end program demo_maskr</code></pre>
 <div id="mod" class="slide section level1">
 <h1>MOD</h1>
 <h2 id="name-138"><strong>Name</strong></h2>
-<p><strong>mod</strong>(3) - [NUMERIC] Remainder function (GFDL)</p>
+<p><strong>mod</strong>(3) - [NUMERIC] Remainder function</p>
 <h2 id="syntax-138"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb380"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb380-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">mod</span>(a, p)</a></code></pre></div>
 <h2 id="description-138"><strong>Description</strong></h2>
@@ -7732,7 +7732,7 @@ end program demo_maskr</code></pre>
 <div id="modulo" class="slide section level1">
 <h1>MODULO</h1>
 <h2 id="name-139"><strong>Name</strong></h2>
-<p><strong>modulo</strong>(3) - [NUMERIC] Modulo function (GFDL)</p>
+<p><strong>modulo</strong>(3) - [NUMERIC] Modulo function</p>
 <h2 id="syntax-139"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb383"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb383-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">modulo</span>(a, p)</a></code></pre></div>
 <h2 id="description-139"><strong>Description</strong></h2>
@@ -7786,7 +7786,7 @@ end program demo_maskr</code></pre>
 <div id="move_alloc" class="slide section level1">
 <h1>MOVE_ALLOC</h1>
 <h2 id="name-140"><strong>Name</strong></h2>
-<p><strong>move_alloc</strong>(3) - [] Move allocation from one object to another (GFDL)</p>
+<p><strong>move_alloc</strong>(3) - [] Move allocation from one object to another</p>
 <h2 id="syntax-140"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb386"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb386-1" title="1"><span class="kw">call</span> move_alloc(src, dest)</a></code></pre></div>
 <h2 id="description-140"><strong>Description</strong></h2>
@@ -7845,7 +7845,7 @@ end program demo_maskr</code></pre>
 <div id="mvbits" class="slide section level1">
 <h1>MVBITS</h1>
 <h2 id="name-141"><strong>Name</strong></h2>
-<p><strong>mvbits</strong>(3) - [BIT:COPY] Move bits from one integer to another (GFDL)</p>
+<p><strong>mvbits</strong>(3) - [BIT:COPY] Move bits from one integer to another</p>
 <h2 id="syntax-141"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb389"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb389-1" title="1"><span class="kw">call</span> <span class="bu">mvbits</span>(from, frompos, <span class="fu">len</span>, <span class="kw">to</span>, topos)</a></code></pre></div>
 <h2 id="description-141"><strong>Description</strong></h2>
@@ -7887,7 +7887,7 @@ end program demo_maskr</code></pre>
 <div id="nearest" class="slide section level1">
 <h1>NEAREST</h1>
 <h2 id="name-142"><strong>Name</strong></h2>
-<p><strong>nearest</strong>(3) - [MODEL_COMPONENTS] Nearest representable number (GFDL)</p>
+<p><strong>nearest</strong>(3) - [MODEL_COMPONENTS] Nearest representable number</p>
 <h2 id="syntax-142"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb390"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb390-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">nearest</span>(x, s)</a></code></pre></div>
 <h2 id="description-142"><strong>Description</strong></h2>
@@ -8085,7 +8085,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="norm2" class="slide section level1">
 <h1>NORM2</h1>
 <h2 id="name-145"><strong>Name</strong></h2>
-<p><strong>norm2</strong>(3) - [MATHEMATICS] Euclidean vector norm (GFDL)</p>
+<p><strong>norm2</strong>(3) - [MATHEMATICS] Euclidean vector norm</p>
 <h2 id="syntax-145"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb399"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb399-1" title="1"><span class="kw">result</span> <span class="kw">=</span> norm2(array, <span class="bu">dim</span>)</a>
 <a class="sourceLine" id="cb399-2" title="2"></a>
@@ -8193,7 +8193,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="null" class="slide section level1">
 <h1>NULL</h1>
 <h2 id="name-147"><strong>Name</strong></h2>
-<p><strong>null</strong>(3) - [TRANSFORMATIONAL] Function that returns a disassociated pointer (GFDL)</p>
+<p><strong>null</strong>(3) - [TRANSFORMATIONAL] Function that returns a disassociated pointer</p>
 <h2 id="syntax-147"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb405"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb405-1" title="1">ptr <span class="kw">=</span><span class="op">&gt;</span> null(mold)</a></code></pre></div>
 <h2 id="description-147"><strong>Description</strong></h2>
@@ -8291,7 +8291,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="num_images" class="slide section level1">
 <h1>NUM_IMAGES</h1>
 <h2 id="name-148"><strong>Name</strong></h2>
-<p><strong>num_images</strong>(3) - [COLLECTIVE] Number of images (GFDL)</p>
+<p><strong>num_images</strong>(3) - [COLLECTIVE] Number of images</p>
 <h2 id="syntax-148"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb408"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb408-1" title="1"><span class="kw">result</span> <span class="kw">=</span> num_images(distance, failed)</a></code></pre></div>
 <h2 id="description-148"><strong>Description</strong></h2>
@@ -8420,7 +8420,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="parity" class="slide section level1">
 <h1>PARITY</h1>
 <h2 id="name-150"><strong>Name</strong></h2>
-<p><strong>parity</strong>(3) - [TRANSFORMATIONAL] Reduction with exclusive <strong>OR</strong>() (GFDL)</p>
+<p><strong>parity</strong>(3) - [TRANSFORMATIONAL] Reduction with exclusive <strong>OR</strong>()</p>
 <h2 id="syntax-150"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb413"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb413-1" title="1"><span class="kw">result</span> <span class="kw">=</span> parity(mask, <span class="bu">dim</span>)</a></code></pre></div>
 <h2 id="description-150"><strong>Description</strong></h2>
@@ -8458,7 +8458,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="popcnt" class="slide section level1">
 <h1>POPCNT</h1>
 <h2 id="name-151"><strong>Name</strong></h2>
-<p><strong>popcnt</strong>(3) - [BIT:COUNT] Number of bits set (GFDL)</p>
+<p><strong>popcnt</strong>(3) - [BIT:COUNT] Number of bits set</p>
 <h2 id="syntax-151"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb416"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb416-1" title="1"><span class="kw">result</span> <span class="kw">=</span> popcnt(i)</a></code></pre></div>
 <h2 id="description-151"><strong>Description</strong></h2>
@@ -8502,7 +8502,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="poppar" class="slide section level1">
 <h1>POPPAR</h1>
 <h2 id="name-152"><strong>Name</strong></h2>
-<p><strong>poppar</strong>(3) - [BIT:COUNT] Parity of the number of bits set (GFDL)</p>
+<p><strong>poppar</strong>(3) - [BIT:COUNT] Parity of the number of bits set</p>
 <h2 id="syntax-152"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb419"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb419-1" title="1"><span class="kw">result</span> <span class="kw">=</span> poppar(i)</a></code></pre></div>
 <h2 id="description-152"><strong>Description</strong></h2>
@@ -8545,7 +8545,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="precision" class="slide section level1">
 <h1>PRECISION</h1>
 <h2 id="name-153"><strong>Name</strong></h2>
-<p><strong>precision</strong>(3) - [NUMERIC MODEL] Decimal precision of a real kind (GFDL)</p>
+<p><strong>precision</strong>(3) - [NUMERIC MODEL] Decimal precision of a real kind</p>
 <h2 id="syntax-153"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb422"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb422-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="dt">precision</span>(x)</a></code></pre></div>
 <h2 id="description-153"><strong>Description</strong></h2>
@@ -8583,7 +8583,7 @@ The result is undefined if it cannot be represented in the specified integer typ
 <div id="present" class="slide section level1">
 <h1>PRESENT</h1>
 <h2 id="name-154"><strong>Name</strong></h2>
-<p><strong>present</strong>(3) - [STATE] Determine whether an optional dummy argument is specified (GFDL)</p>
+<p><strong>present</strong>(3) - [STATE] Determine whether an optional dummy argument is specified</p>
 <h2 id="syntax-154"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb425"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb425-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">present</span>(a)</a></code></pre></div>
 <h2 id="description-154"><strong>Description</strong></h2>
@@ -8832,7 +8832,7 @@ dim=3 :( 2 3 )
 <div id="radix" class="slide section level1">
 <h1>RADIX</h1>
 <h2 id="name-156"><strong>Name</strong></h2>
-<p><strong>radix</strong>(3) - [NUMERIC MODEL] Base of a model number (GFDL)</p>
+<p><strong>radix</strong>(3) - [NUMERIC MODEL] Base of a model number</p>
 <h2 id="syntax-156"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb431"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb431-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">radix</span>(x)</a></code></pre></div>
 <h2 id="description-156"><strong>Description</strong></h2>
@@ -8868,7 +8868,7 @@ dim=3 :( 2 3 )
 <div id="random_number" class="slide section level1">
 <h1>RANDOM_NUMBER</h1>
 <h2 id="name-157"><strong>Name</strong></h2>
-<p><strong>random_number</strong>(3) - [MATHEMATICS:RANDOM] Pseudo-random number (GFDL)</p>
+<p><strong>random_number</strong>(3) - [MATHEMATICS:RANDOM] Pseudo-random number</p>
 <h2 id="syntax-157"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb434"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb434-1" title="1">   <span class="fu">random_number</span>(harvest)</a></code></pre></div>
 <h2 id="description-157"><strong>Description</strong></h2>
@@ -8943,7 +8943,7 @@ dim=3 :( 2 3 )
 <div id="random_seed" class="slide section level1">
 <h1>RANDOM_SEED</h1>
 <h2 id="name-158"><strong>Name</strong></h2>
-<p><strong>random_seed</strong>(3) - [MATHEMATICS:RANDOM] Initialize a pseudo-random number sequence (GFDL)</p>
+<p><strong>random_seed</strong>(3) - [MATHEMATICS:RANDOM] Initialize a pseudo-random number sequence</p>
 <h2 id="syntax-158"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb437"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb437-1" title="1"><span class="kw">call</span> <span class="fu">random_seed</span>(<span class="fu">size</span>, put, get)</a></code></pre></div>
 <h2 id="description-158"><strong>Description</strong></h2>
@@ -8992,7 +8992,7 @@ dim=3 :( 2 3 )
 <div id="range" class="slide section level1">
 <h1>RANGE</h1>
 <h2 id="name-159"><strong>Name</strong></h2>
-<p><strong>range</strong>(3) - [NUMERIC MODEL] Decimal exponent range of a real kind (GFDL)</p>
+<p><strong>range</strong>(3) - [NUMERIC MODEL] Decimal exponent range of a real kind</p>
 <h2 id="syntax-159"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb440"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb440-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">range</span>(x)</a></code></pre></div>
 <h2 id="description-159"><strong>Description</strong></h2>
@@ -9029,7 +9029,7 @@ dim=3 :( 2 3 )
 <div id="rank" class="slide section level1">
 <h1>RANK</h1>
 <h2 id="name-160"><strong>Name</strong></h2>
-<p><strong>rank</strong>(3) - [ARRAY INQUIRY] Rank of a data object (GFDL)</p>
+<p><strong>rank</strong>(3) - [ARRAY INQUIRY] Rank of a data object</p>
 <h2 id="syntax-160"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb443"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb443-1" title="1"><span class="kw">result</span> <span class="kw">=</span> rank(a)</a></code></pre></div>
 <h2 id="description-160"><strong>Description</strong></h2>
@@ -9062,7 +9062,7 @@ dim=3 :( 2 3 )
 <div id="real" class="slide section level1">
 <h1>REAL</h1>
 <h2 id="name-161"><strong>Name</strong></h2>
-<p><strong>real</strong>(3) - [TYPE:NUMERIC] Convert to real type (GFDL)</p>
+<p><strong>real</strong>(3) - [TYPE:NUMERIC] Convert to real type</p>
 <h2 id="syntax-161"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb446"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb446-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">real</span>(x, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-161"><strong>Description</strong></h2>
@@ -9114,7 +9114,7 @@ dim=3 :( 2 3 )
 <div id="repeat" class="slide section level1">
 <h1>REPEAT</h1>
 <h2 id="name-162"><strong>Name</strong></h2>
-<p><strong>repeat</strong>(3) - [CHARACTER] Repeated string concatenation (GFDL)</p>
+<p><strong>repeat</strong>(3) - [CHARACTER] Repeated string concatenation</p>
 <h2 id="syntax-162"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb449"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb449-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">repeat</span>(string, ncopies)</a>
 <a class="sourceLine" id="cb449-2" title="2"></a>
@@ -9169,7 +9169,7 @@ dim=3 :( 2 3 )
 <div id="reshape" class="slide section level1">
 <h1>RESHAPE</h1>
 <h2 id="name-163"><strong>Name</strong></h2>
-<p><strong>reshape</strong>(3) - [ARRAY RESHAPE] Function to reshape an array (GFDL)</p>
+<p><strong>reshape</strong>(3) - [ARRAY RESHAPE] Function to reshape an array</p>
 <h2 id="syntax-163"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb452"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb452-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">reshape</span>(source, <span class="fu">shape</span>, pad, order)</a></code></pre></div>
 <h2 id="description-163"><strong>Description</strong></h2>
@@ -9229,7 +9229,7 @@ dim=3 :( 2 3 )
 <div id="rrspacing" class="slide section level1">
 <h1>RRSPACING</h1>
 <h2 id="name-164"><strong>Name</strong></h2>
-<p><strong>rrspacing</strong>(3) - [MODEL_COMPONENTS] Reciprocal of the relative spacing (GFDL)</p>
+<p><strong>rrspacing</strong>(3) - [MODEL_COMPONENTS] Reciprocal of the relative spacing</p>
 <h2 id="syntax-164"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb455"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb455-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">rrspacing</span>(x)</a></code></pre></div>
 <h2 id="description-164"><strong>Description</strong></h2>
@@ -9253,7 +9253,7 @@ dim=3 :( 2 3 )
 <div id="same_type_as" class="slide section level1">
 <h1>SAME_TYPE_AS</h1>
 <h2 id="name-165"><strong>Name</strong></h2>
-<p><strong>same_type_as</strong>(3) - [STATE] Query dynamic types for equality (GFDL)</p>
+<p><strong>same_type_as</strong>(3) - [STATE] Query dynamic types for equality</p>
 <h2 id="syntax-165"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb456"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb456-1" title="1"><span class="kw">result</span> <span class="kw">=</span> same_type_as(a, b)</a></code></pre></div>
 <h2 id="description-165"><strong>Description</strong></h2>
@@ -9282,7 +9282,7 @@ dim=3 :( 2 3 )
 <div id="scale" class="slide section level1">
 <h1>SCALE</h1>
 <h2 id="name-166"><strong>Name</strong></h2>
-<p><strong>scale</strong>(3) - [MODEL_COMPONENTS] Scale a real value by a whole power of the radix (GFDL)</p>
+<p><strong>scale</strong>(3) - [MODEL_COMPONENTS] Scale a real value by a whole power of the radix</p>
 <h2 id="syntax-166"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb457"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb457-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">scale</span>(x, i)</a>
 <a class="sourceLine" id="cb457-2" title="2"></a>
@@ -9324,7 +9324,7 @@ dim=3 :( 2 3 )
 <div id="scan" class="slide section level1">
 <h1>SCAN</h1>
 <h2 id="name-167"><strong>Name</strong></h2>
-<p><strong>scan</strong>(3) - [CHARACTER:SEARCH] Scan a string for the presence of a set of characters (GFDL)</p>
+<p><strong>scan</strong>(3) - [CHARACTER:SEARCH] Scan a string for the presence of a set of characters</p>
 <h2 id="syntax-167"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb460"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb460-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">scan</span>(string, set<span class="kw">[</span>, back <span class="kw">[</span>, <span class="fu">kind</span><span class="kw">]]</span>)</a></code></pre></div>
 <h2 id="description-167"><strong>Description</strong></h2>
@@ -9380,7 +9380,7 @@ dim=3 :( 2 3 )
 <div id="selected_char_kind" class="slide section level1">
 <h1>SELECTED_CHAR_KIND</h1>
 <h2 id="name-168"><strong>Name</strong></h2>
-<p><strong>selected_char_kind</strong>(3) - [KIND] Choose character kind such as “Unicode” (GFDL)</p>
+<p><strong>selected_char_kind</strong>(3) - [KIND] Choose character kind such as “Unicode”</p>
 <h2 id="syntax-168"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb463"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb463-1" title="1"><span class="kw">result</span> <span class="kw">=</span> selected_char_kind(name)</a></code></pre></div>
 <h2 id="description-168"><strong>Description</strong></h2>
@@ -9424,7 +9424,7 @@ dim=3 :( 2 3 )
 <div id="selected_int_kind" class="slide section level1">
 <h1>SELECTED_INT_KIND</h1>
 <h2 id="name-169"><strong>Name</strong></h2>
-<p><strong>selected_int_kind</strong>(3) - [KIND] Choose integer kind (GFDL)</p>
+<p><strong>selected_int_kind</strong>(3) - [KIND] Choose integer kind</p>
 <h2 id="syntax-169"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb466"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb466-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">selected_int_kind</span>(r)</a></code></pre></div>
 <h2 id="description-169"><strong>Description</strong></h2>
@@ -9465,7 +9465,7 @@ dim=3 :( 2 3 )
 <div id="selected_real_kind" class="slide section level1">
 <h1>SELECTED_REAL_KIND</h1>
 <h2 id="name-170"><strong>Name</strong></h2>
-<p><strong>selected_real_kind</strong>(3) - [KIND] Choose real kind (GFDL)</p>
+<p><strong>selected_real_kind</strong>(3) - [KIND] Choose real kind</p>
 <h2 id="syntax-170"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb469"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb469-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">selected_real_kind</span>(p, r, <span class="fu">radix</span>)</a></code></pre></div>
 <h2 id="description-170"><strong>Description</strong></h2>
@@ -9528,7 +9528,7 @@ dim=3 :( 2 3 )
 <div id="set_exponent" class="slide section level1">
 <h1>SET_EXPONENT</h1>
 <h2 id="name-171"><strong>Name</strong></h2>
-<p><strong>set_exponent</strong>(3) - [MODEL_COMPONENTS] Set the exponent of the model (GFDL)</p>
+<p><strong>set_exponent</strong>(3) - [MODEL_COMPONENTS] Set the exponent of the model</p>
 <h2 id="syntax-171"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb472"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb472-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">set_exponent</span>(x, i)</a></code></pre></div>
 <h2 id="description-171"><strong>Description</strong></h2>
@@ -9567,7 +9567,7 @@ dim=3 :( 2 3 )
 <div id="shape" class="slide section level1">
 <h1>SHAPE</h1>
 <h2 id="name-172"><strong>Name</strong></h2>
-<p><strong>shape</strong>(3) - [ARRAY INQUIRY] Determine the shape of an array (GFDL)</p>
+<p><strong>shape</strong>(3) - [ARRAY INQUIRY] Determine the shape of an array</p>
 <h2 id="syntax-172"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb475"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb475-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">shape</span>(source, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-172"><strong>Description</strong></h2>
@@ -9614,7 +9614,7 @@ dim=3 :( 2 3 )
 <div id="shifta" class="slide section level1">
 <h1>SHIFTA</h1>
 <h2 id="name-173"><strong>Name</strong></h2>
-<p><strong>shifta</strong>(3) - [BIT:SHIFT] shift bits right with fill (GFDL)</p>
+<p><strong>shifta</strong>(3) - [BIT:SHIFT] shift bits right with fill</p>
 <h2 id="syntax-173"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb478"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb478-1" title="1"><span class="kw">result</span> <span class="kw">=</span> shifta(i, shift)</a></code></pre></div>
 <h2 id="description-173"><strong>Description</strong></h2>
@@ -9643,7 +9643,7 @@ dim=3 :( 2 3 )
 <div id="shiftl" class="slide section level1">
 <h1>SHIFTL</h1>
 <h2 id="name-174"><strong>Name</strong></h2>
-<p><strong>shiftl</strong>(3) - [BIT:SHIFT] shift bits left (GFDL)</p>
+<p><strong>shiftl</strong>(3) - [BIT:SHIFT] shift bits left</p>
 <h2 id="syntax-174"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb479"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb479-1" title="1"><span class="kw">result</span> <span class="kw">=</span> shiftl(i, shift)</a></code></pre></div>
 <h2 id="description-174"><strong>Description</strong></h2>
@@ -9672,7 +9672,7 @@ dim=3 :( 2 3 )
 <div id="shiftr" class="slide section level1">
 <h1>SHIFTR</h1>
 <h2 id="name-175"><strong>Name</strong></h2>
-<p><strong>shiftr</strong>(3) - [BIT:SHIFT] shift bits right (GFDL)</p>
+<p><strong>shiftr</strong>(3) - [BIT:SHIFT] shift bits right</p>
 <h2 id="syntax-175"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb480"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb480-1" title="1"><span class="kw">result</span> <span class="kw">=</span> shiftr(i, shift)</a></code></pre></div>
 <h2 id="description-175"><strong>Description</strong></h2>
@@ -9701,7 +9701,7 @@ dim=3 :( 2 3 )
 <div id="sign" class="slide section level1">
 <h1>SIGN</h1>
 <h2 id="name-176"><strong>Name</strong></h2>
-<p><strong>sign</strong>(3) - [NUMERIC] Sign copying function (GFDL)</p>
+<p><strong>sign</strong>(3) - [NUMERIC] Sign copying function</p>
 <h2 id="syntax-176"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb481"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb481-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">sign</span>(a, b)</a></code></pre></div>
 <h2 id="description-176"><strong>Description</strong></h2>
@@ -9912,7 +9912,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="size" class="slide section level1">
 <h1>SIZE</h1>
 <h2 id="name-179"><strong>Name</strong></h2>
-<p><strong>size</strong>(3) - [ARRAY INQUIRY] Determine the size of an array (GFDL)</p>
+<p><strong>size</strong>(3) - [ARRAY INQUIRY] Determine the size of an array</p>
 <h2 id="syntax-179"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb494"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb494-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">size</span>(array, <span class="bu">dim</span>, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-179"><strong>Description</strong></h2>
@@ -10083,7 +10083,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="spacing" class="slide section level1">
 <h1>SPACING</h1>
 <h2 id="name-180"><strong>Name</strong></h2>
-<p><strong>spacing</strong>(3) - [MODEL_COMPONENTS] Smallest distance between two numbers of a given type (GFDL)</p>
+<p><strong>spacing</strong>(3) - [MODEL_COMPONENTS] Smallest distance between two numbers of a given type</p>
 <h2 id="syntax-180"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb497"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb497-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">spacing</span>(x)</a></code></pre></div>
 <h2 id="description-180"><strong>Description</strong></h2>
@@ -10120,7 +10120,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="spread" class="slide section level1">
 <h1>SPREAD</h1>
 <h2 id="name-181"><strong>Name</strong></h2>
-<p><strong>spread</strong>(3) - [ARRAY CONSTRUCTION] Add a dimension to an array (GFDL)</p>
+<p><strong>spread</strong>(3) - [ARRAY CONSTRUCTION] Add a dimension to an array</p>
 <h2 id="syntax-181"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb500"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb500-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">spread</span>(source, <span class="bu">dim</span>, ncopies)</a>
 <a class="sourceLine" id="cb500-2" title="2"></a>
@@ -10286,7 +10286,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="storage_size" class="slide section level1">
 <h1>STORAGE_SIZE</h1>
 <h2 id="name-183"><strong>Name</strong></h2>
-<p><strong>storage_size</strong>(3) - [BIT:INQUIRY] Storage size in bits (GFDL)</p>
+<p><strong>storage_size</strong>(3) - [BIT:INQUIRY] Storage size in bits</p>
 <h2 id="syntax-183"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb505"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb505-1" title="1"><span class="kw">result</span> <span class="kw">=</span> storage_size(a, <span class="fu">kind</span>)</a></code></pre></div>
 <h2 id="description-183"><strong>Description</strong></h2>
@@ -10331,7 +10331,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="sum" class="slide section level1">
 <h1>SUM</h1>
 <h2 id="name-184"><strong>Name</strong></h2>
-<p><strong>sum</strong>(3) - [ARRAY REDUCTION] sum the elements of an array (GFDL)</p>
+<p><strong>sum</strong>(3) - [ARRAY REDUCTION] sum the elements of an array</p>
 <h2 id="syntax-184"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb508"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb508-1" title="1">   <span class="kw">result</span> <span class="kw">=</span> <span class="fu">sum</span>(array<span class="kw">[</span>, mask<span class="kw">]</span>)</a>
 <a class="sourceLine" id="cb508-2" title="2">   <span class="kw">result</span> <span class="kw">=</span> <span class="fu">sum</span>(array, <span class="bu">dim</span><span class="kw">[</span>, mask<span class="kw">]</span>)</a></code></pre></div>
@@ -10396,7 +10396,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="system_clock" class="slide section level1">
 <h1>SYSTEM_CLOCK</h1>
 <h2 id="name-185"><strong>Name</strong></h2>
-<p><strong>system_clock</strong>(3) - [SYSTEM:TIME] Return numeric data from a real-time clock. (GFDL)</p>
+<p><strong>system_clock</strong>(3) - [SYSTEM:TIME] Return numeric data from a real-time clock.</p>
 <h2 id="syntax-185"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb512"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb512-1" title="1"><span class="kw">subroutine</span> <span class="fu">system_clock</span>(<span class="fu">count</span>, count_rate, count_max)</a>
 <a class="sourceLine" id="cb512-2" title="2"></a>
@@ -10462,7 +10462,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="tanh" class="slide section level1">
 <h1>TANH</h1>
 <h2 id="name-186"><strong>Name</strong></h2>
-<p><strong>tanh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic tangent function (GFDL)</p>
+<p><strong>tanh</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Hyperbolic tangent function</p>
 <h2 id="syntax-186"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb516"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb516-1" title="1">x <span class="kw">=</span> <span class="bu">tanh</span>(x)</a></code></pre></div>
 <h2 id="description-186"><strong>Description</strong></h2>
@@ -10501,7 +10501,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="tan" class="slide section level1">
 <h1>TAN</h1>
 <h2 id="name-187"><strong>Name</strong></h2>
-<p><strong>tan</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Tangent function (GFDL)</p>
+<p><strong>tan</strong>(3) - [MATHEMATICS:TRIGONOMETRIC] Tangent function</p>
 <h2 id="syntax-187"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb520"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb520-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="bu">tan</span>(x)</a></code></pre></div>
 <h2 id="description-187"><strong>Description</strong></h2>
@@ -10536,7 +10536,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="this_image" class="slide section level1">
 <h1>THIS_IMAGE</h1>
 <h2 id="name-188"><strong>Name</strong></h2>
-<p><strong>this_image</strong>(3) - [COLLECTIVE] Cosubscript index of this image (GFDL)</p>
+<p><strong>this_image</strong>(3) - [COLLECTIVE] Cosubscript index of this image</p>
 <h2 id="syntax-188"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb523"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb523-1" title="1"><span class="kw">result</span> <span class="kw">=</span> this_image() <span class="kw">result</span> <span class="kw">=</span> this_image(distance) <span class="kw">&amp;</span></a>
 <a class="sourceLine" id="cb523-2" title="2">         <span class="kw">&amp;</span> <span class="kw">result</span> <span class="kw">=</span> this_image(coarray, <span class="bu">dim</span>)</a></code></pre></div>
@@ -10588,7 +10588,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="tiny" class="slide section level1">
 <h1>TINY</h1>
 <h2 id="name-189"><strong>Name</strong></h2>
-<p><strong>tiny</strong>(3) - [NUMERIC MODEL] Smallest positive number of a real kind (GFDL)</p>
+<p><strong>tiny</strong>(3) - [NUMERIC MODEL] Smallest positive number of a real kind</p>
 <h2 id="syntax-189"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb526"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb526-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">tiny</span>(x)</a>
 <a class="sourceLine" id="cb526-2" title="2"><span class="dt">   real(kind=KIND)</span> <span class="kw">function</span>(x)</a>
@@ -10720,7 +10720,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="transfer" class="slide section level1">
 <h1>TRANSFER</h1>
 <h2 id="name-191"><strong>Name</strong></h2>
-<p><strong>transfer</strong>(3) - [TYPE:MOLD] Transfer bit patterns (GFDL)</p>
+<p><strong>transfer</strong>(3) - [TYPE:MOLD] Transfer bit patterns</p>
 <h2 id="syntax-191"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb532"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb532-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">transfer</span>(source, mold, <span class="fu">size</span>)</a></code></pre></div>
 <h2 id="description-191"><strong>Description</strong></h2>
@@ -10785,7 +10785,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="transpose" class="slide section level1">
 <h1>TRANSPOSE</h1>
 <h2 id="name-192"><strong>Name</strong></h2>
-<p><strong>transpose</strong>(3) - [ARRAY MANIPULATION] Transpose an array of rank two (GFDL)</p>
+<p><strong>transpose</strong>(3) - [ARRAY MANIPULATION] Transpose an array of rank two</p>
 <h2 id="syntax-192"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb535"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb535-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">transpose</span>(matrix)</a></code></pre></div>
 <h2 id="description-192"><strong>Description</strong></h2>
@@ -10854,7 +10854,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="trim" class="slide section level1">
 <h1>TRIM</h1>
 <h2 id="name-193"><strong>Name</strong></h2>
-<p><strong>trim</strong>(3) - [CHARACTER:WHITESPACE] Remove trailing blank characters of a string (GFDL)</p>
+<p><strong>trim</strong>(3) - [CHARACTER:WHITESPACE] Remove trailing blank characters of a string</p>
 <h2 id="syntax-193"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb538"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb538-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">trim</span>(string)</a></code></pre></div>
 <h2 id="description-193"><strong>Description</strong></h2>
@@ -10993,7 +10993,7 @@ LAX: N 33 degrees 56.4&#39;,  W 118 degrees 24.0&#39;</code></pre>
 <div id="unpack" class="slide section level1">
 <h1>UNPACK</h1>
 <h2 id="name-195"><strong>Name</strong></h2>
-<p><strong>unpack</strong>(3) - [ARRAY CONSTRUCTION] Store the elements of a vector in an array of higher rank (GFDL)</p>
+<p><strong>unpack</strong>(3) - [ARRAY CONSTRUCTION] Store the elements of a vector in an array of higher rank</p>
 <h2 id="syntax-195"><strong>Syntax</strong></h2>
 <div class="sourceCode" id="cb544"><pre class="sourceCode fortran"><code class="sourceCode fortran"><a class="sourceLine" id="cb544-1" title="1"><span class="kw">result</span> <span class="kw">=</span> <span class="fu">unpack</span>(vector, mask, field)</a></code></pre></div>
 <h2 id="description-195"><strong>Description</strong></h2>

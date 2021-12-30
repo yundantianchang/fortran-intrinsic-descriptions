@@ -1,7 +1,7 @@
 NAME
 
 EXTENDS_TYPE_OF(3) - [STATE] determine if the dynamic type of A is an
-extension of the dynamic type of MOLD. (GFDL)
+extension of the dynamic type of MOLD.
 
 SYNTAX
 
