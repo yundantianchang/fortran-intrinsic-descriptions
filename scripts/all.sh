@@ -4,7 +4,6 @@ git checkout gh-pages
 git merge origin/main
 git push origin gh-pages
 git checkout main
-exit
 #################################################
 PROBLEMS(){
 # some expected problems for now
