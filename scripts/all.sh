@@ -3,6 +3,8 @@ git checkout gh-pages
 # update gh-pages with anything from main
 git merge origin/master
 git push origin gh-pages
+git checkout main
+exit
 #################################################
 PROBLEMS(){
 # some expected problems for now
