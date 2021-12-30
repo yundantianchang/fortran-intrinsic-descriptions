@@ -1,5 +1,12 @@
 #!/bin/bash
 git checkout gh-pages
+<<<<<<< HEAD
+=======
+# update gh-pages with anything from main
+git merge origin/main
+git push origin gh-pages
+git checkout main
+>>>>>>> origin/main
 #################################################
 PROBLEMS(){
 # some expected problems for now
@@ -62,13 +69,23 @@ done
 PROBLEMS
 fpm build 
 #################################################
+<<<<<<< HEAD
 # make fpm documentation too
+=======
+# build fpm documenation from help too
+>>>>>>> origin/main
 fpm2docs.sh
 #################################################
 #fman manual|spell
 #fman manual|findll -l 80
 #################################################
 )|tee /tmp/all.log
+<<<<<<< HEAD
+=======
+cd $BASE
+git add .
+git commit -m 'update docs'
+>>>>>>> origin/main
 git checkout main
 exit
 #################################################

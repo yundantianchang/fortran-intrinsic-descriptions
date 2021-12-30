@@ -2,6 +2,12 @@
 published at
 [https://urbanjost.github.io/fortran-intrinsic-descriptions/](https://urbanjost.github.io/fortran-intrinsic-descriptions/)
 
+<<<<<<< HEAD
+=======
+Local links in the following document are written to work with the published site. 
+
+
+>>>>>>> origin/main
 - [intrinsics](docs/intrinsics.md)
 - [intrinsics slides](docs/intrinsics_slidy.html)
 - [fortran.tgz](docs/fortran.tgz)
