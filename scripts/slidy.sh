@@ -36,5 +36,7 @@ do
 done >$BASE/docs/intrinsics.md
 
 echo "creating $BASE/docs/intrinsics_slidy.html" 1>&2
-pandoc -f markdown_mmd -t slidy --metadata title='Fortran Intrinsics' --standalone --columns=72 $FILES > $BASE/docs/intrinsics_slidy.html
+#pandoc -f markdown_mmd -t slidy --metadata title='Fortran Intrinsics' --standalone --columns=72 $FILES > $BASE/docs/intrinsics_slidy.html
+pandoc -t slidy  --metadata title="Fortran Intrinsics" -s "$BASE/docs/intrinsics.md" --standalone --slide-level=1 -o $BASE/docs/intrinsics_slidy.html
 exit
+

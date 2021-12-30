@@ -1,4 +1,10 @@
 #!/bin/bash
+git checkout gh-pages
+# update gh-pages with anything from main
+git merge origin/main
+git push origin gh-pages
+BRANCH=$( git rev-parse --abbrev-ref HEAD )
+[ "$BRANCH" != gh-pages ] && exit
 #################################################
 PROBLEMS(){
 # some expected problems for now
@@ -23,11 +29,11 @@ source $(dirname $0)/sourceme.sh
 export PATH="$PATH:$FPMPATH"
 
 cd $BASE
-git checkout gh-pages
+#cp $BASE/intrinsics/*.md $HOME/github/FORK/fortran-lang.org/learn/intrinsics/
 (
 exec 2>&1
 
-#PURGE
+PURGE
 
 mkdir -p $BASE/man/man1 $BASE/docs $BASE/example
 mkdir -p $BASE/man/man3  $BASE/man/cat3
@@ -62,9 +68,16 @@ done
 PROBLEMS
 fpm build 
 #################################################
+# build fpm documenation from help too
+fpm2docs.sh
+#################################################
 #fman manual|spell
 #fman manual|findll -l 80
 #################################################
 )|tee /tmp/all.log
+cd $BASE
+git add .
+git commit -m 'update docs'
+git checkout main
 exit
 #################################################
