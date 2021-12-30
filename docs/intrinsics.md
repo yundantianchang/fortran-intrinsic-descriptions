@@ -4832,10 +4832,16 @@ __dble__(3) - \[TYPE:NUMERIC\] Double conversion function
 ## __Syntax__
 ```fortran
 result = dble(a)
+
+    elemental function dble(a)
+    type(real(kind=kind(0.0d0)))     :: dble
+    type(TYPE(kind=KIND)),intent(in) :: a
 ```
+where TYPE may be _integer_, _real_, or _complex_ and KIND any kind
+supported by the TYPE.
 ## __Description__
 
-__dble(a)__ Converts __a__ to double precision real type.
+__dble(a)__ Converts __a__ to double precision _real_ type.
 
 ## __Arguments__
 
@@ -4844,7 +4850,9 @@ __dble(a)__ Converts __a__ to double precision real type.
 
 ## __Returns__
 
-The return value is of type _doubleprecision_.
+The return value is of type _doubleprecision_. For _complex_ input,
+the returned value has the magnitude and sign of the real component
+of the input value.
 
 ## __Examples__
 
@@ -4872,7 +4880,7 @@ FORTRAN 77 and later
 [__float__(3)](FLOAT),
 [__real__(3)](REAL)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # DIGITS
 
 ## __Name__
@@ -4882,7 +4890,13 @@ __digits__(3) - \[NUMERIC MODEL\] Significant digits function
 ## __Syntax__
 ```fortran
 result = digits(x)
+    function digits(x)
+    type(integer(kind=kind(0)))      :: digits
+    type(TYPE(kind=KIND)),intent(in) :: x(..)
 ```
+where TYPE may be _integer_ or _real_ and KIND is any kind supported by
+TYPE.
+
 ## __Description__
 
 __digits(x)__ returns the number of significant digits of the internal
@@ -4893,11 +4907,11 @@ floating point representation, a default real number would likely return
 ## __Arguments__
 
   - __x__
-    : The type may be _integer_ or _real_.
+    : The type may be a scalar or array of type _integer_ or _real_.
 
 ## __Returns__
 
-The return value is of type _integer_.
+The return value is of type _integer_ of default kind.
 
 ## __Examples__
 
@@ -4945,7 +4959,7 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # DIM
 
 ## __Name__

@@ -6671,9 +6671,16 @@ textblock=[character(len=256) :: &
 '', &
 '    result = dble(a)', &
 '', &
+'        elemental function dble(a)', &
+'        type(real(kind=kind(0.0d0)))     :: dble', &
+'        type(TYPE(kind=KIND)),intent(in) :: a', &
+'', &
+'where TYPE may be _integer_, _real_, or _complex_ and KIND any kind', &
+'supported by the TYPE.', &
+'', &
 'DESCRIPTION', &
 '', &
-'DBLE(A) Converts A to double precision real type.', &
+'DBLE(A) Converts A to double precision _real_ type.', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -6682,7 +6689,9 @@ textblock=[character(len=256) :: &
 '', &
 'RETURNS', &
 '', &
-'The return value is of type _doubleprecision_.', &
+'The return value is of type _doubleprecision_. For _complex_ input, the', &
+'returned value has the magnitude and sign of the real component of the', &
+'input value.', &
 '', &
 'EXAMPLES', &
 '', &
@@ -6708,7 +6717,7 @@ textblock=[character(len=256) :: &
 '', &
 'FLOAT(3), REAL(3)', &
 '', &
-'fortran-lang intrinsic descriptions', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="dble"
@@ -6747,6 +6756,12 @@ textblock=[character(len=256) :: &
 'SYNTAX', &
 '', &
 '    result = digits(x)', &
+'        function digits(x)', &
+'        type(integer(kind=kind(0)))      :: digits', &
+'        type(TYPE(kind=KIND)),intent(in) :: x(..)', &
+'', &
+'where TYPE may be _integer_ or _real_ and KIND is any kind supported by', &
+'TYPE.', &
 '', &
 'DESCRIPTION', &
 '', &
@@ -6757,11 +6772,11 @@ textblock=[character(len=256) :: &
 'ARGUMENTS', &
 '', &
 '    X', &
-'        The type may be _integer_ or _real_.', &
+'        The type may be a scalar or array of type _integer_ or _real_.', &
 '', &
 'RETURNS', &
 '', &
-'The return value is of type _integer_.', &
+'The return value is of type _integer_ of default kind.', &
 '', &
 'EXAMPLES', &
 '', &
@@ -6793,7 +6808,7 @@ textblock=[character(len=256) :: &
 'MINEXPONENT(3), NEAREST(3), PRECISION(3), RADIX(3), RANGE(3),', &
 'RRSPACING(3), SCALE(3), SET_EXPONENT(3), SPACING(3), TINY(3)', &
 '', &
-'fortran-lang intrinsic descriptions', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="digits"

@@ -6,9 +6,16 @@ SYNTAX
 
     result = dble(a)
 
+        elemental function dble(a)
+        type(real(kind=kind(0.0d0)))     :: dble
+        type(TYPE(kind=KIND)),intent(in) :: a
+
+where TYPE may be _integer_, _real_, or _complex_ and KIND any kind
+supported by the TYPE.
+
 DESCRIPTION
 
-DBLE(A) Converts A to double precision real type.
+DBLE(A) Converts A to double precision _real_ type.
 
 ARGUMENTS
 
@@ -17,7 +24,9 @@ ARGUMENTS
 
 RETURNS
 
-The return value is of type _doubleprecision_.
+The return value is of type _doubleprecision_. For _complex_ input, the
+returned value has the magnitude and sign of the real component of the
+input value.
 
 EXAMPLES
 
@@ -43,4 +52,4 @@ SEE ALSO
 
 FLOAT(3), REAL(3)
 
-fortran-lang intrinsic descriptions
+fortran-lang intrinsic descriptions (license: MIT) @urbanjost
