@@ -1,4 +1,7 @@
-# fman
+# fortran-lang.org intrinsic descriptions and fman(1)
+published at
+[https://urbanjost.github.io/fortran-intrinsic-descriptions/](https://urbanjost.github.io/fortran-intrinsic-descriptions/)
+
 - [intrinsics](docs/intrinsics.md)
 - [intrinsics slides](docs/intrinsics_slidy.html)
 - [fortran.tgz](docs/fortran.tgz)
@@ -181,7 +184,7 @@ Note I am having getting formulas to work using LaTex.
 # Using some of the same tools here is a different view of the fpm(1) help text automatically generated
 [fpm help slides](fpm_slidy.html)
 
-- [fmp](docs/fpm.md)
+- [fpm](docs/fpm.md)
 - [new](docs/new.md)
 - [build](docs/build.md)
 - [run](docs/run.md)
