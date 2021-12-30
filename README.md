@@ -1,7 +1,6 @@
 # fman
-- [intrinsics](intrinsics.md)
-- [intrinsics slides](intrinsics_slidy.html)
-- [fortran.tgz](fortran.tgz)
+- [intrinsics](docs/intrinsics.md)
+- [intrinsics slides](docs/intrinsics_slidy.html)
 - [fortran.tgz](docs/fortran.tgz)
 
 
@@ -179,17 +178,17 @@ and be editing the man-page for tan(3f).
 ## NOTES
 
 Note I am having getting formulas to work using LaTex.
-# Using some of the same tools here is a different view of the fpm(1) help text
+# Using some of the same tools here is a different view of the fpm(1) help text automatically generated
 [fpm help slides](fpm_slidy.html)
 
-- [fmp](fpm.md)
-- [new](new.md)
-- [build](build.md)
-- [run](run.md)
-- [runner](runner.md)
-- [test](test.md)
-- [update](update.md)
-- [install](install.md)
-- [list](list.md)
-- [help](help.md)
-- [version](version.md)
+- [fmp](docs/fpm.md)
+- [new](docs/new.md)
+- [build](docs/build.md)
+- [run](docs/run.md)
+- [runner](docs/runner.md)
+- [test](docs/test.md)
+- [update](docs/update.md)
+- [install](docs/install.md)
+- [list](docs/list.md)
+- [help](docs/help.md)
+- [version](docs/version.md)
