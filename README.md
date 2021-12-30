@@ -1,4 +1,9 @@
 # fman
+- [intrinsics](intrinsics.md)
+- [intrinsics slides](intrinsics_slidy.html)
+- [fortran.tgz](fortran.tgz)
+- [fortran.tgz](docs/fortran.tgz)
+
 
 A snapshot (2021-12-29) of the base source for the Fortran intrinsic
 descriptions at fortran-lang.org.
@@ -170,6 +175,21 @@ and be editing the man-page for tan(3f).
   + These scripts are useful in particular with `fman`:
     + txt2man
     + vip.sh
+
 ## NOTES
 
 Note I am having getting formulas to work using LaTex.
+# Using some of the same tools here is a different view of the fpm(1) help text
+[fpm help slides](fpm_slidy.html)
+
+- [fmp](fpm.md)
+- [new](new.md)
+- [build](build.md)
+- [run](run.md)
+- [runner](runner.md)
+- [test](test.md)
+- [update](update.md)
+- [install](install.md)
+- [list](list.md)
+- [help](help.md)
+- [version](version.md)
