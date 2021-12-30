@@ -15765,6 +15765,13 @@ textblock=[character(len=256) :: &
 '', &
 '    result = parity(mask, dim)', &
 '', &
+'        function parity(mask, dim)', &
+'        type(logical(kind=LKIND))                    :: dim', &
+'        type(logical(kind=LKIND)),intent(in)         :: mask(..)', &
+'        type(integer(kind=KIND)),intent(in),optional :: dim', &
+'', &
+'where KIND and LKIND are any supported kind for the type. ```', &
+'', &
 'DESCRIPTION', &
 '', &
 'Calculates the parity (i.e. the reduction using .xor.) of MASK along', &
@@ -15777,17 +15784,18 @@ textblock=[character(len=256) :: &
 '', &
 '    DIM', &
 '        (Optional) shall be a scalar of type _integer_ with a value in', &
-'        the range from 1 TO N, where N equals the rank of ARRAY.', &
+'        the range from 1 TO N, where N equals the rank of MASK.', &
 '', &
 'RETURNS', &
 '', &
 'The result is of the same type as MASK.', &
 '', &
 'If DIM is absent, a scalar with the parity of all elements in MASK is', &
-'returned: .TRUE. if an odd number of elements are .TRUE. and', &
+'returned: .TRUE. if an odd number of elements are .TRUE. and .FALSE.', &
+'otherwise.', &
 '', &
-'where N equals the rank of MASK, and a shape similar to that of MASK', &
-'with dimension DIM dropped is returned.', &
+'When DIM is specified the returned shape is similar to that of MASK with', &
+'dimension DIM dropped.', &
 '', &
 'EXAMPLES', &
 '', &
@@ -15796,7 +15804,7 @@ textblock=[character(len=256) :: &
 '    program demo_parity', &
 '    implicit none', &
 '    logical :: x(2) = [ .true., .false. ]', &
-'       print *, parity(x) ! T', &
+'       print *, parity(x)', &
 '    end program demo_parity', &
 '', &
 'Results:', &
