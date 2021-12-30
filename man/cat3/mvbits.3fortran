@@ -1,0 +1,42 @@
+NAME
+
+MVBITS(3) - [BIT:COPY] Move bits from one integer to another (GFDL)
+
+SYNTAX
+
+    call mvbits(from, frompos, len, to, topos)
+
+DESCRIPTION
+
+Moves LEN bits from positions FROMPOS through FROMPOS+LEN-1 of FROM to
+positions TOPOS through TOPOS+LEN-1 of TO. The portion of argument TO
+not affected by the movement of bits is unchanged. The values of
+FROMPOS+LEN-1 and TOPOS+LEN-1 must be less than BIT_SIZE(from).
+
+ARGUMENTS
+
+    FROM
+        The type shall be _integer_.
+
+    FROMPOS
+        The type shall be _integer_.
+
+    LEN
+        The type shall be _integer_.
+
+    TO
+        The type shall be _integer_, of the same kind as FROM.
+
+    TOPOS
+        The type shall be _integer_.
+
+STANDARD
+
+Fortran 95 and later
+
+SEE ALSO
+
+IEOR(3), IBCLR(3), NOT(3), BTEST(3), IBCLR(3), IBITS(3), IBSET(3),
+IAND(3), IOR(3), IEOR(3)
+
+fortran-lang intrinsic descriptions

@@ -1,0 +1,54 @@
+NAME
+
+SIGN(3) - [NUMERIC] Sign copying function (GFDL)
+
+SYNTAX
+
+    result = sign(a, b)
+
+DESCRIPTION
+
+SIGN(a,b) returns the value of A with the sign of B.
+
+ARGUMENTS
+
+    A
+        Shall be of type _integer_ or _real_
+
+    B
+        Shall be of the same type and kind as A
+
+RETURNS
+
+The kind of the return value is that of A and B. If B >= 0 then the
+result is ABS(A), else it is -ABS(A).
+
+EXAMPLES
+
+Sample program:
+
+    program demo_sign
+    implicit none
+       print *, sign(-12,1)
+       print *, sign(-12,0)
+       print *, sign(-12,-1)
+
+       print *, sign(-12.,1.)
+       print *, sign(-12.,0.)
+       print *, sign(-12.,-1.)
+    end program demo_sign
+
+Results:
+
+                 12
+                 12
+                -12
+          12.0000000
+          12.0000000
+         -12.0000000
+
+STANDARD
+
+FORTRAN 77 and later
+
+fortran-lang intrinsic descriptions
