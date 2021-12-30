@@ -5,7 +5,10 @@ git checkout gh-pages
 # update gh-pages with anything from main
 git merge origin/main
 git push origin gh-pages
+<<<<<<< HEAD
 git checkout main
+>>>>>>> origin/main
+=======
 >>>>>>> origin/main
 #################################################
 PROBLEMS(){
