@@ -23,12 +23,11 @@ source $(dirname $0)/sourceme.sh
 export PATH="$PATH:$FPMPATH"
 
 cd $BASE
-git checkout gh-pages
 (
 exec 2>&1
 
-#PURGE
-
+PURGE
+exit
 mkdir -p $BASE/man/man1 $BASE/docs $BASE/example
 mkdir -p $BASE/man/man3  $BASE/man/cat3
 

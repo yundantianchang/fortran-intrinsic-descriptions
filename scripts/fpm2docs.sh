@@ -2,7 +2,9 @@
 #@(#) create man-pages, markdown and html slidy(1) files of fpm(1) help text using txt2man(1) and pandoc(1)
 # liked results better tnan from txt to man-pages using pandoc
 # can use groff to turn man-pages into a lot of formats as well
+export FPMPATH="$(dirname $(which fpm) )"
 source $(dirname $0)/sourceme.sh
+export PATH="$PATH:$FPMPATH"
 
 DOCS=$BASE/docs
 MANDIR=$BASE/man
