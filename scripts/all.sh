@@ -32,6 +32,7 @@ cd $BASE
 exec 2>&1
 
 PURGE
+exit
 
 mkdir -p $BASE/man/man1 $BASE/docs $BASE/example
 mkdir -p $BASE/man/man3  $BASE/man/cat3

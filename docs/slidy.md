@@ -1,2 +1,0 @@
-# FPM
-## Fortran Package Manager
