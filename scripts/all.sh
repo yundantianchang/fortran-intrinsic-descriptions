@@ -1,7 +1,7 @@
 #!/bin/bash
 git checkout gh-pages
 # update gh-pages with anything from main
-git merge origin/master
+git merge origin/main
 git push origin gh-pages
 git checkout main
 exit
