@@ -1,14 +1,14 @@
-## NAME
+# NAME
 
 **fpm**(1) - A Fortran package manager and build system
 
-## SYNOPSIS
+# SYNOPSIS
 
 **fpm** *SUBCOMMAND* \[SUBCOMMAND\_OPTIONS\]
 
 **fpm** **--help**|**--version**|**--list**
 
-## DESCRIPTION
+# DESCRIPTION
 
 **fpm**(1) is a package manager that helps you create Fortran projects
 from source -- it automatically determines dependencies\!
@@ -22,7 +22,7 @@ All output goes into the directory "build/" which can generally be
 removed and rebuilt if required. Note that if external packages are
 being used you need network connectivity to rebuild from scratch.
 
-## SUBCOMMANDS
+# SUBCOMMANDS
 
 Valid **fpm**(1) subcommands are:
 
@@ -61,7 +61,7 @@ Their syntax is
     [options]
 ```
 
-## SUBCOMMAND OPTIONS
+# SUBCOMMAND OPTIONS
 
 **-C**, **--directory** PATH Change working directory to PATH before
 running any command
@@ -109,7 +109,7 @@ running any command
       - **-- ARGS**  
         Arguments to pass to executables.
 
-## VALID FOR ALL SUBCOMMANDS
+# VALID FOR ALL SUBCOMMANDS
 
   - ****--help****  
     Show help text and exit
@@ -154,7 +154,7 @@ directory.
 > (currently) allow for continued lines or multiple specifications of
 > the same option.
 
-## ENVIRONMENT VARIABLES
+# ENVIRONMENT VARIABLES
 
   - **FPM\_FC**  
     sets the path to the Fortran compiler used for the build, will be
@@ -180,7 +180,7 @@ directory.
     sets additional link arguments for creating executables will be
     overwritten by **--link-flag** command line option
 
-## EXAMPLES
+# EXAMPLES
 
 sample commands:
 
@@ -195,7 +195,7 @@ sample commands:
     fpm install --prefix ~/.local
 ```
 
-## SEE ALSO
+# SEE ALSO
 
   - The **fpm**(1) home page is at
     https://github.com/fortran-lang/fpm

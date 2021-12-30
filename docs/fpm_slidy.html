@@ -18,72 +18,6 @@
 <body>
 <div id="fpm" class="slide section level1">
 <h1>fpm</h1>
-</div>
-<div id="new" class="slide section level1">
-<h1>new</h1>
-</div>
-<div id="build" class="slide section level1">
-<h1>build</h1>
-</div>
-<div id="run" class="slide section level1">
-<h1>run</h1>
-</div>
-<div id="test" class="slide section level1">
-<h1>test</h1>
-</div>
-<div id="runner" class="slide section level1">
-<h1>runner</h1>
-</div>
-<div id="install" class="slide section level1">
-<h1>install</h1>
-</div>
-<div id="update" class="slide section level1">
-<h1>update</h1>
-</div>
-<div id="list" class="slide section level1">
-<h1>list</h1>
-</div>
-<div id="help" class="slide section level1">
-<h1>help</h1>
-</div>
-<div id="version" class="slide section level1">
-<h1>version</h1>
-</div>
-<div id="fpm-1" class="slide section level1">
-<h1>fpm</h1>
-</div>
-<div id="new-1" class="slide section level1">
-<h1>new</h1>
-</div>
-<div id="build-1" class="slide section level1">
-<h1>build</h1>
-</div>
-<div id="run-1" class="slide section level1">
-<h1>run</h1>
-</div>
-<div id="test-1" class="slide section level1">
-<h1>test</h1>
-</div>
-<div id="runner-1" class="slide section level1">
-<h1>runner</h1>
-</div>
-<div id="install-1" class="slide section level1">
-<h1>install</h1>
-</div>
-<div id="update-1" class="slide section level1">
-<h1>update</h1>
-</div>
-<div id="list-1" class="slide section level1">
-<h1>list</h1>
-</div>
-<div id="help-1" class="slide section level1">
-<h1>help</h1>
-</div>
-<div id="version-1" class="slide section level1">
-<h1>version</h1>
-</div>
-<div id="fpm-2" class="slide section level1">
-<h1>fpm</h1>
 <h2 id="name"><strong>name</strong></h2>
 <p><strong>fpm</strong>(1) - A Fortran package manager and build system</p>
 <h2 id="synopsis"><strong>synopsis</strong></h2>
@@ -203,7 +137,7 @@ sets additional link arguments for creating executables will be overwritten by <
 <li><p>The <strong>fpm</strong>(1) TOML file format is described at <a href="https://github.com/fortran-lang/fpm/blob/main/manifest-reference.md">https://github.com/fortran-lang/fpm/blob/main/manifest-reference.md</a></p></li>
 </ul>
 </div>
-<div id="new-2" class="slide section level1">
+<div id="new" class="slide section level1">
 <h1>new</h1>
 <h2 id="name-1"><strong>name</strong></h2>
 <p><strong>new</strong>(1) - the <strong>fpm</strong>(1) subcommand to initialize a new project</p>
@@ -279,7 +213,7 @@ print program version information and exit</p></li>
    fpm new --full --backfill
 </code></pre>
 </div>
-<div id="build-2" class="slide section level1">
+<div id="build" class="slide section level1">
 <h1>build</h1>
 <h2 id="name-2"><strong>name</strong></h2>
 <p><strong>build</strong>(1) - the <strong>fpm</strong>(1) subcommand to build a project</p>
@@ -349,7 +283,7 @@ sets additional link arguments for creating executables will be overwritten by <
   fpm build --profile release # build with high optimization
 </code></pre>
 </div>
-<div id="run-2" class="slide section level1">
+<div id="run" class="slide section level1">
 <h1>run</h1>
 <h2 id="name-3"><strong>name</strong></h2>
 <p><strong>run</strong>(1) - the <strong>fpm</strong>(1) subcommand to run project applications</p>
@@ -429,7 +363,7 @@ sets additional link arguments for creating executables will be overwritten by <
   fpm run --runner &#39;install -b -m 0711 -p -t /usr/local/bin&#39;
 </code></pre>
 </div>
-<div id="test-2" class="slide section level1">
+<div id="test" class="slide section level1">
 <h1>test</h1>
 <h2 id="name-4"><strong>name</strong></h2>
 <p><strong>test</strong>(1) - the <strong>fpm</strong>(1) subcommand to run project tests</p>
@@ -495,7 +429,7 @@ sets additional link arguments for creating executables will be overwritten by <
  fpm test tst1 tst2 --profile PROF  # run production version of two tests
 </code></pre>
 </div>
-<div id="runner-2" class="slide section level1">
+<div id="runner" class="slide section level1">
 <h1>runner</h1>
 <h2 id="name-5"><strong>name</strong></h2>
 <p><strong>--runner</strong>(1) - a shared option for specifying an application to launch executables.</p>
@@ -557,7 +491,7 @@ additional options to suffix the command <em>CMD</em> and executable file names 
   fpm-install
 </code></pre>
 </div>
-<div id="install-2" class="slide section level1">
+<div id="install" class="slide section level1">
 <h1>install</h1>
 <h2 id="name-6"><strong>name</strong></h2>
 <p><strong>install</strong>(1) - install fpm projects</p>
@@ -628,7 +562,7 @@ sets additional link arguments for creating executables will be overwritten by <
 <pre><code>    fpm install --prefix $PWD --bindir exe
 </code></pre>
 </div>
-<div id="update-2" class="slide section level1">
+<div id="update" class="slide section level1">
 <h1>update</h1>
 <h2 id="name-7"><strong>name</strong></h2>
 <p><strong>update</strong>(1) - manage project dependencies</p>
@@ -648,7 +582,7 @@ Show additional printout</p></li>
 <h2 id="see-also-1"><strong>see also</strong></h2>
 <p>The <strong>fpm</strong>(1) home page at <a href="https://github.com/fortran-lang/fpm">https://github.com/fortran-lang/fpm</a></p>
 </div>
-<div id="list-2" class="slide section level1">
+<div id="list" class="slide section level1">
 <h1>list</h1>
 <h2 id="name-8"><strong>name</strong></h2>
 <p><strong>list</strong>(1) - list summary of <strong>fpm</strong>(1) subcommands</p>
@@ -668,7 +602,7 @@ display a <em>list</em> of command options as well. This is the same output as g
   fpm --list
 </code></pre>
 </div>
-<div id="help-2" class="slide section level1">
+<div id="help" class="slide section level1">
 <h1>help</h1>
 <h2 id="name-9"><strong>name</strong></h2>
 <p><strong>help</strong>(1) - the <strong>fpm</strong>(1) subcommand to display help</p>
@@ -692,7 +626,7 @@ A list of topic names to display. All the subcommands have their own page (<em>n
 
 </code></pre>
 </div>
-<div id="version-2" class="slide section level1">
+<div id="version" class="slide section level1">
 <h1>version</h1>
 <ul>
 <li><p><strong>Version:</strong><br />
