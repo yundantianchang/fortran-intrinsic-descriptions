@@ -103,4 +103,4 @@ SEE ALSO
 
 BIT_SIZE(3), POPCNT(3), POPPAR(3), LEADZ(3)
 
-fortran-lang intrinsic descriptions (@urbanjost)
+fortran-lang intrinsic descriptions (license: MIT) @urbanjost

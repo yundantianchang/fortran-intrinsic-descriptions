@@ -117,4 +117,4 @@ date and time conversion, formatting and computation
 -   datetime
 -   datetime-fortran
 
-fortran-lang intrinsic descriptions (@urbanjost)
+fortran-lang intrinsic descriptions (license: MIT) @urbanjost

@@ -254,7 +254,7 @@ textblock=[character(len=256) :: &
 '', &
 'FORTRAN 77 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="abs"
@@ -443,7 +443,7 @@ textblock=[character(len=256) :: &
 '-   ANSI escape sequences', &
 '-   M_attr module for controlling ANSI-compatible terminals', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="achar"
@@ -544,7 +544,7 @@ textblock=[character(len=256) :: &
 '', &
 'Inverse function: COS(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="acos"
@@ -635,7 +635,7 @@ textblock=[character(len=256) :: &
 '', &
 'Inverse function: COSH(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="acosh"
@@ -729,7 +729,7 @@ textblock=[character(len=256) :: &
 '', &
 'ADJUSTR(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="adjustl"
@@ -836,7 +836,7 @@ textblock=[character(len=256) :: &
 '', &
 'ADJUSTL(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="adjustr"
@@ -1603,7 +1603,7 @@ textblock=[character(len=256) :: &
 '', &
 'Inverse function: SIN(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="asin"
@@ -2007,7 +2007,7 @@ textblock=[character(len=256) :: &
 '', &
 'ATAN2(3), TAN(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="atan"
@@ -4066,7 +4066,7 @@ textblock=[character(len=256) :: &
 'IEOR(3), IBCLR(3), NOT(3), IBCLR(3), IBITS(3), IBSET(3), IAND(3),', &
 'IOR(3), IEOR(3), MVBITS(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="btest"
@@ -5302,7 +5302,7 @@ textblock=[character(len=256) :: &
 '', &
 'GET_COMMAND(3), GET_COMMAND_ARGUMENT(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="command_argument_count"
@@ -5600,7 +5600,7 @@ textblock=[character(len=256) :: &
 '', &
 'FORTRAN 77 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="conjg"
@@ -6296,7 +6296,7 @@ textblock=[character(len=256) :: &
 '', &
 'SYSTEM_CLOCK(3), DATE_AND_TIME(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="cpu_time"
@@ -6631,7 +6631,7 @@ textblock=[character(len=256) :: &
 '-   datetime', &
 '-   datetime-fortran', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="date_and_time"
@@ -6833,10 +6833,17 @@ textblock=[character(len=256) :: &
 '', &
 '    result = dim(x, y)', &
 '', &
+'        elemental function dim(x, y)', &
+'        type(TYPE(kind=KIND))            :: dim', &
+'        type(TYPE(kind=KIND)),intent(in) :: x, y', &
+'', &
+'where TYPE may be _real_ or _integer_ and KIND is any supported kind for', &
+'the type.', &
+'', &
 'DESCRIPTION', &
 '', &
 'DIM(X,Y) returns the difference X - Y if the result is positive;', &
-'otherwise returns zero.', &
+'otherwise it returns zero.', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -6848,34 +6855,41 @@ textblock=[character(len=256) :: &
 '', &
 'RETURNS', &
 '', &
-'The return value is of type _integer_ or _real_.', &
+'The return value is the same type and kind as the input arguments X and', &
+'Y.', &
 '', &
 'EXAMPLES', &
 '', &
 'Sample program:', &
 '', &
 '    program demo_dim', &
-'    use, intrinsic :: iso_fortran_env, only : real_kinds, &', &
-'    & real32, real64, real128', &
+'    use, intrinsic :: iso_fortran_env, only : real64', &
 '    implicit none', &
-'    integer :: i', &
+'    integer           :: i', &
 '    real(kind=real64) :: x', &
 '        i = dim(4, 15)', &
-'        x = dim(4.345_real64, 2.111_real64)', &
+'        x = dim(4.321_real64, 1.111_real64)', &
 '        print *, i', &
 '        print *, x', &
+'        ! elemental', &
+'        print *, dim([1,2,3],2)', &
+'        print *, dim([1,2,3],[3,2,1])', &
+'        print *, dim(-10,[0,-10,-20])', &
 '    end program demo_dim', &
 '', &
 'Results:', &
 '', &
 '                  0', &
-'          2.2339999999999995', &
+'          3.21000000000000', &
+'                  0           0           1', &
+'                  0           0           2', &
+'                  0           0          10', &
 '', &
 'STANDARD', &
 '', &
 'FORTRAN 77 and later', &
 '', &
-'fortran-lang intrinsic descriptions', &
+'fortran-lang intrinsic descriptions (license: MIT)', &
 '']
 
 shortname="dim"
@@ -7475,7 +7489,7 @@ textblock=[character(len=256) :: &
 'MINEXPONENT(3), NEAREST(3), PRECISION(3), RADIX(3), RANGE(3),', &
 'RRSPACING(3), SCALE(3), SET_EXPONENT(3), SPACING(3), TINY(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="epsilon"
@@ -7650,7 +7664,7 @@ textblock=[character(len=256) :: &
 '', &
 '-   Wikipedia:error function', &
 '', &
-'fortran-lang intrinsic descriptions @urbanjost', &
+'fortran-lang intrinsic descriptions license: MIT)', &
 '']
 
 shortname="erfc"
@@ -8059,7 +8073,7 @@ textblock=[character(len=256) :: &
 '', &
 '-   Wikipedia:Euler''s formula', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="exp"
@@ -8503,7 +8517,7 @@ textblock=[character(len=256) :: &
 '', &
 'AINT(3), ANINT(3), INT(3), SELECTED_INT_KIND(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="floor"
@@ -8853,7 +8867,7 @@ textblock=[character(len=256) :: &
 '', &
 'GET_COMMAND_ARGUMENT(3), COMMAND_ARGUMENT_COUNT(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="get_command"
@@ -9006,7 +9020,7 @@ textblock=[character(len=256) :: &
 '', &
 'GET_COMMAND(3), COMMAND_ARGUMENT_COUNT(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="get_command_argument"
@@ -9159,7 +9173,7 @@ textblock=[character(len=256) :: &
 '', &
 'Fortran 2003 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="get_environment_variable"
@@ -9704,7 +9718,7 @@ textblock=[character(len=256) :: &
 'MINEXPONENT(3), NEAREST(3), PRECISION(3), RADIX(3), RANGE(3),', &
 'RRSPACING(3), SCALE(3), SET_EXPONENT(3), SPACING(3), TINY(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="huge"
@@ -9828,7 +9842,7 @@ textblock=[character(len=256) :: &
 '', &
 'Fortran 2008 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="hypot"
@@ -10972,7 +10986,7 @@ textblock=[character(len=256) :: &
 '', &
 'AINT(3), ANINT(3), NINT(3), SELECTED_INT_KIND(3), CEILING(3), FLOOR(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="int"
@@ -11517,7 +11531,7 @@ textblock=[character(len=256) :: &
 '', &
 'Fortran 2003 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="is_iostat_end"
@@ -12111,7 +12125,7 @@ textblock=[character(len=256) :: &
 '', &
 '-   NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="len"
@@ -12220,7 +12234,7 @@ textblock=[character(len=256) :: &
 '', &
 '-   NONELEMENTAL: REPEAT(3), LEN(3), TRIM(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="len_trim"
@@ -13056,7 +13070,7 @@ textblock=[character(len=256) :: &
 '', &
 'MASKR(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="maskl"
@@ -13189,7 +13203,7 @@ textblock=[character(len=256) :: &
 '', &
 'MASKL(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="maskr"
@@ -13894,7 +13908,7 @@ textblock=[character(len=256) :: &
 '', &
 'PACK(3), UNPACK(3), PACK(3), SPREAD(3), UNPACK(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="merge"
@@ -14409,7 +14423,7 @@ textblock=[character(len=256) :: &
 '', &
 'MIN(3), MINLOC(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="minval"
@@ -14982,7 +14996,7 @@ textblock=[character(len=256) :: &
 '', &
 'Fortran 2003 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="new_line"
@@ -15126,7 +15140,7 @@ textblock=[character(len=256) :: &
 '', &
 'AINT(3), ANINT(3), INT(3), SELECTED_INT_KIND(3), CEILING(3), FLOOR(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="nint"
@@ -15323,7 +15337,7 @@ textblock=[character(len=256) :: &
 '', &
 'IBCLR(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="not"
@@ -15696,7 +15710,7 @@ textblock=[character(len=256) :: &
 '', &
 'UNPACK(3), MERGE(3), PACK(3), SPREAD(3), UNPACK(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="pack"
@@ -16378,7 +16392,7 @@ textblock=[character(len=256) :: &
 'SUM(3), note that an element by element multiplication is done directly', &
 'using the star character.', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="product"
@@ -18147,9 +18161,22 @@ textblock=[character(len=256) :: &
 '', &
 '    result = sign(a, b)', &
 '', &
+'        elemental function sign(a, b)', &
+'        type(TYPE(kind=KIND))            :: sign', &
+'        type(TYPE(kind=KIND)),intent(in) :: a, b', &
+'', &
+'where TYPE may be _real_ or _integer_ and KIND is any supported kind for', &
+'the type. ```', &
+'', &
 'DESCRIPTION', &
 '', &
 'SIGN(a,b) returns the value of A with the sign of B.', &
+'', &
+'For processors that distinguish between positive and negative zeros', &
+'SIGN() may be used to distinguish between REAL values 0.0 and −0.0. SIGN', &
+'(1.0, -0.0) will return −1.0 when a negative zero is distinguishable.', &
+'', &
+'    29  1 Description. Magnitude of A with the sign of B.', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -18161,8 +18188,13 @@ textblock=[character(len=256) :: &
 '', &
 'RETURNS', &
 '', &
-'The kind of the return value is that of A and B. If B >= 0 then the', &
-'result is ABS(A), else it is -ABS(A).', &
+'The kind of the return value is the magnitude of A with the sign of B.', &
+'That is,', &
+'', &
+'     -  If __b \>= 0__ then the result is __abs(a)__', &
+'     -  else if __b < 0__ it is -__abs(a)__.', &
+'     - if __b__ is _real_ and the processor distinguishes between __-0.0__ and __0.0__ then the', &
+'       result is __-abs(a)__', &
 '', &
 'EXAMPLES', &
 '', &
@@ -18170,13 +18202,13 @@ textblock=[character(len=256) :: &
 '', &
 '    program demo_sign', &
 '    implicit none', &
-'       print *, sign(-12,1)', &
-'       print *, sign(-12,0)', &
-'       print *, sign(-12,-1)', &
+'       print *,  sign( -12,  1 )', &
+'       print *,  sign( -12,  0 )', &
+'       print *,  sign( -12, -1 )', &
 '', &
-'       print *, sign(-12.,1.)', &
-'       print *, sign(-12.,0.)', &
-'       print *, sign(-12.,-1.)', &
+'       print *,  sign( -12.0, [1.0, 0.0, -1.0] )', &
+'', &
+'       print *,  ''can I distinguise 0 from -0? '', sign( 1.0, -0.0 ) .ne. sign( 1.0, 0.0 )', &
 '    end program demo_sign', &
 '', &
 'Results:', &
@@ -18184,15 +18216,14 @@ textblock=[character(len=256) :: &
 '                 12', &
 '                 12', &
 '                -12', &
-'          12.0000000', &
-'          12.0000000', &
-'         -12.0000000', &
+'          12.00000       12.00000      -12.00000', &
+'        can I distinguise 0 from -0?  F', &
 '', &
 'STANDARD', &
 '', &
 'FORTRAN 77 and later', &
 '', &
-'fortran-lang intrinsic descriptions', &
+'fortran-lang intrinsic descriptions (license: MIT)', &
 '']
 
 shortname="sign"
@@ -18341,7 +18372,7 @@ textblock=[character(len=256) :: &
 '', &
 'ASIN(3), COS(3), TAN(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="sin"
@@ -19021,7 +19052,7 @@ textblock=[character(len=256) :: &
 '', &
 'FORTRAN 77 and later', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="sqrt"
@@ -19838,7 +19869,7 @@ textblock=[character(len=256) :: &
 '', &
 'BIT_SIZE(3), POPCNT(3), POPPAR(3), LEADZ(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="trailz"
@@ -20686,7 +20717,7 @@ textblock=[character(len=256) :: &
 '', &
 '-   NONELEMENTAL: LEN_TRIM(3), LEN(3), REPEAT(3), TRIM(3)', &
 '', &
-'fortran-lang intrinsic descriptions (@urbanjost)', &
+'fortran-lang intrinsic descriptions (license: MIT) @urbanjost', &
 '']
 
 shortname="verify"

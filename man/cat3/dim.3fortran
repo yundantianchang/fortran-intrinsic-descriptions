@@ -6,10 +6,17 @@ SYNTAX
 
     result = dim(x, y)
 
+        elemental function dim(x, y)
+        type(TYPE(kind=KIND))            :: dim
+        type(TYPE(kind=KIND)),intent(in) :: x, y
+
+where TYPE may be _real_ or _integer_ and KIND is any supported kind for
+the type.
+
 DESCRIPTION
 
 DIM(X,Y) returns the difference X - Y if the result is positive;
-otherwise returns zero.
+otherwise it returns zero.
 
 ARGUMENTS
 
@@ -21,31 +28,38 @@ ARGUMENTS
 
 RETURNS
 
-The return value is of type _integer_ or _real_.
+The return value is the same type and kind as the input arguments X and
+Y.
 
 EXAMPLES
 
 Sample program:
 
     program demo_dim
-    use, intrinsic :: iso_fortran_env, only : real_kinds, &
-    & real32, real64, real128
+    use, intrinsic :: iso_fortran_env, only : real64
     implicit none
-    integer :: i
+    integer           :: i
     real(kind=real64) :: x
         i = dim(4, 15)
-        x = dim(4.345_real64, 2.111_real64)
+        x = dim(4.321_real64, 1.111_real64)
         print *, i
         print *, x
+        ! elemental
+        print *, dim([1,2,3],2)
+        print *, dim([1,2,3],[3,2,1])
+        print *, dim(-10,[0,-10,-20])
     end program demo_dim
 
 Results:
 
                   0
-          2.2339999999999995
+          3.21000000000000
+                  0           0           1
+                  0           0           2
+                  0           0          10
 
 STANDARD
 
 FORTRAN 77 and later
 
-fortran-lang intrinsic descriptions
+fortran-lang intrinsic descriptions (license: MIT)

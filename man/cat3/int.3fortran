@@ -119,4 +119,4 @@ SEE ALSO
 
 AINT(3), ANINT(3), NINT(3), SELECTED_INT_KIND(3), CEILING(3), FLOOR(3)
 
-fortran-lang intrinsic descriptions (@urbanjost)
+fortran-lang intrinsic descriptions (license: MIT) @urbanjost

@@ -122,7 +122,7 @@ end program demo_abs
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ACHAR
 
 ## __Name__
@@ -286,7 +286,7 @@ FORTRAN 77 and later, with KIND argument Fortran 2003 and later
 - [ANSI escape sequences](https://en.wikipedia.org/wiki/ANSI_escape_code)
 - [M_attr module](https://github.com/urbanjost/M_attr) for controlling ANSI-compatible terminals
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ACOSH
 
 ## __Name__
@@ -348,7 +348,7 @@ Fortran 2008 and later
 
 Inverse function: [__cosh__(3)](COSH)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ACOS
 
 ## __Name__
@@ -416,7 +416,7 @@ FORTRAN 77 and later; for a _complex_ argument - Fortran 2008 and later
 
 Inverse function: [__cos__(3](COS))
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ADJUSTL
 
 ## __Name__
@@ -482,7 +482,7 @@ Fortran 95 and later
 
 [__adjustr__(3)](ADJUSTR)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ADJUSTR
 
 ## __Name__
@@ -561,7 +561,7 @@ Fortran 95 and later
 
 [__adjustl__(3)](ADJUSTL)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # AIMAG
 
 ## __Name__
@@ -1212,7 +1212,7 @@ FORTRAN 77 and later, for a complex argument Fortran 2008 or later
 
 Inverse function: [__sin__(3)](SIN)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ASSOCIATED
 
 ## __Name__
@@ -1500,7 +1500,7 @@ arguments Fortran 2008 or later
 
 [__atan2__(3)](ATAN2), [__tan__(3)](TAN)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ATOMIC\_ADD
 
 ## __Name__
@@ -2917,7 +2917,7 @@ Fortran 95 and later
 [__ieor__(3)](IEOR),
 [__mvbits__(3)](MVBITS)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # C\_ASSOCIATED
 
 ## __Name__
@@ -3847,7 +3847,7 @@ Fortran 2003 and later
 [__get\_command__(3)](GET_COMMAND),
 [__get\_command\_argument__(3)](GET_COMMAND_ARGUMENT)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # COMPILER\_OPTIONS
 
 ## __Name__
@@ -4066,7 +4066,7 @@ end program demo_conjg
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # CO\_REDUCE
 
 ## __Name__
@@ -4578,7 +4578,7 @@ Fortran 95 and later
 [__system\_clock__(3)](SYSTEM_CLOCK),
 [__date\_and\_time__(3)](DATE_AND_TIME)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # CSHIFT
 
 ## __Name__
@@ -4822,7 +4822,7 @@ Fortran 95 and later
  - [datetime](https://github.com/wavebitscientific/datetime-fortran)
  - [datetime-fortran](https://github.com/wavebitscientific/datetime-fortran)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # DBLE
 
 ## __Name__
@@ -4955,11 +4955,16 @@ __dim__(3) - \[NUMERIC\] Positive difference
 ## __Syntax__
 ```fortran
 result = dim(x, y)
+
+    elemental function dim(x, y)
+    type(TYPE(kind=KIND))            :: dim
+    type(TYPE(kind=KIND)),intent(in) :: x, y
 ```
+where TYPE may be _real_ or _integer_ and KIND is any supported kind for the type.
 ## __Description__
 
 __dim(x,y)__ returns the difference __x - y__ if the result is positive;
-otherwise returns zero.
+otherwise it returns zero.
 
 ## __Arguments__
 
@@ -4971,7 +4976,7 @@ otherwise returns zero.
 
 ## __Returns__
 
-The return value is of type _integer_ or _real_.
+The return value is the same type and kind as the input arguments __x__ and __y__.
 
 ## __Examples__
 
@@ -4979,27 +4984,33 @@ Sample program:
 
 ```fortran
 program demo_dim
-use, intrinsic :: iso_fortran_env, only : real_kinds, &
-& real32, real64, real128
+use, intrinsic :: iso_fortran_env, only : real64
 implicit none
-integer :: i
+integer           :: i
 real(kind=real64) :: x
     i = dim(4, 15)
-    x = dim(4.345_real64, 2.111_real64)
+    x = dim(4.321_real64, 1.111_real64)
     print *, i
     print *, x
+    ! elemental
+    print *, dim([1,2,3],2)
+    print *, dim([1,2,3],[3,2,1])
+    print *, dim(-10,[0,-10,-20])
 end program demo_dim
 ```
-  Results:
+Results:
 ```text
               0
-      2.2339999999999995
+      3.21000000000000
+              0           0           1
+              0           0           2
+              0           0          10
 ```
 ## __Standard__
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license: MIT)
 # DOT\_PRODUCT
 
 ## __Name__
@@ -5441,7 +5452,7 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # ERFC
 
 ## __Name__
@@ -5513,7 +5524,7 @@ Fortran 2008 and later
 
 - [Wikipedia:error function](https://en.wikipedia.org/wiki/Error_function)
 
-###### fortran-lang intrinsic descriptions @urbanjost
+###### fortran-lang intrinsic descriptions license: MIT)
 # ERFC\_SCALED
 
 ## __Name__
@@ -5872,7 +5883,7 @@ FORTRAN 77 and later
 
 * Wikipedia:[Euler's formula](https://en.wikipedia.org/wiki/Euler%27s_formula)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # EXPONENT
 
 ## __Name__
@@ -6250,7 +6261,7 @@ Fortran 95 and later
 [__int__(3)](INT),
 [__selected_int_kind__(3)](SELECTED_INT_KIND)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # FRACTION
 
 ## __Name__
@@ -6571,7 +6582,7 @@ Fortran 2003 and later
 [__get\_command__(3)](GET_COMMAND),
 [__command\_argument\_count__(3)](COMMAND_ARGUMENT_COUNT)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # GET\_COMMAND
 
 ## __Name__
@@ -6657,7 +6668,7 @@ Fortran 2003 and later
 [__get\_command\_argument__(3)](GET_COMMAND_ARGUMENT),
 [__command\_argument\_count__(3)](COMMAND_ARGUMENT_COUNT)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # GET\_ENVIRONMENT\_VARIABLE
 
 ## __Name__
@@ -6784,7 +6795,7 @@ Typical Results:
 
 Fortran 2003 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # HUGE
 
 ## __Name__
@@ -6907,7 +6918,7 @@ Fortran 95 and later
 [__spacing__(3)](SPACING),
 [__tiny__(3)](TINY)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 
 # HYPOT
 
@@ -7003,7 +7014,7 @@ Results:
 
 Fortran 2008 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # IACHAR
 
 ## __Name__
@@ -7882,7 +7893,7 @@ FORTRAN 77 and later
 [__ceiling__(3)](CEILING),
 [__floor__(3)](FLOOR)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # IOR
 
 ## __Name__
@@ -8287,7 +8298,7 @@ end program demo_iostat
 
 Fortran 2003 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # IS\_IOSTAT\_EOR
 
 ## __Name__
@@ -8762,7 +8773,7 @@ of arguments, and search for certain arguments:
     [__repeat__(3)](REPEAT),
     [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # LEN\_TRIM
 
 ## __Name__
@@ -8851,7 +8862,7 @@ of arguments, and search for certain arguments:
     [__len__(3)](LEN),
     [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # LGE
 
 ## __Name__
@@ -9468,7 +9479,7 @@ Fortran 2008 and later
 
 [__maskr__(3)](MASKR)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # MASKR
 
 ## __Name__
@@ -9572,7 +9583,7 @@ Fortran 2008 and later
 
 [__maskl__(3)](MASKL)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # MATMUL
 
 ## __Name__
@@ -10176,7 +10187,7 @@ Fortran 95 and later
 [__spread__(3)](SPREAD),
 [__unpack__(3)](UNPACK)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # MINEXPONENT
 
 ## __Name__
@@ -10534,7 +10545,7 @@ Fortran 95 and later
 [__min__(3)](MIN),
 [__minloc__(3)](MINLOC)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # MOD
 
 ## __Name__
@@ -10962,7 +10973,7 @@ end program demo_new_line
 
 Fortran 2003 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # NINT
 
 ## __Name__
@@ -11085,7 +11096,7 @@ FORTRAN 77 and later, with KIND argument - Fortran 90 and later
 [__ceiling__(3)](CEILING),
 [__floor__(3)](FLOOR)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # NORM2
 
 ## __Name__
@@ -11235,7 +11246,7 @@ Fortran 95 and later
 
 [__ibclr__(3)](IBCLR)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # NULL
 
 ## __Name__
@@ -11529,7 +11540,7 @@ Fortran 95 and later
 [__spread__(3)](SPREAD),
 [__unpack__(3)](UNPACK)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # PARITY
 
 ## __Name__
@@ -12060,7 +12071,7 @@ Fortran 95 and later
 [__sum__(3)](SUM), note that an element by element multiplication is done
 directly using the star character.
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # RADIX
 
 ## __Name__
@@ -13326,10 +13337,22 @@ __sign__(3) - \[NUMERIC\] Sign copying function
 ## __Syntax__
 ```fortran
 result = sign(a, b)
+
+    elemental function sign(a, b)
+    type(TYPE(kind=KIND))            :: sign
+    type(TYPE(kind=KIND)),intent(in) :: a, b
+```
+where TYPE may be _real_ or _integer_ and KIND is any supported kind for the type.
 ```
 ## __Description__
 
 __sign__(a,b) returns the value of __a__ with the sign of __b__.
+
+For processors that distinguish between positive and negative zeros  __sign()__ may be used to
+distinguish between __real__ values 0.0 and −0.0. SIGN (1.0, -0.0) will
+return −1.0 when a negative zero is distinguishable.
+
+    29  1 Description. Magnitude of A with the sign of B.
 
 ## __Arguments__
 
@@ -13337,12 +13360,16 @@ __sign__(a,b) returns the value of __a__ with the sign of __b__.
     : Shall be of type _integer_ or _real_
 
   - __b__
-    : Shall be of the same type and kind as A
+    : Shall be of the same type and kind as __a__
 
 ## __Returns__
 
-The kind of the return value is that of __a__ and __b__. If __b \>= 0__ then the
-result is __abs(a)__, else it is -__abs(a)__.
+The kind of the return value is the magnitude of __a__ with the sign of  __b__. That is,
+
+     -  If __b \>= 0__ then the result is __abs(a)__
+     -  else if __b < 0__ it is -__abs(a)__.
+     - if __b__ is _real_ and the processor distinguishes between __-0.0__ and __0.0__ then the
+       result is __-abs(a)__
 
 ## __Examples__
 
@@ -13351,29 +13378,28 @@ Sample program:
 ```fortran
 program demo_sign
 implicit none
-   print *, sign(-12,1)
-   print *, sign(-12,0)
-   print *, sign(-12,-1)
+   print *,  sign( -12,  1 )
+   print *,  sign( -12,  0 )
+   print *,  sign( -12, -1 )
 
-   print *, sign(-12.,1.)
-   print *, sign(-12.,0.)
-   print *, sign(-12.,-1.)
+   print *,  sign( -12.0, [1.0, 0.0, -1.0] )
+
+   print *,  'can I distinguise 0 from -0? ', sign( 1.0, -0.0 ) .ne. sign( 1.0, 0.0 )
 end program demo_sign
 ```
-  Results:
+Results:
 ```text
              12
              12
             -12
-      12.0000000
-      12.0000000
-     -12.0000000
+      12.00000       12.00000      -12.00000
+    can I distinguise 0 from -0?  F
 ```
 ## __Standard__
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions
+###### fortran-lang intrinsic descriptions (license: MIT)
 # SINH
 
 ## __Name__
@@ -13595,7 +13621,7 @@ FORTRAN 77 and later
 [__cos__(3)](COS),
 [__tan__(3)](TAN)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # SIZE
 
 ## __Name__
@@ -14063,7 +14089,7 @@ end program demo_sqrt
 
 FORTRAN 77 and later
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # STORAGE\_SIZE
 
 ## __Name__
@@ -14684,7 +14710,7 @@ Fortran 2008 and later
 [__poppar__(3)](POPPAR),
 [__leadz__(3)](LEADZ)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
 # TRANSFER
 
 ## __Name__
@@ -15393,4 +15419,4 @@ of arguments, and search for certain arguments:
     [__repeat__(3)](REPEAT),
     [__trim__(3)](TRIM)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT) @urbanjost
