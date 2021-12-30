@@ -79,4 +79,4 @@ Fortran 95 and later
 
 [__adjustl__(3)](ADJUSTL)
 
-###### fortran-lang intrinsic descriptions (@urbanjost)
+###### fortran-lang intrinsic descriptions (license: MIT))
