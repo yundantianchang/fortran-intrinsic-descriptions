@@ -69,6 +69,9 @@ fpm2docs.sh
 #fman manual|findll -l 80
 #################################################
 )|tee /tmp/all.log
+cd $BASE
+git add .
+git commit -m 'update docs'
 git checkout main
 exit
 #################################################
