@@ -182,7 +182,7 @@ and be editing the man-page for tan(3f).
 
 Note I am having getting formulas to work using LaTex.
 # Using some of the same tools here is a different view of the fpm(1) help text automatically generated
-[fpm help slides](fpm_slidy.html)
+[fpm help slides](docs/fpm_slidy.html)
 
 - [fpm](docs/fpm.md)
 - [new](docs/new.md)
