@@ -3,6 +3,7 @@ git checkout gh-pages
 # update gh-pages with anything from main
 git merge origin/main
 git push origin gh-pages
+<<<<<<< HEAD
 BRANCH=$( git rev-parse --abbrev-ref HEAD )
 [ "$BRANCH" != gh-pages ] && exit
 #################################################
@@ -29,6 +30,7 @@ source $(dirname $0)/sourceme.sh
 export PATH="$PATH:$FPMPATH"
 
 cd $BASE
+<<<<<<< HEAD
 #cp $BASE/intrinsics/*.md $HOME/github/FORK/fortran-lang.org/learn/intrinsics/
 (
 exec 2>&1
