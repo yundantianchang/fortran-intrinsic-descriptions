@@ -11,17 +11,13 @@ MANDIR=$BASE/man
 mkdir -p $DOCS
 mkdir -p $MANDIR/man1
 ###############################################################################
-echo "$DOCS/slidy.md" 1>&2
 cat >$DOCS/slidy.md <<\EOF
 # FPM
 ## Fortran Package Manager
 EOF
 (
-echo "$DOCS/fpm_slidy.md" 1>&2
 for NAME in fpm new build run test runner install update list help version
 do
-   echo "$DOCS/$NAME.md" 1>&2
-   echo "$MANDIR/man/man1/$NAME.1 " 1>&2
    echo "# $NAME"
    echo " "
    fpm help $NAME|
@@ -37,7 +33,6 @@ do
 done
 ) >>$DOCS/fpm_slidy.md
 ###############################################################################
-echo "$DOCS/fpm_slidy.html" 1>&2
 pandoc -f gfm \
  --columns=72 \
  --slide-level=1 \
