@@ -8468,17 +8468,25 @@ textblock=[character(len=256) :: &
 '', &
 'NAME', &
 '', &
-'FLOOR(3) - [NUMERIC] Integer floor function', &
+'FLOOR(3) - [NUMERIC] function to return largest integral value not', &
+'greater than argument', &
 '', &
 'SYNTAX', &
 '', &
-'    result = floor(a, kind)', &
+'    result = floor(a, KIND)', &
+'', &
+'        elemental function floor(a,KIND)', &
+'        integer(kind=KIND) :: floor', &
+'        real(kind=kind(a)),intent(in) :: a', &
+'        integer(kind=IKIND),intent(in),optional :: KIND', &
+'', &
+'    where __KIND__ is any valid value for type _integer_.', &
 '', &
 'DESCRIPTION', &
 '', &
-'FLOOR(a) returns the greatest integer less than or equal to A. That is,', &
-'it picks the whole number at or to the left of the value on the number', &
-'line -HUGE(INT(A,KIND=KIND)) to HUGE(INT(A),KIND=KIND).', &
+'FLOOR(A) returns the greatest integer less than or equal to A. That is,', &
+'it picks the whole number at or to the left of the value on the scale', &
+'-HUGE(INT(A,KIND=KIND))-1 to HUGE(INT(A),KIND=KIND).', &
 '', &
 'ARGUMENTS', &
 '', &
@@ -8486,8 +8494,8 @@ textblock=[character(len=256) :: &
 '        The type shall be _real_.', &
 '', &
 '    KIND', &
-'        (Optional) An _integer_ initialization expression indicating the', &
-'        kind parameter of the result.', &
+'        (Optional) A scalar _integer_ constant initialization expression', &
+'        indicating the kind parameter of the result.', &
 '', &
 'RETURNS', &
 '', &
@@ -8512,15 +8520,23 @@ textblock=[character(len=256) :: &
 '       &  -2.7,  -2.5, -2.2, -2.0, -1.5, -1.0, -0.5, &', &
 '       &  0.0,   &', &
 '       &  +0.5,  +1.0, +1.5, +2.0, +2.2, +2.5, +2.7  ])', &
+'', &
+'       ! note even a small deviation from the whole number changes the result', &
+'       print *,      [2.0,2.0-epsilon(0.0),2.0-2*epsilon(0.0)]', &
+'       print *,floor([2.0,2.0-epsilon(0.0),2.0-2*epsilon(0.0)])', &
+'', &
+'       ! A=Nan, Infinity or  <huge(0_KIND)-1 < A > huge(0_KIND) is undefined', &
 '    end program demo_floor', &
 '', &
 'Results:', &
 '', &
-'       63.2900009   63', &
-'      -63.5900002  -64', &
-'       -3     -3     -3     -2     -2     -1', &
-'       -1      0      0      1      1      2', &
-'        2      2      2', &
+'          63.29000              63', &
+'         -63.59000             -64', &
+'                 -3          -3          -3          -2          -2          -1', &
+'                 -1           0           0           1           1           2', &
+'                  2           2           2', &
+'          2.000000       2.000000       2.000000', &
+'                  2           1           1', &
 '', &
 'STANDARD', &
 '', &
@@ -9634,8 +9650,8 @@ textblock=[character(len=256) :: &
 '', &
 '    result = huge(x)', &
 '', &
-'       TYPE(kind=KIND) function huge(x) result(answer)', &
-'       TYPE(kind=KIND) :: x', &
+'       function huge(x) result(answer)', &
+'       TYPE(kind=KIND),intent(in) :: x', &
 '       TYPE(kind=KIND) :: answer', &
 '', &
 'where TYPE may be _real_ or _integer_ and KIND is any supported', &
@@ -9643,7 +9659,7 @@ textblock=[character(len=256) :: &
 '', &
 'DESCRIPTION', &
 '', &
-'HUGE(x) returns the largest number that is not an infinity for the kind', &
+'HUGE(X) returns the largest number that is not an infinity for the kind', &
 'and type of X.', &
 '', &
 'ARGUMENTS', &
@@ -9663,7 +9679,6 @@ textblock=[character(len=256) :: &
 'Sample program:', &
 '', &
 '    program demo_huge', &
-'    ! or, "why I have my own NINT function"', &
 '    implicit none', &
 '    character(len=*),parameter :: f=''(i2,1x,2(i11,1x),f14.0:,1x,l1,1x,a)''', &
 '    integer :: i,j,k,biggest', &
@@ -9674,7 +9689,7 @@ textblock=[character(len=256) :: &
 '', &
 '       ! advanced', &
 '       biggest=huge(0)', &
-'       ! be careful when using integers in computation', &
+'       ! be careful of overflow when using integers in computation', &
 '       do i=1,14', &
 '          j=6**i   ! Danger, Danger', &
 '          w=6**i   ! Danger, Danger', &
@@ -9694,33 +9709,18 @@ textblock=[character(len=256) :: &
 '      1.1754944E-38  2.225073858507201E-308', &
 '', &
 '        1      6           6             6. T', &
-'', &
 '        2      36          36            36. T', &
-'', &
 '        3      216         216           216. T', &
-'', &
 '        4      1296        1296          1296. T', &
-'', &
 '        5      7776        7776          7776. T', &
-'', &
 '        6      46656       46656         46656. T', &
-'', &
 '        7      279936      279936        279936. T', &
-'', &
 '        8      1679616     1679616       1679616. T', &
-'', &
 '        9      10077696    10077696      10077696. T', &
-'', &
 '        10     60466176    60466176      60466176. T', &
-'', &
 '        11     362797056   362797056     362797056. T', &
-'', &
-'        12 -2118184960 -2147483648', &
-'               2176782336. F wrong for j and k and w', &
-'', &
-'        13     175792128 -2147483648   13060694016. F wrong for j and k', &
-'               and w', &
-'', &
+'        12    -2118184960 -2147483648    2176782336. F wrong for j and k and w', &
+'        13     175792128  -2147483648   13060694016. F wrong for j and k and w', &
 '        14     1054752768 -2147483648   78364164096. F wrong for j and k and w', &
 '', &
 'STANDARD', &

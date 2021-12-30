@@ -1,5 +1,4 @@
     program demo_huge
-    ! or, "why I have my own NINT function"
     implicit none
     character(len=*),parameter :: f='(i2,1x,2(i11,1x),f14.0:,1x,l1,1x,a)'
     integer :: i,j,k,biggest
@@ -10,7 +9,7 @@
 
        ! advanced
        biggest=huge(0)
-       ! be careful when using integers in computation
+       ! be careful of overflow when using integers in computation
        do i=1,14
           j=6**i   ! Danger, Danger
           w=6**i   ! Danger, Danger
