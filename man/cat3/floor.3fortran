@@ -1,0 +1,67 @@
+NAME
+
+FLOOR(3) - [NUMERIC] Integer floor function (GFDL)
+
+SYNTAX
+
+    result = floor(a, kind)
+
+DESCRIPTION
+
+FLOOR(a) returns the greatest integer less than or equal to A. That is,
+it picks the whole number at or to the left of the value on the number
+line -HUGE(INT(A,KIND=KIND)) to HUGE(INT(A),KIND=KIND).
+
+ARGUMENTS
+
+    A
+        The type shall be _real_.
+
+    KIND
+        (Optional) An _integer_ initialization expression indicating the
+        kind parameter of the result.
+
+RETURNS
+
+The return value is of type _integer(kind)_ if KIND is present and of
+default-kind _integer_ otherwise.
+
+The result is undefined if it cannot be represented in the specified
+integer type.
+
+EXAMPLES
+
+Sample program:
+
+    program demo_floor
+    implicit none
+    real :: x = 63.29
+    real :: y = -63.59
+        print *, x, floor(x)
+        print *, y, floor(y)
+       ! elemental
+       print *,floor([ &
+       &  -2.7,  -2.5, -2.2, -2.0, -1.5, -1.0, -0.5, &
+       &  0.0,   &
+       &  +0.5,  +1.0, +1.5, +2.0, +2.2, +2.5, +2.7  ])
+    end program demo_floor
+
+Results:
+
+       63.2900009   63
+      -63.5900002  -64
+       -3     -3     -3     -2     -2     -1
+       -1      0      0      1      1      2
+        2      2      2
+
+STANDARD
+
+Fortran 95 and later
+
+SEE ALSO
+
+CEILING(3), NINT(3)
+
+AINT(3), ANINT(3), INT(3), SELECTED_INT_KIND(3)
+
+fortran-lang intrinsic descriptions (@urbanjost)
