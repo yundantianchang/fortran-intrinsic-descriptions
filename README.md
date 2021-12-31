@@ -10,7 +10,17 @@ Local links in the following document are written to work with the published sit
 
 
 A snapshot (2021-12-29) of the base source for the Fortran intrinsic
-descriptions at fortran-lang.org.
+descriptions at fortran-lang.org for easier access for some to promote
+contributing.
+
+The files in the intrinsics/ directory are what to change. Currently, the
+decision is to keep these pages suitable for use as man-pages and for use
+as ASCII text with a link to supplemental extended documentation where
+appropriate; so complex formulas and graphics and longer examples should 
+be placed in the supplements and be linked to.
+
+Good examples, which in general are lacking from other collections of
+intrinsic descriptions are particularly desired.
 
 You can contribute directly to the documents at fortran-lang.org but if
 it is easier you can contribute _demo programs in particular_ here as
