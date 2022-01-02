@@ -16114,6 +16114,9 @@ textblock=[character(len=256) :: &
 '', &
 '    result = present(a)', &
 '', &
+'       function present (a)', &
+'       logical :: present', &
+'', &
 'DESCRIPTION', &
 '', &
 'Determines whether an optional dummy argument is present.', &
@@ -16746,6 +16749,13 @@ textblock=[character(len=256) :: &
 'SYNTAX', &
 '', &
 '    result = range(x)', &
+'', &
+'          function range (x)', &
+'          integer :: range', &
+'          type(TYPE,kind=KIND),intent(in) :: x', &
+'', &
+'where TYPE is _real_ or _cmplpex_ and KIND is any kind supported by', &
+'TYPE.', &
 '', &
 'DESCRIPTION', &
 '', &

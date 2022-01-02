@@ -7,6 +7,9 @@ SYNTAX
 
     result = present(a)
 
+       function present (a)
+       logical :: present
+
 DESCRIPTION
 
 Determines whether an optional dummy argument is present.
