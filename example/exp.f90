@@ -15,11 +15,11 @@
        ! complex results from complex arguments are Related to Euler's formula
        write(*,*)'given the complex value ',cx
        write(*,*)'exp(x) is',exp(cx)
-       write(*,*)'is the same as',exp(re)*cmplx(cos(im),sin(im))
+       write(*,*)'is the same as',exp(re)*cmplx(cos(im),sin(im),kind=kind(im))
 
        ! exp(3) is the inverse function of log(3) so
        ! the real compoenent of the input must be less than or equal to
-       write(*,*)'maximum real real component',log(huge(0.0))
+       write(*,*)'maximum real component',log(huge(0.0))
        ! or for double precision
        write(*,*)'maximum doubleprecision real component',log(huge(0.0d0))
 

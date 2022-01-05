@@ -4317,11 +4317,11 @@ $$</span><br /></p>
 <a class="sourceLine" id="cb217-15" title="15">   <span class="co">! complex results from complex arguments are Related to Euler&#39;s formula</span></a>
 <a class="sourceLine" id="cb217-16" title="16">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;given the complex value &#39;</span>,cx</a>
 <a class="sourceLine" id="cb217-17" title="17">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;exp(x) is&#39;</span>,<span class="bu">exp</span>(cx)</a>
-<a class="sourceLine" id="cb217-18" title="18">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;is the same as&#39;</span>,<span class="bu">exp</span>(re)<span class="kw">*</span><span class="bu">cmplx</span>(<span class="bu">cos</span>(im),<span class="bu">sin</span>(im))</a>
+<a class="sourceLine" id="cb217-18" title="18">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;is the same as&#39;</span>,<span class="bu">exp</span>(re)<span class="kw">*</span><span class="bu">cmplx</span>(<span class="bu">cos</span>(im),<span class="bu">sin</span>(im),<span class="fu">kind</span><span class="kw">=</span><span class="fu">kind</span>(im))</a>
 <a class="sourceLine" id="cb217-19" title="19"></a>
 <a class="sourceLine" id="cb217-20" title="20">   <span class="co">! exp(3) is the inverse function of log(3) so</span></a>
 <a class="sourceLine" id="cb217-21" title="21">   <span class="co">! the real compoenent of the input must be less than or equal to</span></a>
-<a class="sourceLine" id="cb217-22" title="22">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;maximum real real component&#39;</span>,<span class="bu">log</span>(<span class="fu">huge</span>(<span class="fl">0.0</span>))</a>
+<a class="sourceLine" id="cb217-22" title="22">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;maximum real component&#39;</span>,<span class="bu">log</span>(<span class="fu">huge</span>(<span class="fl">0.0</span>))</a>
 <a class="sourceLine" id="cb217-23" title="23">   <span class="co">! or for double precision</span></a>
 <a class="sourceLine" id="cb217-24" title="24">   <span class="fu">write(*</span>,<span class="fu">*)</span><span class="st">&#39;maximum doubleprecision real component&#39;</span>,<span class="bu">log</span>(<span class="fu">huge</span>(<span class="fl">0.0d0</span>))</a>
 <a class="sourceLine" id="cb217-25" title="25"></a>
@@ -4334,7 +4334,7 @@ $$</span><br /></p>
  given the complex value  (3.000000,4.000000)
  exp(x) is (-13.12878,-15.20078)
  is the same as (-13.12878,-15.20078)
- maximum real real component   88.72284
+ maximum real component   88.72284
  maximum doubleprecision real component   709.782712893384</code></pre>
 <h2 id="standard-80"><strong>Standard</strong></h2>
 <p>FORTRAN 77 and later</p>
